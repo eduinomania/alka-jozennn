@@ -25,7 +25,6 @@ body {
   overflow: hidden;
 }
 
-/* BUBBLES / DOTS PATTERN like dashboard */
 .bg-dots {
   position: fixed;
   inset: 0;
@@ -35,7 +34,6 @@ body {
   background-size: 28px 28px;
 }
 
-/* Floating blobs */
 .blob {
   position: fixed;
   border-radius: 50%;
@@ -54,7 +52,6 @@ body {
   50% { transform: translateY(-20px) scale(1.05); }
 }
 
-/* CONTAINER — sidebar + form like dashboard layout */
 .container {
   position: relative;
   z-index: 10;
@@ -73,7 +70,6 @@ body {
   to   { transform: scale(1) translateY(0); opacity: 1; }
 }
 
-/* LEFT SIDEBAR — matches dashboard's deep blue sidebar */
 .sidebar {
   width: 200px;
   flex-shrink: 0;
@@ -94,7 +90,6 @@ body {
   pointer-events: none;
 }
 
-/* Water drop icon */
 .brand-icon {
   width: 60px;
   height: 60px;
@@ -130,7 +125,6 @@ body {
   text-align: center;
 }
 
-/* Sidebar nav items (decorative) */
 .sidebar-nav {
   margin-top: 40px;
   width: 100%;
@@ -165,7 +159,6 @@ body {
 
 .nav-item i { font-size: 14px; }
 
-/* Bottom circle toggle (like dashboard) */
 .sidebar-toggle {
   margin-top: auto;
   width: 40px;
@@ -180,7 +173,6 @@ body {
   font-size: 16px;
 }
 
-/* RIGHT MAIN — frosted glass matching dashboard content area */
 .main {
   flex: 1;
   background: rgba(180, 220, 240, 0.45);
@@ -190,7 +182,6 @@ body {
   flex-direction: column;
 }
 
-/* TOP BAR */
 .topbar {
   display: flex;
   justify-content: space-between;
@@ -217,7 +208,6 @@ body {
   backdrop-filter: blur(10px);
 }
 
-/* FORM AREA */
 .form-area {
   flex: 1;
   display: flex;
@@ -271,7 +261,6 @@ body {
   font-weight: 600;
 }
 
-/* INPUT */
 .input-group { margin-bottom: 10px; }
 
 .input-box {
@@ -315,7 +304,6 @@ body {
   transform: scale(1.01);
 }
 
-/* BUTTON */
 .btn {
   width: 100%;
   padding: 12px;
@@ -353,7 +341,6 @@ body {
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
-/* LINKS */
 .links {
   text-align: center;
   margin-top: 12px;
@@ -374,10 +361,8 @@ body {
   text-decoration: underline;
 }
 
-/* HIDDEN */
 .hidden { display: none; }
 
-/* RESPONSIVE */
 @media (max-width: 700px) {
   .sidebar { width: 72px; padding: 24px 12px; }
   .brand-name, .brand-tagline, .sidebar-nav { display: none; }
@@ -470,13 +455,6 @@ body {
           <div class="input-box">
             <i class="fa fa-user"></i>
             <input id="fname" placeholder="First Name *">
-          </div>
-        </div>
-
-        <div class="input-group">
-          <div class="input-box">
-            <i class="fa fa-user"></i>
-            <input id="mname" placeholder="Middle Name">
           </div>
         </div>
 
@@ -642,7 +620,6 @@ function register() {
 
   users.push({
     fname: fname.value,
-    mname: mname.value,
     lname: lname.value,
     username: rusername.value,
     email: remail.value,
@@ -653,7 +630,7 @@ function register() {
 
   localStorage.setItem("users", JSON.stringify(users));
   alert("Registered Successfully!");
-  fname.value = mname.value = lname.value = rusername.value = remail.value = remail2.value = rpass.value = confirmPass.value = "";
+  fname.value = lname.value = rusername.value = remail.value = remail2.value = rpass.value = confirmPass.value = "";
   showLogin();
 }
 
