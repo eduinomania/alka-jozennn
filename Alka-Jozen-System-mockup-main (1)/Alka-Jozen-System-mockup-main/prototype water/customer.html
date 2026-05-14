@@ -1165,6 +1165,14 @@ function home(){
 
             <br>
 
+            💵 Payment: ${o.payment || 'Not selected'}${o.payment === 'GCash' && o.paymentReference ? ` · Ref: ${String(o.paymentReference).replace(/.(?=.{4})/g, '*')}` : ''}
+
+            <br>
+
+            🧾 Total: ₱${o.total || '0'}
+
+            <br>
+
             📍 ${o.address}${o.altAddress ? ` (Alt: ${o.altAddress})` : ''}${o.specificLocation ? `, ${o.specificLocation}` : ''}
 
             <br>
@@ -1318,10 +1326,10 @@ function newOrder(){
                 style="width:200px;border-radius:12px;margin-top:10px;">
 
                 <p style="margin-top:10px;">
-                    Send to: <b>09123456789</b>
+                    Send to: <b>0912****789</b>
                 </p>
 
-                <input id="reference"
+                <input id="reference" type="password"
                 placeholder="Enter GCash Reference Number">
 
             </div>
@@ -1608,9 +1616,25 @@ function saveOrder(){
 
     // Validate payment reference based on method
     const paymentMethod = document.getElementById("payment").value;
-    if (paymentMethod === "GCash" && !document.getElementById("reference").value.trim()) {
+    const paymentReference = getPaymentReference();
+    if (paymentMethod === "GCash" && !paymentReference.trim()) {
         notify("❌ Please enter the GCash reference number.");
         return;
+    }
+
+    let paymentStatus = "";
+    let paymentStatusDetail = "";
+    if (paymentMethod === "GCash") {
+        if (!/^[0-9]{8,16}$/.test(paymentReference.trim())) {
+            paymentStatus = "Rejected";
+            paymentStatusDetail = "Invalid GCash reference number.";
+        } else {
+            paymentStatus = "Pending Verification";
+            paymentStatusDetail = "Awaiting confirmation from GCash payment.";
+        }
+    } else {
+        paymentStatus = "Pay on Delivery";
+        paymentStatusDetail = "Cash payment to be collected on delivery.";
     }
 
     let orders =
@@ -1670,7 +1694,11 @@ function saveOrder(){
         "payment"
         ).value,
 
-        paymentReference: getPaymentReference(),
+        paymentReference: paymentReference,
+
+        paymentStatus: paymentStatus,
+
+        paymentStatusDetail: paymentStatusDetail,
 
         status:"Go to Pickup",
 
@@ -1799,6 +1827,16 @@ function viewTrack(id){
 
         </b>
 
+        </p>
+
+        <p class="sub">
+            Order:
+            <b>${o.gallon} ${o.gallon === "1" ? "gallon" : "gallons"} of ${o.gallonType}</b>
+        </p>
+
+        <p class="sub">
+            Delivered to:
+            <b>${o.recipient || "Recipient"}</b>
         </p>
 
         <div class="eta-box">
@@ -2005,11 +2043,43 @@ function paymentHistory(){
 
             <br>
 
-            ${o.payment}
+            💧 ${o.gallon} ${o.gallonType || 'Gallon'}
 
             <br>
 
-            ₱${o.total || 0}
+            💵 ${o.payment || 'Not selected'}${o.payment === 'GCash' && o.paymentReference ? ` · Ref: ${String(o.paymentReference).replace(/.(?=.{4})/g, '*')}` : ''}
+
+            <br>
+
+            🟢 Payment Status: ${o.paymentStatus || 'Unknown'}
+
+            <br>
+
+            ⚠️ Reason: ${o.paymentStatusDetail || 'No issues reported.'}
+
+            <br>
+
+            🧾 Total: ₱${o.total || 0}
+
+            <br>
+
+             👥 Customer: ${o.user || 'Mauiii'}
+
+            <br>
+
+            👥 Recipient: ${o.recipient || 'Not set'}
+
+            <br>
+
+            🚴 Rider: ${o.rider || 'Unassigned'}
+
+            <br>
+
+            📍 ${o.address}${o.altAddress ? ` (Alt: ${o.altAddress})` : ''}${o.specificLocation ? `, ${o.specificLocation}` : ''}
+
+            <br>
+
+            🚚 Status: ${o.status || 'Pending'}
 
         </div>
         `;

@@ -60,7 +60,7 @@ body {
   z-index: 10;
   width: 900px;
   max-width: 95vw;
-  height: 580px;
+  height: 620px;
   display: flex;
   border-radius: 24px;
   overflow: hidden;
@@ -234,11 +234,14 @@ body {
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255,255,255,0.5);
   border-radius: 20px;
-  padding: 32px 36px;
+  padding: 28px 32px;
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
+  min-height: 500px;
+  max-height: 500px;
   box-shadow: 0 8px 32px rgba(10,60,110,0.12), inset 0 1px 0 rgba(255,255,255,0.6);
   animation: formSlide 0.7s ease 0.2s both;
+  overflow-y: auto;
 }
 
 @keyframes formSlide {
@@ -251,7 +254,7 @@ body {
   font-weight: 800;
   color: #0f3460;
   text-align: center;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   animation: glowText 3s infinite ease-in-out;
 }
 
@@ -264,12 +267,12 @@ body {
   font-size: 12px;
   color: rgba(15,52,96,0.6);
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 18px;
   font-weight: 600;
 }
 
 /* INPUT */
-.input-group { margin-bottom: 12px; }
+.input-group { margin-bottom: 10px; }
 
 .input-box {
   position: relative;
@@ -287,9 +290,9 @@ body {
 
 .input-box input {
   width: 100%;
-  padding: 12px 14px 12px 38px;
+  padding: 14px 16px 14px 40px;
   border: 1.5px solid rgba(255,255,255,0.6);
-  border-radius: 12px;
+  border-radius: 14px;
   background: rgba(255,255,255,0.5);
   backdrop-filter: blur(8px);
   outline: none;
@@ -353,7 +356,7 @@ body {
 /* LINKS */
 .links {
   text-align: center;
-  margin-top: 14px;
+  margin-top: 12px;
   font-size: 12px;
   font-weight: 600;
   color: rgba(15,52,96,0.6);
@@ -378,7 +381,7 @@ body {
 @media (max-width: 700px) {
   .sidebar { width: 72px; padding: 24px 12px; }
   .brand-name, .brand-tagline, .sidebar-nav { display: none; }
-  .container { height: auto; min-height: 520px; }
+  .container { height: auto; min-height: 560px; }
   .form-card { padding: 24px 20px; }
   .topbar { padding: 14px 20px; }
 }
@@ -433,7 +436,7 @@ body {
 
       <!-- LOGIN FORM -->
       <div class="form-card" id="loginForm">
-        <div class="form-title">Welcome Back</div>
+        <div class="form-title">Hello Customer!</div>
         <div class="form-sub">Login to continue</div>
 
         <div class="input-group">
@@ -473,6 +476,13 @@ body {
         <div class="input-group">
           <div class="input-box">
             <i class="fa fa-user"></i>
+            <input id="mname" placeholder="Middle Name">
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-box">
+            <i class="fa fa-user"></i>
             <input id="lname" placeholder="Last Name *">
           </div>
         </div>
@@ -493,8 +503,22 @@ body {
 
         <div class="input-group">
           <div class="input-box">
+            <i class="fa fa-envelope"></i>
+            <input id="remail2" type="email" placeholder="Email *">
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-box">
             <i class="fa fa-lock"></i>
             <input id="rpass" type="password" placeholder="Password *">
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-box">
+            <i class="fa fa-lock"></i>
+            <input id="confirmPass" type="password" placeholder="Confirm Password *">
           </div>
         </div>
 
@@ -607,22 +631,29 @@ function register() {
     lname.value.trim() === "" ||
     rusername.value.trim() === "" ||
     remail.value.trim() === "" ||
-    rpass.value.trim() === ""
+    rpass.value.trim() === "" ||
+    confirmPass.value.trim() === ""
   ) { alert("Please fill out all required fields (*)!"); return; }
 
   if (!emailPattern.test(remail.value)) { alert("Invalid email address!"); return; }
   if (rpass.value.length < 6) { alert("Password must be at least 6 characters!"); return; }
+  if (rpass.value !== confirmPass.value) { alert("Passwords do not match!"); return; }
   if (users.find(u => u.username === rusername.value)) { alert("Username already exists!"); return; }
 
   users.push({
-    fname: fname.value, lname: lname.value,
-    username: rusername.value, email: remail.value,
-    password: rpass.value, role: "customer"
+    fname: fname.value,
+    mname: mname.value,
+    lname: lname.value,
+    username: rusername.value,
+    email: remail.value,
+    email2: remail2.value,
+    password: rpass.value,
+    role: "customer"
   });
 
   localStorage.setItem("users", JSON.stringify(users));
   alert("Registered Successfully!");
-  fname.value = lname.value = rusername.value = remail.value = rpass.value = "";
+  fname.value = mname.value = lname.value = rusername.value = remail.value = remail2.value = rpass.value = confirmPass.value = "";
   showLogin();
 }
 
