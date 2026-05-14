@@ -143,6 +143,10 @@ body{
 
     width:220px;
 
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+
     background:
     linear-gradient(
         180deg,
@@ -216,6 +220,33 @@ body{
     position: relative;
 
     overflow: hidden;
+}
+
+.menu-btn{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:14px 18px;
+    margin:10px 0;
+    border:none;
+    border-radius:18px;
+    background:rgba(255,255,255,0.08);
+    color:#eff6ff;
+    font-size:16px;
+    font-weight:600;
+    text-align:left;
+    cursor:pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+}
+
+.menu-btn i{
+    width:26px;
+    text-align:center;
+    font-size:18px;
 }
 
 .menu-btn::before {
@@ -1183,12 +1214,9 @@ function newOrder(){
         </datalist>
 
         <select id="gallonType" required>
-            <option value="">💧 Select Gallon Type</option>
-            <option value="5-Gallon Jug">5-Gallon Jug</option>
-            <option value="18-Liter Bottle">18-Liter Bottle</option>
-            <option value="1-Gallon Bottle">1-Gallon Bottle</option>
-            <option value="2-Gallon Bottle">2-Gallon Bottle</option>
-            <option value="10-Gallon Bottle">10-Gallon Bottle</option>
+            <option value="">💧 Select Gallon Availability</option>
+            <option value="Half Empty">Half Empty</option>
+            <option value="Needs Replacement">Needs to be refilled </option>
         </select>
 
         <!-- ADDRESS WITH GEOLOCATION -->
@@ -1271,10 +1299,6 @@ function newOrder(){
         <select id="payment" onchange="showPaymentMethod()">
             <option value="Cash">💵 Cash on Delivery</option>
             <option value="GCash">📱 GCash</option>
-            <option value="Maya">💳 Maya</option>
-            <option value="Credit Card">💳 Credit Card</option>
-            <option value="Bank Transfer">🏦 Bank Transfer</option>
-            <option value="PayPal">🌐 PayPal</option>
         </select>
 
         <!-- GCASH BOX -->
@@ -1299,113 +1323,6 @@ function newOrder(){
 
                 <input id="reference"
                 placeholder="Enter GCash Reference Number">
-
-            </div>
-
-        </div>
-
-        <!-- MAYA BOX -->
-        <div id="mayaBox" style="display:none;margin-top:15px;">
-
-            <div style="
-                background:#f8fafc;
-                padding:20px;
-                border-radius:18px;
-                text-align:center;
-                border:2px dashed #f59e0b;
-            ">
-
-                <h3>💳 Maya Payment</h3>
-
-                <img src="gcashqr.png"
-                style="width:200px;border-radius:12px;margin-top:10px;">
-
-                <p style="margin-top:10px;">
-                Send payment to: <strong>09123456789</strong><br>
-                Account Name: <strong>Alka-Jozen Water</strong>
-                </p>
-
-                <input id="mayaReference"
-                placeholder="Enter Maya Reference Number">
-
-            </div>
-
-        </div>
-
-        <!-- CREDIT CARD BOX -->
-        <div id="cardBox" style="display:none;margin-top:15px;">
-
-            <div style="
-                background:#f8fafc;
-                padding:20px;
-                border-radius:18px;
-                border:2px dashed #dc2626;
-            ">
-
-                <h3>💳 Credit Card Payment</h3>
-
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px;">
-                    <input placeholder="Card Number" style="grid-column:1/-1;">
-                    <input placeholder="MM/YY">
-                    <input placeholder="CVV">
-                </div>
-
-                <input id="cardReference"
-                placeholder="Enter Transaction Reference"
-                style="margin-top:15px;width:100%;">
-
-            </div>
-
-        </div>
-
-        <!-- BANK TRANSFER BOX -->
-        <div id="bankBox" style="display:none;margin-top:15px;">
-
-            <div style="
-                background:#f8fafc;
-                padding:20px;
-                border-radius:18px;
-                text-align:center;
-                border:2px dashed #16a34a;
-            ">
-
-                <h3>🏦 Bank Transfer</h3>
-
-                <div style="text-align:left;margin-top:15px;">
-                    <p><strong>Bank:</strong> BDO</p>
-                    <p><strong>Account Name:</strong> Alka-Jozen Water Delivery</p>
-                    <p><strong>Account Number:</strong> 123456789012</p>
-                    <p><strong>Reference:</strong> Your Order Number</p>
-                </div>
-
-                <input id="bankReference"
-                placeholder="Enter Bank Reference Number"
-                style="margin-top:15px;width:100%;">
-
-            </div>
-
-        </div>
-
-        <!-- PAYPAL BOX -->
-        <div id="paypalBox" style="display:none;margin-top:15px;">
-
-            <div style="
-                background:#f8fafc;
-                padding:20px;
-                border-radius:18px;
-                text-align:center;
-                border:2px dashed #2563eb;
-            ">
-
-                <h3>🌐 PayPal Payment</h3>
-
-                <p style="margin-top:10px;">
-                Send payment to: <strong>alkajozen@gmail.com</strong>
-                </p>
-
-                <input id="paypalReference"
-                placeholder="Enter PayPal Transaction ID"
-                style="margin-top:15px;width:100%;">
 
             </div>
 
@@ -1640,22 +1557,10 @@ function showPaymentMethod(){
     
     // Hide all payment boxes
     document.getElementById("gcashBox").style.display = "none";
-    document.getElementById("mayaBox").style.display = "none";
-    document.getElementById("cardBox").style.display = "none";
-    document.getElementById("bankBox").style.display = "none";
-    document.getElementById("paypalBox").style.display = "none";
 
     // Show the selected payment box
     if(payment === "GCash"){
         document.getElementById("gcashBox").style.display = "block";
-    } else if(payment === "Maya"){
-        document.getElementById("mayaBox").style.display = "block";
-    } else if(payment === "Credit Card"){
-        document.getElementById("cardBox").style.display = "block";
-    } else if(payment === "Bank Transfer"){
-        document.getElementById("bankBox").style.display = "block";
-    } else if(payment === "PayPal"){
-        document.getElementById("paypalBox").style.display = "block";
     }
 }
 
@@ -1664,10 +1569,6 @@ function getPaymentReference(){
     
     if(paymentMethod === "Cash") return "Cash on Delivery";
     if(paymentMethod === "GCash") return document.getElementById("reference").value;
-    if(paymentMethod === "Maya") return document.getElementById("mayaReference").value;
-    if(paymentMethod === "Credit Card") return document.getElementById("cardReference").value;
-    if(paymentMethod === "Bank Transfer") return document.getElementById("bankReference").value;
-    if(paymentMethod === "PayPal") return document.getElementById("paypalReference").value;
     
     return "";
 }
@@ -1688,7 +1589,7 @@ function saveOrder(){
     }
 
     if (!document.getElementById("gallonType").value) {
-        notify("❌ Please select a gallon type.");
+        notify("❌ Please select gallon availability.");
         return;
     }
 
@@ -1709,18 +1610,6 @@ function saveOrder(){
     const paymentMethod = document.getElementById("payment").value;
     if (paymentMethod === "GCash" && !document.getElementById("reference").value.trim()) {
         notify("❌ Please enter the GCash reference number.");
-        return;
-    } else if (paymentMethod === "Maya" && !document.getElementById("mayaReference").value.trim()) {
-        notify("❌ Please enter the Maya reference number.");
-        return;
-    } else if (paymentMethod === "Credit Card" && !document.getElementById("cardReference").value.trim()) {
-        notify("❌ Please enter the credit card transaction reference.");
-        return;
-    } else if (paymentMethod === "Bank Transfer" && !document.getElementById("bankReference").value.trim()) {
-        notify("❌ Please enter the bank transfer reference number.");
-        return;
-    } else if (paymentMethod === "PayPal" && !document.getElementById("paypalReference").value.trim()) {
-        notify("❌ Please enter the PayPal transaction ID.");
         return;
     }
 
