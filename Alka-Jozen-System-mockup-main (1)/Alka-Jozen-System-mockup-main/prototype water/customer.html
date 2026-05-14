@@ -1,0 +1,2625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Alka-Jozen Customer</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<style>
+
+/* RESET */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+    scroll-behavior:smooth;
+}
+
+body{
+    background:
+    linear-gradient(
+        135deg,
+        #0f4c75 0%,
+        #3282b8 25%,
+        #bbe1fa 50%,
+        #3282b8 75%,
+        #0f4c75 100%
+    );
+
+    background-size: 400% 400%;
+    animation: waterFlow 20s ease infinite;
+    overflow-x:hidden;
+    min-height: 100vh;
+}
+
+@keyframes waterFlow {
+    0% { background-position: 0% 50%; }
+    25% { background-position: 100% 50%; }
+    50% { background-position: 100% 0%; }
+    75% { background-position: 0% 0%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* WATER DROPLETS */
+
+.bubble{
+    position:fixed;
+    border-radius:50%;
+    background:linear-gradient(135deg, rgba(187, 225, 250, 0.3), rgba(50, 130, 184, 0.2));
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(187, 225, 250, 0.4);
+    animation: waterDrop 15s infinite ease-in-out, ripple 3s infinite ease-in-out;
+    z-index:0;
+    box-shadow:
+        0 8px 32px rgba(15, 76, 117, 0.2),
+        inset 0 0 20px rgba(187, 225, 250, 0.1);
+}
+
+@keyframes waterDrop{
+    0%{
+        transform:translateY(0) rotate(0deg) scale(1);
+        opacity: 0.7;
+    }
+    25%{
+        transform:translateY(-40px) rotate(90deg) scale(1.1);
+        opacity: 0.9;
+    }
+    50%{
+        transform:translateY(-20px) rotate(180deg) scale(0.9);
+        opacity: 0.8;
+    }
+    75%{
+        transform:translateY(-50px) rotate(270deg) scale(1.2);
+        opacity: 0.6;
+    }
+    100%{
+        transform:translateY(0) rotate(360deg) scale(1);
+        opacity: 0.7;
+    }
+}
+
+@keyframes ripple {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow:
+            0 8px 32px rgba(15, 76, 117, 0.2),
+            inset 0 0 20px rgba(187, 225, 250, 0.1);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow:
+            0 12px 40px rgba(15, 76, 117, 0.3),
+            inset 0 0 25px rgba(187, 225, 250, 0.15);
+    }
+}
+
+.b1{
+    width:140px;
+    height:140px;
+    top:8%;
+    left:5%;
+}
+
+.b2{
+    width:90px;
+    height:90px;
+    bottom:10%;
+    left:15%;
+}
+
+.b3{
+    width:180px;
+    height:180px;
+    top:15%;
+    right:8%;
+}
+
+.b4{
+    width:100px;
+    height:100px;
+    bottom:12%;
+    right:15%;
+}
+
+/* WRAPPER */
+
+.wrapper{
+    display:flex;
+    min-height:100vh;
+    position:relative;
+    z-index:1;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+
+    width:220px;
+
+    background:
+    linear-gradient(
+        180deg,
+        rgba(15, 76, 117, 0.9),
+        rgba(50, 130, 184, 0.8),
+        rgba(15, 76, 117, 0.9)
+    );
+
+    backdrop-filter: blur(25px);
+
+    border-right: 2px solid rgba(187, 225, 250, 0.3);
+
+    padding:20px 15px;
+
+    color:white;
+
+    box-shadow:
+    0 8px 32px rgba(15, 76, 117, 0.3),
+    inset 0 0 50px rgba(187, 225, 250, 0.1);
+}
+
+.brand{
+
+    font-size:28px;
+    font-weight:800;
+
+    color:#bbe1fa;
+
+    text-align:center;
+
+    margin-bottom:20px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    text-shadow: 0 2px 10px rgba(187, 225, 250, 0.5);
+
+    width:100%;
+
+    padding:16px 18px;
+
+    margin-bottom:10px;
+
+    border:none;
+
+    border-radius:16px;
+
+    background:
+    rgba(255,255,255,0.1);
+
+    backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255,255,255,0.1);
+
+    color:white;
+
+    text-align:left;
+
+    cursor:pointer;
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    font-weight: 500;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.menu-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.menu-btn:hover::before {
+    left: 100%;
+}
+
+.menu-btn:hover{
+
+    transform:translateX(8px) scale(1.02);
+
+    background:
+    rgba(255,255,255,0.2);
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.menu-btn.active{
+
+    background:
+    linear-gradient(135deg, rgba(56,189,248,0.3), rgba(14,165,233,0.3));
+
+    border: 1px solid rgba(56,189,248,0.5);
+
+    box-shadow: 0 0 20px rgba(56,189,248,0.3);
+}
+
+/* CONTENT */
+
+.content{
+    flex:1;
+    padding:30px;
+}
+
+/* GLASS CARDS */
+
+.card,
+.order-card,
+.track-card,
+.profile-card{
+
+    background:
+    rgba(255, 255, 255, 0.15);
+
+    backdrop-filter:
+    blur(25px);
+
+    border:
+    1px solid rgba(255, 255, 255, 0.2);
+
+    border-radius:24px;
+
+    padding:25px;
+
+    margin-bottom:20px;
+
+    box-shadow:
+    0 20px 40px rgba(0,0,0,0.1),
+    0 0 0 1px rgba(255,255,255,0.05) inset;
+
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.6s;
+}
+
+.card:hover::before {
+    left: 100%;
+}
+
+.card:hover,
+.order-card:hover,
+.track-card:hover{
+
+    transform:translateY(-8px) scale(1.01);
+
+    box-shadow:
+    0 25px 50px rgba(0,0,0,0.15),
+    0 0 0 1px rgba(255,255,255,0.1) inset,
+    0 0 30px rgba(56,189,248,0.1);
+}
+
+h2{
+    color:#0f172a;
+    margin-bottom:5px;
+    font-size:24px;
+}
+
+.sub{
+    color:#64748b;
+}
+
+/* INPUTS */
+
+input,
+select,
+textarea{
+
+    width:100%;
+
+    padding:18px;
+
+    margin-top:10px;
+
+    border:none;
+
+    border-radius:16px;
+
+    background:#f8fafc;
+
+    outline:none;
+}
+
+/* ADDRESS WRAPPER */
+
+.address-wrapper{
+    position:relative;
+    margin-top:10px;
+}
+
+.address-wrapper input{
+    margin-top:0;
+    padding-right:50px;
+}
+
+.locate-btn{
+    position:absolute;
+    right:10px;
+    top:50%;
+    transform:translateY(-50%);
+    background:linear-gradient(135deg,#0ea5e9,#38bdf8);
+    border:none;
+    border-radius:12px;
+    width:36px;
+    height:36px;
+    color:white;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:15px;
+    transition:.2s;
+    z-index:2;
+}
+
+.locate-btn:hover{
+    transform:translateY(-50%) scale(1.1);
+    box-shadow:0 4px 14px rgba(14,165,233,0.4);
+}
+
+.locate-btn.loading{
+    animation:spin 1s linear infinite;
+    pointer-events:none;
+}
+
+@keyframes spin{
+    from{transform:translateY(-50%) rotate(0deg);}
+    to{transform:translateY(-50%) rotate(360deg);}
+}
+
+/* LOCATION BADGE */
+
+.location-badge{
+    display:none;
+    align-items:center;
+    gap:8px;
+    margin-top:5px;
+    padding:10px 14px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#ecfdf5,#d1fae5);
+    border:1px solid #86efac;
+    color:#15803d;
+    font-size:13px;
+    font-weight:600;
+    animation:fadeIn .3s ease;
+}
+
+.location-badge.show{
+    display:flex;
+}
+
+.location-badge.error{
+    background:linear-gradient(135deg,#fef2f2,#fee2e2);
+    border-color:#fca5a5;
+    color:#dc2626;
+}
+
+@keyframes fadeIn{
+    from{opacity:0;transform:translateY(-6px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+/* CONTACT WRAPPER */
+
+.contact-wrapper{
+    position:relative;
+    margin-top:10px;
+}
+
+.contact-wrapper input{
+    margin-top:0;
+    padding-right:50px;
+}
+
+.validate-btn{
+    position:absolute;
+    right:10px;
+    top:50%;
+    transform:translateY(-50%);
+    background:linear-gradient(135deg,#22c55e,#16a34a);
+    border:none;
+    border-radius:12px;
+    width:36px;
+    height:36px;
+    color:white;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:15px;
+    transition:.2s;
+    z-index:2;
+}
+
+.validate-btn:hover{
+    transform:translateY(-50%) scale(1.1);
+    box-shadow:0 4px 14px rgba(34,197,94,0.4);
+}
+
+.validate-btn.validating{
+    animation:spin 1s linear infinite;
+    pointer-events:none;
+}
+
+/* CONTACT BADGE */
+
+.contact-badge{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:5px;
+    padding:10px 14px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#fef3c7,#fde68a);
+    border:1px solid #fcd34d;
+    color:#92400e;
+    font-size:13px;
+    font-weight:600;
+    animation:fadeIn .3s ease;
+}
+
+.contact-badge.valid{
+    background:linear-gradient(135deg,#ecfdf5,#d1fae5);
+    border-color:#86efac;
+    color:#15803d;
+}
+
+.contact-badge.invalid{
+    background:linear-gradient(135deg,#fef2f2,#fee2e2);
+    border-color:#fca5a5;
+    color:#dc2626;
+}
+
+/* MAP PREVIEW */
+
+.map-preview{
+    display:none;
+    margin-top:8px;
+    border-radius:18px;
+    overflow:hidden;
+    border:2px solid rgba(56,189,248,0.3);
+    box-shadow:0 6px 20px rgba(14,165,233,0.15);
+    animation:fadeIn .4s ease;
+}
+
+.map-preview.show{
+    display:block;
+}
+
+.map-preview iframe{
+    width:100%;
+    height:180px;
+    border:none;
+    display:block;
+}
+
+/* BUTTON */
+
+.primary-btn{
+
+    width:100%;
+
+    padding:18px;
+
+    margin-top:12px;
+
+    border:none;
+
+    border-radius:16px;
+
+    background:
+    linear-gradient(
+        90deg,
+        #0ea5e9,
+        #38bdf8
+    );
+
+    color:white;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.primary-btn:hover{
+
+    transform:translateY(-2px);
+}
+
+/* STATUS */
+
+.status{
+
+    padding:8px 15px;
+
+    border-radius:999px;
+
+    font-size:12px;
+
+    font-weight:700;
+}
+
+.pending{
+    background:#fff7ed;
+    color:#f59e0b;
+}
+
+.delivery{
+    background:#eff6ff;
+    color:#3b82f6;
+}
+
+.done-status{
+    background:#ecfdf5;
+    color:#22c55e;
+}
+
+/* TRACK */
+
+.track-wrapper{
+    margin-top:25px;
+    position:relative;
+}
+
+.track-line{
+
+    position:absolute;
+
+    top:28px;
+    left:8%;
+
+    width:84%;
+    height:6px;
+
+    background:#d1d5db;
+
+    border-radius:999px;
+}
+
+.track-progress{
+
+    display:flex;
+    justify-content:space-between;
+
+    position:relative;
+}
+
+.track-step{
+    width:20%;
+    text-align:center;
+}
+
+.circle{
+
+    width:60px;
+    height:60px;
+
+    border-radius:50%;
+
+    background:#d1d5db;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    margin:auto;
+
+    color:white;
+
+    font-size:22px;
+
+    border:5px solid white;
+}
+
+.active{
+    background:#22c55e;
+}
+
+.current{
+    background:#2563eb;
+}
+
+.track-label{
+
+    margin-top:10px;
+
+    font-size:12px;
+    font-weight:700;
+}
+
+/* ETA */
+
+.eta-box{
+
+    margin-top:12px;
+
+    padding:16px;
+
+    border-radius:18px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #dbeafe,
+        #eff6ff
+    );
+
+    font-weight:700;
+}
+
+/* CHAT */
+
+.chat-btn{
+
+    position:fixed;
+
+    right:25px;
+    bottom:90px;
+
+    width:65px;
+    height:65px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:
+    linear-gradient(
+        90deg,
+        #0ea5e9,
+        #38bdf8
+    );
+
+    color:white;
+
+    font-size:24px;
+
+    cursor:pointer;
+
+    z-index:9999;
+}
+
+.chat-box{
+
+    position:fixed;
+
+    right:25px;
+    bottom:165px;
+
+    width:340px;
+    height:420px;
+
+    background:white;
+
+    border-radius:28px;
+
+    overflow:hidden;
+
+    display:none;
+    flex-direction:column;
+
+    box-shadow:
+    0 10px 40px rgba(0,0,0,0.18);
+
+    z-index:9999;
+}
+
+.chat-header{
+
+    padding:18px;
+
+    background:
+    linear-gradient(
+        90deg,
+        #0ea5e9,
+        #38bdf8
+    );
+
+    color:white;
+    font-weight:700;
+}
+
+.chat-body{
+
+    flex:1;
+
+    padding:15px;
+
+    overflow-y:auto;
+
+    background:#f8fafc;
+}
+
+.chat-input{
+    display:flex;
+}
+
+.chat-input input{
+
+    margin:0;
+    border-radius:0;
+}
+
+.chat-input button{
+
+    width:90px;
+
+    border:none;
+
+    background:#0ea5e9;
+
+    color:white;
+}
+
+/* NOTIFY */
+
+.notify{
+
+    position:fixed;
+
+    top:20px;
+    right:20px;
+
+    background:
+    linear-gradient(
+        90deg,
+        #22c55e,
+        #16a34a
+    );
+
+    color:white;
+
+    padding:15px 22px;
+
+    border-radius:18px;
+
+    z-index:99999;
+
+    animation:slide .4s ease;
+}
+
+@keyframes slide{
+
+    from{
+        transform:translateX(100%);
+        opacity:0;
+    }
+
+    to{
+        transform:translateX(0);
+        opacity:1;
+    }
+}
+
+/* STARS */
+
+.stars{
+
+    display:flex;
+    gap:8px;
+
+    margin-top:12px;
+}
+
+.stars i{
+
+    font-size:30px;
+
+    color:#d1d5db;
+
+    cursor:pointer;
+}
+
+.stars i.active{
+    color:#f59e0b;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav{
+
+    position:fixed;
+
+    bottom:0;
+    left:0;
+
+    width:100%;
+    height:75px;
+
+    background:
+    rgba(255,255,255,0.75);
+
+    backdrop-filter:
+    blur(18px);
+
+    border-top:
+    1px solid rgba(255,255,255,0.45);
+
+    display:none;
+
+    justify-content:space-around;
+    align-items:center;
+
+    z-index:9999;
+}
+
+.bottom-nav button{
+
+    background:none;
+    border:none;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    gap:4px;
+
+    color:#64748b;
+
+    cursor:pointer;
+}
+
+.bottom-nav button.active{
+    color:#0ea5e9;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .sidebar{
+        display:none;
+    }
+
+    .content{
+        padding:20px;
+        padding-bottom:100px;
+    }
+
+    .bottom-nav{
+        display:flex;
+    }
+
+    .circle{
+        width:50px;
+        height:50px;
+    }
+
+    .track-label{
+        font-size:10px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="bubble b1"></div>
+<div class="bubble b2"></div>
+<div class="bubble b3"></div>
+<div class="bubble b4"></div>
+
+<div class="wrapper">
+
+<div class="sidebar">
+
+<div class="brand">
+<img src="water drop.png" alt="Logo" style="width:60px; height:60px; margin-bottom:10px;">
+<div>💧 Alka-Jozen</div>
+</div>
+
+<button class="menu-btn active"
+onclick="home()">
+<i class="fa fa-house"></i>
+Home
+</button>
+
+<button class="menu-btn"
+onclick="newOrder()">
+<i class="fa fa-cart-shopping"></i>
+New Order
+</button>
+
+<button class="menu-btn"
+onclick="trackOrder()">
+<i class="fa fa-box"></i>
+Tracking
+</button>
+
+<button class="menu-btn"
+onclick="paymentHistory()">
+<i class="fa fa-credit-card"></i>
+Payments
+</button>
+
+<button class="menu-btn"
+onclick="profile()">
+<i class="fa fa-user"></i>
+Profile
+</button>
+
+</div>
+
+<div class="content">
+
+<div id="content"></div>
+
+</div>
+
+</div>
+
+<!-- FAQ AI -->
+
+<button class="chat-btn" onclick="toggleFAQ()">
+<i class="fa fa-robot"></i>
+</button>
+
+<div class="chat-box" id="faqBox">
+
+<div class="chat-header">
+FAQ Assistant
+</div>
+
+<div class="chat-body" id="faqBody">
+
+<p><b>AI:</b> Hi! Ask me about delivery time, payment, or orders.</p>
+
+</div>
+
+<div class="chat-input">
+
+<input id="faqInput" placeholder="Ask something...">
+
+<button onclick="sendFAQ()">Send</button>
+
+</div>
+
+</div>
+<!-- BOTTOM NAV -->
+
+<div class="bottom-nav">
+
+<button onclick="home()">
+<i class="fa fa-house"></i>
+<span>Home</span>
+</button>
+
+<button onclick="newOrder()">
+<i class="fa fa-cart-shopping"></i>
+<span>Order</span>
+</button>
+
+<button onclick="trackOrder()">
+<i class="fa fa-truck"></i>
+<span>Track</span>
+</button>
+
+<button onclick="paymentHistory()">
+<i class="fa fa-credit-card"></i>
+<span>Payments</span>
+</button>
+
+<button onclick="profile()">
+<i class="fa fa-user"></i>
+<span>Profile</span>
+</button>
+
+</div>
+
+<script>
+
+/* STORAGE */
+
+function getOrders(){
+
+    return JSON.parse(
+    localStorage.getItem("history")
+    ) || [];
+}
+
+function saveOrders(data){
+
+    localStorage.setItem(
+    "history",
+    JSON.stringify(data)
+    );
+}
+
+function getUser(){
+
+    return localStorage.getItem(
+    "username"
+    ) || "Guest";
+}
+
+/* STEPS */
+
+const steps = [
+
+    {
+        label:"Pickup"
+    },
+
+    {
+        label:"Cleaning"
+    },
+
+    {
+        label:"Refilling"
+    },
+
+    {
+        label:"Out for Delivery"
+    },
+
+    {
+        label:"Delivered"
+    }
+];
+
+/* HOME */
+
+function home(){
+
+    let user = getUser();
+
+    let orders =
+    getOrders().filter(
+    o=>o.user===user
+    );
+
+    let html = `
+
+    <div class="card">
+
+        <h2>
+        👋 Welcome ${user}
+        </h2>
+
+        <p class="sub">
+        Your Orders Dashboard
+        </p>
+
+    </div>
+    `;
+
+    orders.reverse().slice(0,5)
+    .forEach(o=>{
+
+        html += `
+
+        <div class="card">
+
+            <b>
+            Order #${o.orderNumber}
+            </b>
+
+            <br>
+
+            💧 ${o.gallon} ${o.gallonType || 'Gallon'}
+
+            <br>
+
+            📍 ${o.address}${o.altAddress ? ` (Alt: ${o.altAddress})` : ''}${o.specificLocation ? `, ${o.specificLocation}` : ''}
+
+            <br>
+
+            👤 ${o.recipient}${o.deliveryNotes ? ` - ${o.deliveryNotes}` : ''}
+
+            <br>
+
+            <div class="status delivery">
+
+            ${o.status || "Pending"}
+
+            </div>
+
+        </div>
+        `;
+    });
+
+    document.getElementById(
+    "content"
+    ).innerHTML = html;
+}
+
+/* NEW ORDER */
+
+function newOrder(){
+
+    document.getElementById("content").innerHTML = `
+
+    <div class="card">
+
+        <h2>🛒 New Order</h2>
+
+        <input 
+            id="gallon" 
+            placeholder="💧 Gallons (or select from list)"
+            list="gallonOptions"
+            type="number"
+            min="1"
+        >
+        <datalist id="gallonOptions">
+            <option value="1">1 Gallon</option>
+            <option value="2">2 Gallons</option>
+            <option value="3">3 Gallons</option>
+            <option value="4">4 Gallons</option>
+            <option value="5">5 Gallons</option>
+        </datalist>
+
+        <select id="gallonType" required>
+            <option value="">💧 Select Gallon Type</option>
+            <option value="5-Gallon Jug">5-Gallon Jug</option>
+            <option value="18-Liter Bottle">18-Liter Bottle</option>
+            <option value="1-Gallon Bottle">1-Gallon Bottle</option>
+            <option value="2-Gallon Bottle">2-Gallon Bottle</option>
+            <option value="10-Gallon Bottle">10-Gallon Bottle</option>
+        </select>
+
+        <!-- ADDRESS WITH GEOLOCATION -->
+        <div class="address-wrapper">
+            <input
+                id="address"
+                placeholder="📍 Delivery Address"
+                oninput="onAddressInput()"
+            >
+            <button
+                class="locate-btn"
+                id="locateBtn"
+                onclick="useMyLocation()"
+                title="Use my current location"
+            >
+                <i class="fa fa-location-crosshairs" id="locateIcon"></i>
+            </button>
+        </div>
+
+        <!-- STATUS BADGE -->
+        <div class="location-badge" id="locationBadge">
+            <i class="fa fa-circle-check"></i>
+            <span id="locationBadgeText">Location detected!</span>
+        </div>
+
+        <!-- MAP PREVIEW -->
+        <div class="map-preview" id="mapPreview">
+            <iframe id="mapFrame" src="" allowfullscreen loading="lazy"></iframe>
+        </div>
+
+        <input id="altAddress" placeholder="📍 Add Another Address (If you put wrong address) ">
+
+        <input id="specificLocation" placeholder="🏠 Specific Location (e.g., Apartment, Floor, Landmark)">
+
+        <!-- CONTACT WITH VALIDATION -->
+        <div class="contact-wrapper">
+            <input
+                id="contact"
+                placeholder="📞 Contact Number"
+                oninput="validateContact()"
+                maxlength="11"
+            >
+            <button
+                class="validate-btn"
+                id="validateBtn"
+                onclick="validateContactNumber()"
+                title="Validate contact number"
+            >
+                <i class="fa fa-check" id="validateIcon"></i>
+            </button>
+        </div>
+
+        <!-- CONTACT STATUS BADGE -->
+        <div class="contact-badge" id="contactBadge">
+            <i class="fa fa-circle-info"></i>
+            <span id="contactBadgeText">Add another contact number in case of the person is unavailable</span>
+        </div>
+
+        <!-- DELIVERY RECIPIENT -->
+        <select id="recipient" required>
+            <option value="">👤 Who will receive the order?</option>
+            <option value="Me">I will receive it personally</option>
+            <option value="Family Member">Family member (spouse, parent, child)</option>
+            <option value="Friend">Friend or roommate</option>
+            <option value="Neighbor">Neighbor</option>
+            <option value="Security Guard">Building security guard</option>
+            <option value="Receptionist">Office receptionist</option>
+            <option value="Leave at Door">Leave at door/front desk</option>
+            <option value="Other">Other (specify in notes)</option>
+        </select>
+
+        <textarea id="deliveryNotes" 
+            placeholder="📝 Additional delivery instructions (optional)"
+            rows="3"
+            style="width:100%;margin-top:10px;padding:12px;border-radius:12px;border:none;background:#f8fafc;resize:vertical;"
+        ></textarea>
+
+        <h3 style="margin-top:20px;margin-bottom:10px;color:#0f172a;font-size:16px;">💳 Mode of Payment</h3>
+
+        <select id="payment" onchange="showPaymentMethod()">
+            <option value="Cash">💵 Cash on Delivery</option>
+            <option value="GCash">📱 GCash</option>
+            <option value="Maya">💳 Maya</option>
+            <option value="Credit Card">💳 Credit Card</option>
+            <option value="Bank Transfer">🏦 Bank Transfer</option>
+            <option value="PayPal">🌐 PayPal</option>
+        </select>
+
+        <!-- GCASH BOX -->
+        <div id="gcashBox" style="display:none;margin-top:15px;">
+
+            <div style="
+                background:#f8fafc;
+                padding:20px;
+                border-radius:18px;
+                text-align:center;
+                border:2px dashed #38bdf8;
+            ">
+
+                <h3>💳 GCash Payment</h3>
+
+                <img src="gcashqr.png"
+                style="width:200px;border-radius:12px;margin-top:10px;">
+
+                <p style="margin-top:10px;">
+                    Send to: <b>09123456789</b>
+                </p>
+
+                <input id="reference"
+                placeholder="Enter GCash Reference Number">
+
+            </div>
+
+        </div>
+
+        <!-- MAYA BOX -->
+        <div id="mayaBox" style="display:none;margin-top:15px;">
+
+            <div style="
+                background:#f8fafc;
+                padding:20px;
+                border-radius:18px;
+                text-align:center;
+                border:2px dashed #f59e0b;
+            ">
+
+                <h3>💳 Maya Payment</h3>
+
+                <img src="gcashqr.png"
+                style="width:200px;border-radius:12px;margin-top:10px;">
+
+                <p style="margin-top:10px;">
+                Send payment to: <strong>09123456789</strong><br>
+                Account Name: <strong>Alka-Jozen Water</strong>
+                </p>
+
+                <input id="mayaReference"
+                placeholder="Enter Maya Reference Number">
+
+            </div>
+
+        </div>
+
+        <!-- CREDIT CARD BOX -->
+        <div id="cardBox" style="display:none;margin-top:15px;">
+
+            <div style="
+                background:#f8fafc;
+                padding:20px;
+                border-radius:18px;
+                border:2px dashed #dc2626;
+            ">
+
+                <h3>💳 Credit Card Payment</h3>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px;">
+                    <input placeholder="Card Number" style="grid-column:1/-1;">
+                    <input placeholder="MM/YY">
+                    <input placeholder="CVV">
+                </div>
+
+                <input id="cardReference"
+                placeholder="Enter Transaction Reference"
+                style="margin-top:15px;width:100%;">
+
+            </div>
+
+        </div>
+
+        <!-- BANK TRANSFER BOX -->
+        <div id="bankBox" style="display:none;margin-top:15px;">
+
+            <div style="
+                background:#f8fafc;
+                padding:20px;
+                border-radius:18px;
+                text-align:center;
+                border:2px dashed #16a34a;
+            ">
+
+                <h3>🏦 Bank Transfer</h3>
+
+                <div style="text-align:left;margin-top:15px;">
+                    <p><strong>Bank:</strong> BDO</p>
+                    <p><strong>Account Name:</strong> Alka-Jozen Water Delivery</p>
+                    <p><strong>Account Number:</strong> 123456789012</p>
+                    <p><strong>Reference:</strong> Your Order Number</p>
+                </div>
+
+                <input id="bankReference"
+                placeholder="Enter Bank Reference Number"
+                style="margin-top:15px;width:100%;">
+
+            </div>
+
+        </div>
+
+        <!-- PAYPAL BOX -->
+        <div id="paypalBox" style="display:none;margin-top:15px;">
+
+            <div style="
+                background:#f8fafc;
+                padding:20px;
+                border-radius:18px;
+                text-align:center;
+                border:2px dashed #2563eb;
+            ">
+
+                <h3>🌐 PayPal Payment</h3>
+
+                <p style="margin-top:10px;">
+                Send payment to: <strong>alkajozen@gmail.com</strong>
+                </p>
+
+                <input id="paypalReference"
+                placeholder="Enter PayPal Transaction ID"
+                style="margin-top:15px;width:100%;">
+
+            </div>
+
+        </div>
+
+        <button class="primary-btn" onclick="saveOrder()">
+            Place Order
+        </button>
+
+    </div>
+    `;
+}
+
+/* ── GEOLOCATION FEATURE ── */
+
+let detectedLat = null;
+let detectedLon = null;
+
+function useMyLocation(){
+
+    if(!navigator.geolocation){
+        showBadge("❌ Geolocation not supported by your browser.", true);
+        return;
+    }
+
+    // Spinner state
+    const btn  = document.getElementById("locateBtn");
+    const icon = document.getElementById("locateIcon");
+
+    btn.classList.add("loading");
+    icon.className = "fa fa-spinner";
+
+    navigator.geolocation.getCurrentPosition(
+
+        async (pos) => {
+
+            detectedLat = pos.coords.latitude;
+            detectedLon = pos.coords.longitude;
+
+            try {
+                // Reverse geocode via OpenStreetMap Nominatim (free, no key)
+                const res = await fetch(
+                    `https://nominatim.openstreetmap.org/reverse?lat=${detectedLat}&lon=${detectedLon}&format=json`,
+                    { headers:{ "Accept-Language":"en" } }
+                );
+
+                const data = await res.json();
+
+                const addr = buildAddress(data);
+
+                document.getElementById("address").value = addr;
+
+                showBadge("✅ Location detected & filled in!", false);
+                showMap(detectedLat, detectedLon);
+
+            } catch(e) {
+
+                // Fallback: just fill coordinates
+                document.getElementById("address").value =
+                    `Lat: ${detectedLat.toFixed(5)}, Lon: ${detectedLon.toFixed(5)}`;
+
+                showBadge("📍 Coordinates used (address lookup failed).", false);
+                showMap(detectedLat, detectedLon);
+            }
+
+            // Reset button
+            btn.classList.remove("loading");
+            icon.className = "fa fa-location-crosshairs";
+        },
+
+        (err) => {
+
+            btn.classList.remove("loading");
+            icon.className = "fa fa-location-crosshairs";
+
+            let msg = "❌ Location access denied.";
+
+            if(err.code === 1)
+                msg = "❌ Permission denied. Please allow location access.";
+            else if(err.code === 2)
+                msg = "❌ Location unavailable. Check your GPS.";
+            else if(err.code === 3)
+                msg = "❌ Location request timed out.";
+
+            showBadge(msg, true);
+        },
+
+        { enableHighAccuracy: true, timeout: 10000 }
+    );
+}
+
+/* Build a readable address from Nominatim response */
+function buildAddress(data){
+
+    const a = data.address || {};
+
+    const parts = [
+        a.house_number,
+        a.road || a.street,
+        a.neighbourhood || a.suburb,
+        a.city || a.town || a.municipality || a.village,
+        a.state || a.region,
+        a.country
+    ].filter(Boolean);
+
+    return parts.join(", ") || data.display_name || "Unknown Address";
+}
+
+/* Show the status badge */
+function showBadge(text, isError){
+
+    const badge = document.getElementById("locationBadge");
+
+    if(!badge) return;
+
+    badge.className = "location-badge show" + (isError ? " error" : "");
+    document.getElementById("locationBadgeText").textContent = text;
+}
+
+/* Show OpenStreetMap embed preview */
+function showMap(lat, lon){
+
+    const preview = document.getElementById("mapPreview");
+    const frame   = document.getElementById("mapFrame");
+
+    if(!preview || !frame) return;
+
+    // OpenStreetMap embed (free, no API key)
+    frame.src =
+        `https://www.openstreetmap.org/export/embed.html?bbox=${lon-0.005},${lat-0.005},${lon+0.005},${lat+0.005}&layer=mapnik&marker=${lat},${lon}`;
+
+    preview.classList.add("show");
+}
+
+/* Hide map when user manually edits the address */
+function onAddressInput(){
+
+    const preview = document.getElementById("mapPreview");
+    const badge   = document.getElementById("locationBadge");
+
+    if(preview) preview.classList.remove("show");
+    if(badge)   badge.classList.remove("show");
+
+    detectedLat = null;
+    detectedLon = null;
+}
+
+/* CONTACT VALIDATION FUNCTIONS */
+
+function validateContact(){
+    const input = document.getElementById("contact");
+    const value = input.value.replace(/\D/g, ''); // Remove non-digits
+    
+    // Auto-format Philippine numbers
+    if(value.startsWith('09') && value.length <= 11){
+        // Format as 09XX-XXX-XXXX
+        let formatted = value;
+        if(value.length >= 4) formatted = value.slice(0,4) + '-' + value.slice(4);
+        if(value.length >= 7) formatted = formatted.slice(0,8) + '-' + formatted.slice(8);
+        input.value = formatted;
+    } else if(value.startsWith('63') && value.length <= 12){
+        // Format as +63-9XX-XXX-XXXX
+        let formatted = '+63-' + value.slice(2);
+        if(value.length >= 5) formatted = '+63-' + value.slice(2,5) + '-' + value.slice(5);
+        if(value.length >= 8) formatted = '+63-' + value.slice(2,5) + '-' + value.slice(5,8) + '-' + value.slice(8);
+        input.value = formatted;
+    }
+    
+    // Update badge based on validation
+    updateContactBadge();
+}
+
+function validateContactNumber(){
+    const input = document.getElementById("contact");
+    const value = input.value.replace(/\D/g, ''); // Remove non-digits
+    
+    // Show validating state
+    const btn = document.getElementById("validateBtn");
+    const icon = document.getElementById("validateIcon");
+    btn.classList.add("validating");
+    icon.className = "fa fa-spinner";
+    
+    // Simulate validation delay
+    setTimeout(() => {
+        btn.classList.remove("validating");
+        
+        // Check if it's a valid Philippine mobile number
+        const isValid = (value.startsWith('09') && value.length === 11) || 
+                       (value.startsWith('639') && value.length === 12) ||
+                       (value.startsWith('63') && value.length === 12);
+        
+        if(isValid){
+            icon.className = "fa fa-check";
+            showContactBadge("✅ Valid Philippine mobile number!", "valid");
+        } else {
+            icon.className = "fa fa-times";
+            showContactBadge("❌ Invalid number. Use 09XX-XXX-XXXX or +63-9XX-XXX-XXXX format.", "invalid");
+        }
+    }, 1000);
+}
+
+function updateContactBadge(){
+    const input = document.getElementById("contact");
+    const value = input.value.replace(/\D/g, '');
+    
+    if(value.length === 0){
+        showContactBadge("Enter a valid Philippine mobile number", "");
+    } else if(value.startsWith('09') && value.length === 11){
+        showContactBadge("Valid format detected", "valid");
+    } else if(value.startsWith('63') && value.length === 12){
+        showContactBadge("Valid international format detected", "valid");
+    } else if(value.length > 0){
+        showContactBadge("Please enter a valid Philippine mobile number", "invalid");
+    }
+}
+
+function showContactBadge(text, status){
+    const badge = document.getElementById("contactBadge");
+    const textSpan = document.getElementById("contactBadgeText");
+    
+    if(!badge || !textSpan) return;
+    
+    badge.className = "contact-badge " + status;
+    textSpan.textContent = text;
+}
+
+/* ──────────────────────── */
+
+function showPaymentMethod(){
+
+    let payment = document.getElementById("payment").value;
+    
+    // Hide all payment boxes
+    document.getElementById("gcashBox").style.display = "none";
+    document.getElementById("mayaBox").style.display = "none";
+    document.getElementById("cardBox").style.display = "none";
+    document.getElementById("bankBox").style.display = "none";
+    document.getElementById("paypalBox").style.display = "none";
+
+    // Show the selected payment box
+    if(payment === "GCash"){
+        document.getElementById("gcashBox").style.display = "block";
+    } else if(payment === "Maya"){
+        document.getElementById("mayaBox").style.display = "block";
+    } else if(payment === "Credit Card"){
+        document.getElementById("cardBox").style.display = "block";
+    } else if(payment === "Bank Transfer"){
+        document.getElementById("bankBox").style.display = "block";
+    } else if(payment === "PayPal"){
+        document.getElementById("paypalBox").style.display = "block";
+    }
+}
+
+function getPaymentReference(){
+    const paymentMethod = document.getElementById("payment").value;
+    
+    if(paymentMethod === "Cash") return "Cash on Delivery";
+    if(paymentMethod === "GCash") return document.getElementById("reference").value;
+    if(paymentMethod === "Maya") return document.getElementById("mayaReference").value;
+    if(paymentMethod === "Credit Card") return document.getElementById("cardReference").value;
+    if(paymentMethod === "Bank Transfer") return document.getElementById("bankReference").value;
+    if(paymentMethod === "PayPal") return document.getElementById("paypalReference").value;
+    
+    return "";
+}
+
+/* SAVE */
+
+function saveOrder(){
+
+    // Validation
+    if (!document.getElementById("address").value.trim()) {
+        notify("❌ Please enter a delivery address.");
+        return;
+    }
+
+    if (!document.getElementById("gallon").value.trim()) {
+        notify("❌ Please enter the number of gallons.");
+        return;
+    }
+
+    if (!document.getElementById("gallonType").value) {
+        notify("❌ Please select a gallon type.");
+        return;
+    }
+
+    // Validate contact number
+    const contactValue = document.getElementById("contact").value.replace(/\D/g, '');
+    if (!contactValue || !(contactValue.startsWith('09') && contactValue.length === 11) && 
+        !(contactValue.startsWith('63') && contactValue.length === 12)) {
+        notify("❌ Please enter a valid Philippine mobile number.");
+        return;
+    }
+
+    if (!document.getElementById("recipient").value) {
+        notify("❌ Please specify who will receive the order.");
+        return;
+    }
+
+    // Validate payment reference based on method
+    const paymentMethod = document.getElementById("payment").value;
+    if (paymentMethod === "GCash" && !document.getElementById("reference").value.trim()) {
+        notify("❌ Please enter the GCash reference number.");
+        return;
+    } else if (paymentMethod === "Maya" && !document.getElementById("mayaReference").value.trim()) {
+        notify("❌ Please enter the Maya reference number.");
+        return;
+    } else if (paymentMethod === "Credit Card" && !document.getElementById("cardReference").value.trim()) {
+        notify("❌ Please enter the credit card transaction reference.");
+        return;
+    } else if (paymentMethod === "Bank Transfer" && !document.getElementById("bankReference").value.trim()) {
+        notify("❌ Please enter the bank transfer reference number.");
+        return;
+    } else if (paymentMethod === "PayPal" && !document.getElementById("paypalReference").value.trim()) {
+        notify("❌ Please enter the PayPal transaction ID.");
+        return;
+    }
+
+    let orders =
+    getOrders();
+
+    let order = {
+
+        orderNumber:
+        String(
+        orders.length+1
+        ).padStart(3,"0"),
+
+        user:getUser(),
+
+        gallon:
+        document.getElementById(
+        "gallon"
+        ).value,
+
+        gallonType:
+        document.getElementById(
+        "gallonType"
+        ).value,
+
+        address:
+        document.getElementById(
+        "address"
+        ).value,
+
+        altAddress:
+        document.getElementById(
+        "altAddress"
+        ).value,
+
+        specificLocation:
+        document.getElementById(
+        "specificLocation"
+        ).value,
+
+        contact:
+        document.getElementById(
+        "contact"
+        ).value,
+
+        recipient:
+        document.getElementById(
+        "recipient"
+        ).value,
+
+        deliveryNotes:
+        document.getElementById(
+        "deliveryNotes"
+        ).value,
+
+        payment:
+        document.getElementById(
+        "payment"
+        ).value,
+
+        paymentReference: getPaymentReference(),
+
+        status:"Go to Pickup",
+
+        total:150
+    };
+
+    orders.push(order);
+
+    saveOrders(orders);
+
+    notify(
+    "✅ Order Placed"
+    );
+
+    home();
+}
+
+/* TRACK */
+
+function trackOrder(){
+
+    let user =
+    getUser();
+
+    let orders =
+    getOrders().filter(
+    o=>o.user===user
+    );
+
+    let html = `
+
+    <div class="card">
+
+        <h2>
+        📦 Tracking Orders
+        </h2>
+
+    </div>
+    `;
+
+    orders.forEach(o=>{
+
+        html += `
+
+        <div class="card"
+        onclick="viewTrack(
+        '${o.orderNumber}'
+        )">
+
+            <b>
+            #${o.orderNumber}
+            </b>
+
+            <br>
+
+            ${o.status}
+
+        </div>
+        `;
+    });
+
+    document.getElementById(
+    "content"
+    ).innerHTML = html;
+}
+
+/* ETA */
+
+function getETA(status){
+
+    if(status==="Go to Pickup")
+    return "20 mins";
+
+    if(status==="Collecting Gallon")
+    return "15 mins";
+
+    if(status==="Cleaning")
+    return "10 mins";
+
+    if(status==="Refilling")
+    return "8 mins";
+
+    if(status==="Out for Delivery")
+    return "5 mins";
+
+    if(status==="Delivered")
+    return "Delivered";
+
+    return "Pending";
+}
+
+/* VIEW TRACK */
+
+function viewTrack(id){
+
+    let orders =
+    getOrders();
+
+    let o =
+    orders.find(
+    x=>x.orderNumber==id
+    );
+
+    let current =
+    steps.findIndex(
+    s=>s.label===o.status
+    );
+
+    if(current < 0)
+    current = 0;
+
+    let html = `
+
+    <div class="card">
+
+        <h2>
+        📍 Tracking
+        </h2>
+
+        <p class="sub">
+
+        Rider:
+        <b>
+
+        ${o.rider || "Waiting Rider"}
+
+        </b>
+
+        </p>
+
+        <div class="eta-box">
+
+        🚚 ETA:
+        ${getETA(o.status)}
+
+        </div>
+
+        <div class="track-wrapper">
+
+        <div class="track-line"></div>
+
+        <div class="track-progress">
+    `;
+
+    steps.forEach((s,index)=>{
+
+        let className="";
+
+        if(index < current)
+        className="active";
+
+        if(index===current)
+        className="current";
+
+        if(o.status==="Delivered")
+        className="active";
+
+        html += `
+
+        <div class="track-step">
+
+            <div class="circle ${className}">
+
+            ${index+1}
+
+            </div>
+
+            <div class="track-label">
+
+            ${s.label}
+
+            </div>
+
+        </div>
+        `;
+    });
+
+    html += `
+
+        </div>
+        </div>
+    `;
+
+    if(o.status==="Delivered"){
+
+        html += `
+
+        <div style="margin-top:20px;">
+
+            <h3>
+            ⭐ Rate Rider
+            </h3>
+
+            <div class="stars">
+
+            <i class="fa-solid fa-star"
+            onclick="rateOrder(1)">
+            </i>
+
+            <i class="fa-solid fa-star"
+            onclick="rateOrder(2)">
+            </i>
+
+            <i class="fa-solid fa-star"
+            onclick="rateOrder(3)">
+            </i>
+
+            <i class="fa-solid fa-star"
+            onclick="rateOrder(4)">
+            </i>
+
+            <i class="fa-solid fa-star"
+            onclick="rateOrder(5)">
+            </i>
+
+            </div>
+
+            <textarea
+            id="review"
+            placeholder="Write review...">
+            </textarea>
+
+            <button
+            class="primary-btn"
+            onclick="submitReview(
+            '${o.orderNumber}'
+            )">
+
+            Submit Review
+
+            </button>
+
+        </div>
+        `;
+    }
+
+    html += `</div>`;
+
+    document.getElementById(
+    "content"
+    ).innerHTML = html;
+}
+
+/* RATE */
+
+let selectedRate = 0;
+
+function rateOrder(rate){
+
+    selectedRate = rate;
+
+    let stars =
+    document.querySelectorAll(
+    ".stars i"
+    );
+
+    stars.forEach((s,index)=>{
+
+        if(index < rate){
+
+            s.classList.add("active");
+
+        }else{
+
+            s.classList.remove("active");
+        }
+    });
+}
+
+/* SAVE REVIEW */
+
+function submitReview(id){
+
+    let orders =
+    getOrders();
+
+    let order =
+    orders.find(
+    x=>x.orderNumber==id
+    );
+
+    order.rating =
+    selectedRate;
+
+    order.review =
+    document.getElementById(
+    "review"
+    ).value;
+
+    saveOrders(orders);
+
+    notify(
+    "⭐ Review Submitted"
+    );
+
+    trackOrder();
+}
+
+/* PAYMENTS */
+
+function paymentHistory(){
+
+    let user =
+    getUser();
+
+    let orders =
+    getOrders().filter(
+    o=>o.user===user
+    );
+
+    let html = `
+
+    <div class="card">
+
+        <h2>
+        💳 Payment History
+        </h2>
+
+    </div>
+    `;
+
+    orders.reverse()
+    .forEach(o=>{
+
+        html += `
+
+        <div class="card">
+
+            <b>
+            #${o.orderNumber}
+            </b>
+
+            <br>
+
+            ${o.payment}
+
+            <br>
+
+            ₱${o.total || 0}
+
+        </div>
+        `;
+    });
+
+    document.getElementById(
+    "content"
+    ).innerHTML = html;
+}
+
+/* PROFILE */
+
+function profile(){
+
+    let username = getUser();
+
+    let orders = getOrders()
+    .filter(o => o.user === username);
+
+    let completed =
+    orders.filter(
+    o => o.status === "Delivered"
+    ).length;
+
+    let totalSpent =
+    orders.reduce(
+    (s,o)=>s + Number(o.total || 0),
+    0
+    );
+
+    let latest =
+    orders[orders.length - 1];
+
+    let address =
+    latest ? latest.address : "No Address";
+
+    let contact =
+    latest ? latest.contact : "No Contact";
+
+    document.getElementById("content").innerHTML = `
+
+    <div class="profile-card">
+
+        <!-- TOP -->
+
+        <div style="
+            text-align:center;
+            margin-bottom:20px;
+        ">
+
+            <div style="
+                width:120px;
+                height:120px;
+                border-radius:50%;
+                margin:auto;
+
+                background:
+                linear-gradient(
+                    135deg,
+                    #0ea5e9,
+                    #38bdf8
+                );
+
+                display:flex;
+                align-items:center;
+                justify-content:center;
+
+                color:white;
+                font-size:42px;
+                font-weight:800;
+
+                box-shadow:
+                0 15px 35px rgba(14,165,233,0.35);
+
+                margin-bottom:18px;
+            ">
+
+                ${username.charAt(0).toUpperCase()}
+
+            </div>
+
+            <h2 style="
+                font-size:32px;
+                margin-bottom:6px;
+            ">
+                ${username}
+            </h2>
+
+            <p style="
+                color:#64748b;
+                font-size:15px;
+            ">
+                💧 Premium Water Customer
+            </p>
+
+        </div>
+
+        <!-- STATS -->
+
+        <div style="
+            display:grid;
+            grid-template-columns:
+            repeat(auto-fit,minmax(220px,1fr));
+            gap:12px;
+            margin-bottom:20px;
+        ">
+
+            <div class="card" style="
+                margin:0;
+                padding:22px;
+            ">
+
+                <div style="
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                ">
+
+                    <div>
+
+                        <p style="
+                            color:#64748b;
+                            font-size:13px;
+                            margin-bottom:8px;
+                        ">
+                            Total Orders
+                        </p>
+
+                        <h1 style="
+                            color:#0f172a;
+                            font-size:34px;
+                        ">
+                            ${orders.length}
+                        </h1>
+
+                    </div>
+
+                    <div style="
+                        width:60px;
+                        height:60px;
+                        border-radius:18px;
+
+                        background:
+                        linear-gradient(
+                            135deg,
+                            #38bdf8,
+                            #0ea5e9
+                        );
+
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+
+                        color:white;
+                        font-size:24px;
+                    ">
+
+                        <i class="fa fa-box"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="card" style="
+                margin:0;
+                padding:15px;
+            ">
+
+                <div style="
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                ">
+
+                    <div>
+
+                        <p style="
+                            color:#64748b;
+                            font-size:13px;
+                            margin-bottom:8px;
+                        ">
+                            Completed
+                        </p>
+
+                        <h1 style="
+                            color:#22c55e;
+                            font-size:34px;
+                        ">
+                            ${completed}
+                        </h1>
+
+                    </div>
+
+                    <div style="
+                        width:60px;
+                        height:60px;
+                        border-radius:18px;
+
+                        background:
+                        linear-gradient(
+                            135deg,
+                            #22c55e,
+                            #16a34a
+                        );
+
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+
+                        color:white;
+                        font-size:24px;
+                    ">
+
+                        <i class="fa fa-check"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="card" style="
+                margin:0;
+                padding:22px;
+            ">
+
+                <div style="
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                ">
+
+                    <div>
+
+                        <p style="
+                            color:#64748b;
+                            font-size:13px;
+                            margin-bottom:8px;
+                        ">
+                            Total Spent
+                        </p>
+
+                        <h1 style="
+                            color:#2563eb;
+                            font-size:34px;
+                        ">
+                            ₱${totalSpent}
+                        </h1>
+
+                    </div>
+
+                    <div style="
+                        width:60px;
+                        height:60px;
+                        border-radius:18px;
+
+                        background:
+                        linear-gradient(
+                            135deg,
+                            #2563eb,
+                            #1d4ed8
+                        );
+
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+
+                        color:white;
+                        font-size:24px;
+                    ">
+
+                        <i class="fa fa-wallet"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- INFO -->
+
+        <div class="card" style="
+            margin:0;
+        ">
+
+            <h3 style="
+                margin-bottom:20px;
+                color:#0f172a;
+            ">
+                📋 Customer Information
+            </h3>
+
+            <div style="
+                display:grid;
+                grid-template-columns:
+                repeat(auto-fit,minmax(240px,1fr));
+                gap:18px;
+            ">
+
+                <div style="
+                    background:#f8fafc;
+                    padding:18px;
+                    border-radius:18px;
+                ">
+
+                    <p style="
+                        color:#64748b;
+                        margin-bottom:8px;
+                    ">
+                        📞 Contact Number
+                    </p>
+
+                    <h4>
+                        ${contact}
+                    </h4>
+
+                </div>
+
+                <div style="
+                    background:#f8fafc;
+                    padding:18px;
+                    border-radius:18px;
+                ">
+
+                    <p style="
+                        color:#64748b;
+                        margin-bottom:8px;
+                    ">
+                        📍 Address
+                    </p>
+
+                    <h4>
+                        ${address}
+                    </h4>
+
+                </div>
+
+                <div style="
+                    background:#f8fafc;
+                    padding:18px;
+                    border-radius:18px;
+                ">
+
+                    <p style="
+                        color:#64748b;
+                        margin-bottom:8px;
+                    ">
+                        ⭐ Membership
+                    </p>
+
+                    <h4>
+                        Loyalty Customer
+                    </h4>
+
+                </div>
+
+                <div style="
+                    background:#f8fafc;
+                    padding:18px;
+                    border-radius:18px;
+                ">
+
+                    <p style="
+                        color:#64748b;
+                        margin-bottom:8px;
+                    ">
+                        🚚 Favorite Service
+                    </p>
+
+                    <h4>
+                        Water Delivery
+                    </h4>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    `;
+}
+
+
+/* NOTIFY */
+
+function notify(text){
+
+    let div =
+    document.createElement("div");
+
+    div.className =
+    "notify";
+
+    div.innerHTML =
+    text;
+
+    document.body.appendChild(div);
+
+    setTimeout(()=>{
+
+        div.remove();
+
+    },3000);
+}
+
+/* REALTIME */
+
+setInterval(()=>{
+
+    let orders =
+    getOrders();
+
+    orders.forEach(o=>{
+
+        if(o.user===getUser()){
+
+            if(localStorage.getItem(
+            "last-"+o.orderNumber
+            ) !== o.status){
+
+                localStorage.setItem(
+                "last-"+o.orderNumber,
+                o.status
+                );
+
+                notify(
+                `🚚 Order #${o.orderNumber}
+                is now ${o.status}`
+                );
+            }
+        }
+    });
+
+},2000);
+
+/* CHAT */
+
+function toggleFAQ(){
+
+    let box = document.getElementById("faqBox");
+
+    box.style.display =
+    box.style.display === "flex"
+    ? "none"
+    : "flex";
+}
+
+function sendFAQ(){
+
+    let input = document.getElementById("faqInput");
+    let msg = input.value.toLowerCase().trim();
+
+    if(!msg) return;
+
+    let answer = getFAQAnswer(msg);
+
+    document.getElementById("faqBody").innerHTML +=
+    `<p><b>You:</b> ${msg}</p>
+     <p><b>AI:</b> ${answer}</p>`;
+
+    input.value = "";
+}
+
+/* SIMPLE FAQ BRAIN */
+function getFAQAnswer(msg){
+
+    if(msg.includes("how long") || msg.includes("delivery time")){
+        return "⏱️ Delivery time is 3–5 minutes only.";
+    }
+
+    if(msg.includes("payment")){
+        return "💳 You can pay via Cash or GCash.";
+    }
+
+    if(msg.includes("price") || msg.includes("how much")){
+        return "💧 Standard rate is ₱150 per order.";
+    }
+
+    if(msg.includes("track") || msg.includes("status")){
+        return "📦 You can check Tracking page for real-time status.";
+    }
+
+    if(msg.includes("hello") || msg.includes("hi")){
+        return "👋 Hello! How can I help you today?";
+    }
+
+    return "❌ Sorry, hindi ko masasagot yan sa system namin.";
+}
+
+/* START */
+
+home();
+
+</script>
+
+</body>
+</html>

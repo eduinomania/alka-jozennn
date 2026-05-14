@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Alka-Jozen Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Nunito', 'Segoe UI', sans-serif;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(160deg, #1a6fa8 0%, #2e8fc9 40%, #5ab4e0 100%);
+  overflow: hidden;
+}
+
+/* BUBBLES / DOTS PATTERN like dashboard */
+.bg-dots {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Floating blobs */
+.blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(60px);
+  animation: blobFloat 12s infinite ease-in-out;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.blob1 { width: 300px; height: 300px; background: rgba(56,189,248,0.25); top: -80px; left: -80px; }
+.blob2 { width: 200px; height: 200px; background: rgba(14,165,233,0.2); bottom: -60px; right: -60px; animation-delay: -4s; }
+.blob3 { width: 150px; height: 150px; background: rgba(125,211,252,0.15); top: 50%; left: 60%; animation-delay: -8s; }
+
+@keyframes blobFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-20px) scale(1.05); }
+}
+
+/* CONTAINER — sidebar + form like dashboard layout */
+.container {
+  position: relative;
+  z-index: 10;
+  width: 900px;
+  max-width: 95vw;
+  height: 580px;
+  display: flex;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(10, 60, 110, 0.45), 0 0 0 1px rgba(255,255,255,0.15);
+  animation: popIn 0.7s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+@keyframes popIn {
+  from { transform: scale(0.92) translateY(20px); opacity: 0; }
+  to   { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* LEFT SIDEBAR — matches dashboard's deep blue sidebar */
+.sidebar {
+  width: 200px;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, #1565a0 0%, #1a6fa8 50%, #1e78b5 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.07) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* Water drop icon */
+.brand-icon {
+  width: 60px;
+  height: 60px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.brand-icon i {
+  font-size: 28px;
+  color: #7dd3fc;
+  filter: drop-shadow(0 0 8px rgba(125,211,252,0.6));
+}
+
+.brand-name {
+  font-size: 18px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  text-align: center;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.brand-tagline {
+  font-size: 11px;
+  color: rgba(255,255,255,0.55);
+  margin-top: 4px;
+  text-align: center;
+}
+
+/* Sidebar nav items (decorative) */
+.sidebar-nav {
+  margin-top: 40px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.6);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  border: 1px solid transparent;
+  position: relative;
+  z-index: 10;
+}
+
+.nav-item.active {
+  background: rgba(255,255,255,0.18);
+  color: #ffffff;
+  border-color: rgba(255,255,255,0.2);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+
+.nav-item i { font-size: 14px; }
+
+/* Bottom circle toggle (like dashboard) */
+.sidebar-toggle {
+  margin-top: auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.6);
+  font-size: 16px;
+}
+
+/* RIGHT MAIN — frosted glass matching dashboard content area */
+.main {
+  flex: 1;
+  background: rgba(180, 220, 240, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+}
+
+/* TOP BAR */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 30px;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+
+.page-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: rgba(255,255,255,0.85);
+  text-shadow: 0 1px 4px rgba(10,60,110,0.2);
+}
+
+.clock {
+  background: rgba(255,255,255,0.3);
+  border: 1px solid rgba(255,255,255,0.4);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.9);
+  backdrop-filter: blur(10px);
+}
+
+/* FORM AREA */
+.form-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 30px;
+}
+
+.form-card {
+  position: relative;
+  z-index: 20;
+  background: rgba(255,255,255,0.35);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 20px;
+  padding: 32px 36px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 8px 32px rgba(10,60,110,0.12), inset 0 1px 0 rgba(255,255,255,0.6);
+  animation: formSlide 0.7s ease 0.2s both;
+}
+
+@keyframes formSlide {
+  from { transform: translateY(15px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+.form-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f3460;
+  text-align: center;
+  margin-bottom: 4px;
+  animation: glowText 3s infinite ease-in-out;
+}
+
+@keyframes glowText {
+  0%, 100% { text-shadow: 0 0 0px transparent; }
+  50% { text-shadow: 0 0 12px rgba(56,189,248,0.5); }
+}
+
+.form-sub {
+  font-size: 12px;
+  color: rgba(15,52,96,0.6);
+  text-align: center;
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+
+/* INPUT */
+.input-group { margin-bottom: 12px; }
+
+.input-box {
+  position: relative;
+}
+
+.input-box i {
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #38bdf8;
+  font-size: 14px;
+  z-index: 1;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 12px 14px 12px 38px;
+  border: 1.5px solid rgba(255,255,255,0.6);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(8px);
+  outline: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f3460;
+  transition: 0.25s ease;
+  font-family: 'Nunito', sans-serif;
+}
+
+.input-box input::placeholder {
+  color: rgba(15,52,96,0.45);
+  font-weight: 600;
+}
+
+.input-box input:focus {
+  border-color: #38bdf8;
+  background: rgba(255,255,255,0.7);
+  box-shadow: 0 0 0 3px rgba(56,189,248,0.2);
+  transform: scale(1.01);
+}
+
+/* BUTTON */
+.btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 60%, #0284c7 100%);
+  color: white;
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.25s ease;
+  box-shadow: 0 4px 15px rgba(56,189,248,0.4);
+  font-family: 'Nunito', sans-serif;
+  letter-spacing: 0.3px;
+  margin-top: 4px;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(56,189,248,0.5);
+}
+
+.btn:active { transform: scale(0.98); }
+
+.btn-secondary {
+  background: rgba(255,255,255,0.4);
+  color: #0f3460;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border: 1px solid rgba(255,255,255,0.6);
+  margin-top: 8px;
+}
+
+.btn-secondary:hover {
+  background: rgba(255,255,255,0.6);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* LINKS */
+.links {
+  text-align: center;
+  margin-top: 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(15,52,96,0.6);
+}
+
+.links span {
+  color: #0284c7;
+  cursor: pointer;
+  font-weight: 700;
+  transition: 0.2s;
+}
+
+.links span:hover {
+  color: #0369a1;
+  text-decoration: underline;
+}
+
+/* HIDDEN */
+.hidden { display: none; }
+
+/* RESPONSIVE */
+@media (max-width: 700px) {
+  .sidebar { width: 72px; padding: 24px 12px; }
+  .brand-name, .brand-tagline, .sidebar-nav { display: none; }
+  .container { height: auto; min-height: 520px; }
+  .form-card { padding: 24px 20px; }
+  .topbar { padding: 14px 20px; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="bg-dots"></div>
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="blob blob3"></div>
+
+<div class="container">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="brand-icon">
+      <i class="fa-solid fa-droplet"></i>
+    </div>
+    <div class="brand-name">Alka-Jozen</div>
+    <div class="brand-tagline">Pure Water Delivery</div>
+
+    <div class="sidebar-nav">
+      <div class="nav-item active" id="nav-login" onclick="showLogin()">
+        <i class="fa-solid fa-right-to-bracket"></i> Login
+      </div>
+      <div class="nav-item" id="nav-register" onclick="showRegister()">
+        <i class="fa-solid fa-user-plus"></i> Register
+      </div>
+      <div class="nav-item" id="nav-forgot" onclick="showForgot()">
+        <i class="fa-solid fa-key"></i> Reset
+      </div>
+    </div>
+
+    <div class="sidebar-toggle">
+      <i class="fa-solid fa-chevron-right"></i>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <div class="page-title" id="pageTitle">Login</div>
+      <div class="clock" id="clockDisplay">--:-- --</div>
+    </div>
+
+    <!-- FORM AREA -->
+    <div class="form-area">
+
+      <!-- LOGIN FORM -->
+      <div class="form-card" id="loginForm">
+        <div class="form-title">Welcome Back</div>
+        <div class="form-sub">Login to continue</div>
+
+        <div class="input-group">
+          <div class="input-box">
+            <i class="fa-solid fa-user"></i>
+            <input id="loginUsername" placeholder="Username">
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-box">
+            <i class="fa-solid fa-lock"></i>
+            <input id="loginPass" type="password" placeholder="Password">
+          </div>
+        </div>
+
+        <button class="btn" onclick="login()">Login</button>
+
+        <div class="links">
+          <span onclick="showForgot()">Forgot Password?</span> &nbsp;|&nbsp;
+          <span onclick="showRegister()">Register</span>
+        </div>
+      </div>
+
+      <!-- REGISTER FORM -->
+      <div class="form-card hidden" id="registerForm">
+        <div class="form-title">Create Account</div>
+        <div class="form-sub">Register as Customer</div>
+
+        <div class="input-group">
+          <div class="input-box">
+            <i class="fa fa-user"></i>
+            <input id="fname" placeholder="First Name *">
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-box">
+            <i class="fa fa-user"></i>
+            <input id="lname" placeholder="Last Name *">
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-box">
+            <i class="fa fa-user-circle"></i>
+            <input id="rusername" placeholder="Username *">
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-box">
+            <i class="fa fa-envelope"></i>
+            <input id="remail" type="email" placeholder="Email Address *">
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-box">
+            <i class="fa fa-lock"></i>
+            <input id="rpass" type="password" placeholder="Password *">
+          </div>
+        </div>
+
+        <button class="btn" onclick="register()">Create Account</button>
+
+        <div class="links">
+          <span onclick="showLogin()">Back to Login</span>
+        </div>
+      </div>
+
+      <!-- FORGOT PASSWORD FORM -->
+      <div class="form-card hidden" id="forgotForm">
+        <div class="form-title">Reset Password</div>
+        <div class="form-sub">OTP Verification Required</div>
+
+        <div class="input-group">
+          <div class="input-box">
+            <i class="fa fa-envelope"></i>
+            <input id="femail" placeholder="Enter Email">
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-box">
+            <i class="fa fa-key"></i>
+            <input id="otpInput" placeholder="Enter OTP">
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-box">
+            <i class="fa fa-lock"></i>
+            <input id="newpass" type="password" placeholder="New Password">
+          </div>
+        </div>
+
+        <button class="btn" onclick="sendOTP()">Send OTP</button>
+        <button class="btn btn-secondary" onclick="verifyOTP()">Verify OTP & Reset Password</button>
+
+        <div class="links">
+          <span onclick="showLogin()">Back to Login</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+
+/* CLOCK */
+function updateClock() {
+  const now = new Date();
+  let h = now.getHours();
+  const m = String(now.getMinutes()).padStart(2, '0');
+  const s = String(now.getSeconds()).padStart(2, '0');
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12 || 12;
+  document.getElementById('clockDisplay').textContent =
+    `${String(h).padStart(2,'0')}:${m}:${s} ${ampm}`;
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+/* INIT DATABASE */
+if (!localStorage.getItem("users")) {
+  localStorage.setItem("users", JSON.stringify([]));
+}
+
+let generatedOTP = "";
+
+/* SET ACTIVE NAV */
+function setActiveNav(id) {
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+/* SWITCH FORMS */
+function showRegister() {
+  loginForm.classList.add("hidden");
+  forgotForm.classList.add("hidden");
+  registerForm.classList.remove("hidden");
+  document.getElementById('pageTitle').textContent = 'Register';
+  setActiveNav('nav-register');
+}
+
+function showLogin() {
+  loginForm.classList.remove("hidden");
+  registerForm.classList.add("hidden");
+  forgotForm.classList.add("hidden");
+  document.getElementById('pageTitle').textContent = 'Login';
+  setActiveNav('nav-login');
+}
+
+function showForgot() {
+  loginForm.classList.add("hidden");
+  registerForm.classList.add("hidden");
+  forgotForm.classList.remove("hidden");
+  document.getElementById('pageTitle').textContent = 'Reset Password';
+  setActiveNav('nav-forgot');
+}
+
+/* REGISTER */
+function register() {
+  let users = JSON.parse(localStorage.getItem("users"));
+  let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (
+    fname.value.trim() === "" ||
+    lname.value.trim() === "" ||
+    rusername.value.trim() === "" ||
+    remail.value.trim() === "" ||
+    rpass.value.trim() === ""
+  ) { alert("Please fill out all required fields (*)!"); return; }
+
+  if (!emailPattern.test(remail.value)) { alert("Invalid email address!"); return; }
+  if (rpass.value.length < 6) { alert("Password must be at least 6 characters!"); return; }
+  if (users.find(u => u.username === rusername.value)) { alert("Username already exists!"); return; }
+
+  users.push({
+    fname: fname.value, lname: lname.value,
+    username: rusername.value, email: remail.value,
+    password: rpass.value, role: "customer"
+  });
+
+  localStorage.setItem("users", JSON.stringify(users));
+  alert("Registered Successfully!");
+  fname.value = lname.value = rusername.value = remail.value = rpass.value = "";
+  showLogin();
+}
+
+/* LOGIN */
+function login() {
+  let users = JSON.parse(localStorage.getItem("users"));
+  let user = users.find(u =>
+    u.username === loginUsername.value &&
+    u.password === loginPass.value
+  );
+
+  if (!user) { alert("Invalid Username or Password!"); return; }
+
+  localStorage.setItem("username", user.username);
+  localStorage.setItem("currentUser", JSON.stringify(user));
+  alert("Welcome " + user.fname);
+  window.location.href = "customer.html";
+}
+
+/* SEND OTP */
+function sendOTP() {
+  let users = JSON.parse(localStorage.getItem("users"));
+  let user = users.find(u => u.email === femail.value);
+  if (!user) { alert("Email not found!"); return; }
+  generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+  alert("Your OTP is: " + generatedOTP);
+}
+
+/* VERIFY OTP */
+function verifyOTP() {
+  if (otpInput.value !== generatedOTP) { alert("Invalid OTP!"); return; }
+  let users = JSON.parse(localStorage.getItem("users"));
+  let user = users.find(u => u.email === femail.value);
+  if (!user) { alert("User not found!"); return; }
+  user.password = newpass.value;
+  localStorage.setItem("users", JSON.stringify(users));
+  alert("Password successfully updated!");
+  femail.value = otpInput.value = newpass.value = "";
+  generatedOTP = "";
+  showLogin();
+}
+
+</script>
+</body>
+</html>
