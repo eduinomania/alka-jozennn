@@ -1113,9 +1113,15 @@ ${log.status || "Unedited"}
 </td>
 <td>
 ${
-log.editRequested
-? `<span class="status pending">Pending Approval</span>`
-: `<button class="btn orange" onclick="requestEdit(${log.id})">Request Edit</button>`
+  log.status === "Pending Approval"
+  ? `<span class="status pending">Pending Approval</span>`
+  : log.editRequested
+  ? `<span class="status pending">Pending Approval</span>`
+  : log.status === "Rejected"
+  ? `<span class="status rejected">Rejected</span>`
+  : log.status === "Approved"
+  ? `<span class="status delivered">Approved</span>`
+  : `<button class="btn orange" onclick="requestEdit(${log.id})">Request Edit</button>`
 }
 </td>
 </tr>
@@ -1133,6 +1139,7 @@ let log = inventoryLogs.find(l => l.id === id);
 if(!log) return;
 
 log.editRequested = true;
+log.status = "Pending Approval";
 
 notifications.push({
   id: "edit_" + id,
@@ -1146,6 +1153,7 @@ notifications.push({
 });
 
 localStorage.setItem("inventoryLogs", JSON.stringify(inventoryLogs));
+localStorage.setItem("notifications", JSON.stringify(notifications));
 
 inventory();
 }
@@ -1156,44 +1164,37 @@ let input = document.getElementById("gallonInput").value;
 let sold = parseFloat(input);
 
 if(isNaN(sold) || sold <= 0){
-alert("Invalid input");
-return;
+  alert("Invalid input");
+  return;
 }
 
-gallons += sold;
-totalGallonsSold += sold;
-filterLife -= sold * 0.005;
-
-if(filterLife < 0){
-filterLife = 0;
-}
+const logId = Date.now();
 
 inventoryLogs.push({
-  id: Date.now(),
+  id: logId,
   date: new Date().toLocaleDateString(),
   fullDate: new Date().toLocaleString(),
   totalInput: sold,
   impact: -(sold * 0.005).toFixed(2),
-  status: "Unedited",
-  editRequested: false,
-  approved: false
+  status: "Pending Approval",
+  editRequested: true,
+  approved: false,
+  type: "add-request"
 });
 
-localStorage.setItem("gallons", gallons);
-localStorage.setItem("totalGallonsSold", totalGallonsSold);
-localStorage.setItem("filterLife", filterLife);
-localStorage.setItem("inventoryLogs", JSON.stringify(inventoryLogs));
-
-if(filterLife <= 10){
 notifications.push({
-  id: Date.now(),
+  id: `invadd_${logId}`,
+  type: "inventory-add",
+  logId,
   riderName: "System",
+  message: `Add stock request for ${sold} gallons`,
+  status: "Pending",
   date: new Date().toLocaleDateString(),
-  time: new Date().toLocaleTimeString(),
-  status: "Filter replacement needed"
+  time: new Date().toLocaleTimeString()
 });
+
+localStorage.setItem("inventoryLogs", JSON.stringify(inventoryLogs));
 localStorage.setItem("notifications", JSON.stringify(notifications));
-}
 
 document.getElementById("gallonInput").value = "";
 
@@ -1233,26 +1234,27 @@ function showNotifications(){
   document.getElementById("content").innerHTML = `
 
   <div class="card">
-    <h2>🔔 Attendance Notifications</h2>
+    <h2>🔔 Notifications</h2>
     <br>
     ${
       notifications.length === 0
       ? `<div class="notify">No notifications yet</div>`
       : notifications.map(n => `
         <div class="notify">
-          <b>👤 ${n.riderName}</b><br><br>
-          📅 ${n.date}<br>
-          ⏰ ${n.time}<br><br>
+          <b>👤 ${n.riderName || 'System'}</b><br><br>
+          ${n.type === 'edit-request' || n.type === 'inventory-add'
+            ? `<b>Inventory Approval Request</b><br>${n.message || 'Stock approval requested'}<br><br>`
+            : `📅 ${n.date}<br>⏰ ${n.time}<br>🧾 Check-In: ${n.method || 'Manual'}<br><br>`}
           📌 Status: <b>${n.status}</b>
           <br><br>
           ${
             n.status === "Pending"
             ? `
-              <button class="btn green" onclick="approveRider(${JSON.stringify(n.id)})">✅ Approve</button>
-              <button class="btn orange" onclick="rejectRider(${JSON.stringify(n.id)})">❌ Reject</button>
+              <button class="btn green notify-action" data-action="approve" data-id="${n.id}">✅ Approve</button>
+              <button class="btn orange notify-action" data-action="reject" data-id="${n.id}">❌ Reject</button>
             `
             : `
-              <span class="status ${n.status === "Approved" ? "delivered" : "pending"}">
+              <span class="status ${n.status === "Approved" ? "delivered" : n.status === "Rejected" ? "rejected" : "pending"}">
                 ${n.status}
               </span>
             `
@@ -1263,25 +1265,69 @@ function showNotifications(){
   </div>
 
   `;
+
+  document.querySelectorAll('#content .notify-action').forEach(btn => {
+    btn.addEventListener('click', (event) => {
+      const action = event.currentTarget.dataset.action;
+      const id = event.currentTarget.dataset.id;
+      if (action === 'approve') approveNotification(id);
+      if (action === 'reject') rejectNotification(id);
+    });
+  });
 }
 
-function approveRider(id){
+function approveNotification(id){
   notifications = JSON.parse(localStorage.getItem("notifications")) || [];
   let notif = notifications.find(n => n.id == id);
   if(!notif) return;
   notif.status = "Approved";
+
+  if((notif.type === "edit-request" || notif.type === "inventory-add") && notif.logId != null){
+    let log = inventoryLogs.find(l => l.id == notif.logId);
+    if(log){
+      log.editRequested = false;
+      log.status = "Approved";
+      log.approved = true;
+      localStorage.setItem("inventoryLogs", JSON.stringify(inventoryLogs));
+
+      if(notif.type === "inventory-add"){
+        gallons += log.totalInput;
+        totalGallonsSold += log.totalInput;
+        filterLife = Math.max(0, filterLife - log.totalInput * 0.005);
+        localStorage.setItem("gallons", gallons);
+        localStorage.setItem("totalGallonsSold", totalGallonsSold);
+        localStorage.setItem("filterLife", filterLife);
+      }
+    }
+    notify("Stock request approved ✅");
+  } else {
+    notify("Attendance Approved ✅");
+  }
+
   localStorage.setItem("notifications", JSON.stringify(notifications));
-  notify("Attendance Approved ✅");
   showNotifications();
 }
 
-function rejectRider(id){
+function rejectNotification(id){
   notifications = JSON.parse(localStorage.getItem("notifications")) || [];
   let notif = notifications.find(n => n.id == id);
   if(!notif) return;
   notif.status = "Rejected";
+
+  if((notif.type === "edit-request" || notif.type === "inventory-add") && notif.logId != null){
+    let log = inventoryLogs.find(l => l.id == notif.logId);
+    if(log){
+      log.editRequested = false;
+      log.status = "Rejected";
+      log.approved = false;
+      localStorage.setItem("inventoryLogs", JSON.stringify(inventoryLogs));
+    }
+    notify("Stock request rejected ❌");
+  } else {
+    notify("Attendance Rejected ❌");
+  }
+
   localStorage.setItem("notifications", JSON.stringify(notifications));
-  notify("Attendance Rejected ❌");
   showNotifications();
 }
 

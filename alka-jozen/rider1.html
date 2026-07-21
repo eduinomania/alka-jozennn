@@ -647,9 +647,7 @@ function showWaitingApproval(){
   modal.className = 'modal';
   modal.id = 'waitingModal';
 
-  const riderName = getRiderName();
-
-  const request = JSON.parse(localStorage.getItem("attendanceRequest")) || {};
+  const request = getCurrentAttendanceRequest() || {};
 
   modal.innerHTML = `
     <div class="modal-box">
@@ -661,7 +659,12 @@ function showWaitingApproval(){
 
       <div class="modal-row">
         <span class="modal-label">Rider Name</span>
-        <span class="modal-value">${riderName}</span>
+        <span class="modal-value">${request.riderName || getRiderName()}</span>
+      </div>
+
+      <div class="modal-row">
+        <span class="modal-label">Check-In Type</span>
+        <span class="modal-value">${request.method || 'Manual'}</span>
       </div>
 
       <div class="modal-row">
@@ -672,7 +675,7 @@ function showWaitingApproval(){
       <div class="modal-row">
         <span class="modal-label">Status</span>
         <span class="modal-value" style="color:#f59e0b;font-weight:800;">
-          PENDING
+          ${request.status || 'Pending'}
         </span>
       </div>
 
@@ -687,10 +690,22 @@ function showWaitingApproval(){
         </p>
       </div>
 
+      <div class="action-row" style="justify-content:center;margin-top:18px;">
+        <button class="btn btn-secondary" onclick="checkAttendanceStatus()">Refresh Status</button>
+      </div>
+
     </div>
   `;
 
+  const existing = document.getElementById('waitingModal');
+  if (existing) existing.remove();
+  const existingResult = document.getElementById('approvalResultModal');
+  if (existingResult) existingResult.remove();
+
   document.body.appendChild(modal);
+  clearAttendanceStatusInterval();
+  window.attendanceStatusInterval = setInterval(checkAttendanceStatus, 5000);
+  checkAttendanceStatus();
 }
 
 /* CLOCK */
@@ -1164,21 +1179,21 @@ function delivered() {
 
 window.onload = function () {
 
-  const attendance = localStorage.getItem("attendance");
+  const attendanceState = localStorage.getItem("attendanceState") || "none";
 
-  if (!attendance) {
+  if (attendanceState === "none") {
     showAttendanceModal();
   }
 
-  else if (attendance === "waiting") {
+  else if (attendanceState === "waiting") {
     showWaitingApproval();
   }
 
-  else if (attendance === "approved") {
+  else if (attendanceState === "approved") {
     loadOrders();
   }
 
-  else if (attendance === "rejected") {
+  else if (attendanceState === "rejected") {
     document.getElementById("content").innerHTML = `
       <div class="card" style="text-align:center;padding:60px;">
         <h1 style="font-size:60px;">❌</h1>
@@ -1190,59 +1205,84 @@ window.onload = function () {
 
 };
 
-function markAttendance(riderId){
-
-let attendance =
-JSON.parse(localStorage.getItem("attendance")) || {};
-
-let today = new Date();
-
-let dateKey =
-today.toISOString().split("T")[0];
-
-let time =
-today.toLocaleTimeString();
-
-if(!attendance[riderId]){
-attendance[riderId] = {};
+function getCurrentAttendanceRequest() {
+  const requestId = localStorage.getItem("currentAttendanceRequestId");
+  const notifications = JSON.parse(localStorage.getItem("notifications")) || [];
+  return notifications.find(n => n.id === requestId) || null;
 }
 
-attendance[riderId][dateKey] = {
+function clearAttendanceStatusInterval() {
+  if (window.attendanceStatusInterval) {
+    clearInterval(window.attendanceStatusInterval);
+    window.attendanceStatusInterval = null;
+  }
+}
 
-loginTime: time,
-status: "Pending"
+function checkAttendanceStatus() {
+  const request = getCurrentAttendanceRequest();
+  if (!request) return;
 
-};
+  if (request.status === "Approved") {
+    clearAttendanceStatusInterval();
+    localStorage.setItem("attendanceState", "approved");
+    closeApproval();
+    showApprovalResult("approved");
+    return;
+  }
 
-localStorage.setItem(
-"attendance",
-JSON.stringify(attendance)
-);
+  if (request.status === "Rejected") {
+    clearAttendanceStatusInterval();
+    localStorage.setItem("attendanceState", "rejected");
+    closeApproval();
+    showApprovalResult("rejected");
+    return;
+  }
+}
 
-// ✅ GET EXISTING NOTIFICATIONS
-let notifications =
-JSON.parse(localStorage.getItem("managerNotifications")) || [];
+function updateCurrentAttendanceRequestStatus(status) {
+  const request = getCurrentAttendanceRequest();
+  if (!request) return null;
 
-// ✅ PUSH NEW NOTIFICATION
-notifications.push(
-`📌 ${riderId} submitted attendance at ${time}`
-);
+  const notifications = JSON.parse(localStorage.getItem("notifications")) || [];
+  const item = notifications.find(n => n.id === request.id);
+  if (!item) return null;
 
-// ✅ SAVE
-localStorage.setItem(
-"managerNotifications",
-JSON.stringify(notifications)
-);
+  item.status = status;
+  localStorage.setItem("notifications", JSON.stringify(notifications));
+  localStorage.setItem("attendanceState", status.toLowerCase());
+  return item;
+}
 
-alert("Attendance Submitted ✅");
+function markAttendance(riderId, method = "QR") {
+  const now = new Date();
+  const requestId = `att-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
+  const request = {
+    id: requestId,
+    riderId,
+    riderName: getRiderName(),
+    date: now.toLocaleDateString(),
+    time: now.toLocaleTimeString(),
+    method,
+    status: "Pending",
+    timestamp: now.getTime()
+  };
+
+  const notifications = JSON.parse(localStorage.getItem("notifications")) || [];
+  notifications.push(request);
+  localStorage.setItem("notifications", JSON.stringify(notifications));
+  localStorage.setItem("currentAttendanceRequestId", requestId);
+  localStorage.setItem("attendanceState", "waiting");
+  localStorage.setItem("attendanceRequest", JSON.stringify(request));
+
+  alert("Attendance request submitted and waiting for manager approval ✅");
 }
 
 function requestManualAttendance() {
   const riderId = getRiderName();
   const confirmation = confirm("Scanner unavailable? Submit manual attendance anyway?");
   if (!confirmation) return;
-  markAttendance(riderId);
+  markAttendance(riderId, "Manual");
   const modal = document.getElementById('attendanceModal');
   if (modal) modal.remove();
   showWaitingApproval();
@@ -1290,18 +1330,20 @@ function closeLogout() {
 }
 
 function logoutNow() {
-  localStorage.removeItem("attendance");
+  localStorage.removeItem("attendanceState");
+  localStorage.removeItem("currentAttendanceRequestId");
+  localStorage.removeItem("attendanceRequest");
   localStorage.removeItem("loginTime");
   window.location.href = "login.html"; // or your login page
 }
 
 function simulateManagerApprove() {
-  localStorage.setItem("attendance", "approved");
+  localStorage.setItem("attendanceState", "approved");
   showApprovalResult("approved");
 }
 
 function simulateManagerReject() {
-  localStorage.setItem("attendance", "rejected");
+  localStorage.setItem("attendanceState", "rejected");
   showApprovalResult("rejected");
 }
 
@@ -1309,6 +1351,7 @@ function showApprovalResult(status) {
 
   const modal = document.createElement("div");
   modal.className = "modal";
+  modal.id = "approvalResultModal";
 
   let icon = status === "approved" ? "✅" : "❌";
   let title = status === "approved" ? "Approved!" : "Rejected";
@@ -1341,14 +1384,32 @@ function showApprovalResult(status) {
   document.body.appendChild(modal);
 }
 
+function closeApproval(){
+  clearAttendanceStatusInterval();
+  const waiting = document.getElementById('waitingModal');
+  if (waiting) waiting.remove();
+  const approval = document.getElementById('approvalResultModal');
+  if (approval) approval.remove();
+}
+
 function simulateApprove() {
-  localStorage.setItem("attendance", "approved");
-  showApprovalPopup("approved");
+  const result = updateCurrentAttendanceRequestStatus("Approved");
+  if (result) {
+    closeApproval();
+    showApprovalPopup("approved");
+  } else {
+    alert('No pending attendance request to approve.');
+  }
 }
 
 function simulateReject() {
-  localStorage.setItem("attendance", "rejected");
-  showApprovalPopup("rejected");
+  const result = updateCurrentAttendanceRequestStatus("Rejected");
+  if (result) {
+    closeApproval();
+    showApprovalPopup("rejected");
+  } else {
+    alert('No pending attendance request to reject.');
+  }
 }
 
 function showApprovalPopup(status){
@@ -1430,7 +1491,6 @@ Reject (Test)
 </button>
 
 </div>
-</button>
 
 <!-- HTML5 QR Code library -->
 <script src="https://unpkg.com/html5-qrcode@2.3.7/dist/html5-qrcode.min.js"></script>
@@ -1609,8 +1669,9 @@ function openAttendanceScannerModal(idx){
           if(qrCodeMessage.startsWith('attendance|')){
             const parts = qrCodeMessage.split('|');
             const riderId = parts[1] || getRiderName();
-            markAttendance(riderId);
-            alert('Attendance recorded for: ' + riderId);
+            markAttendance(riderId, 'QR');
+            alert('Attendance request submitted for: ' + riderId);
+            showWaitingApproval();
           } else {
             alert('Scanned data: ' + qrCodeMessage);
           }
