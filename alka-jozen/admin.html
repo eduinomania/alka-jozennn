@@ -1,0 +1,1845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>OWNER DASHBOARD</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Segoe UI;
+background:
+linear-gradient(
+135deg,
+#0f4c75 0%,
+#3282b8 25%,
+#bbe1fa 50%,
+#3282b8 75%,
+#0f4c75 100%
+);
+background-size:400% 400%;
+animation:waterFlow 20s ease infinite;
+color:white;
+display:flex;
+min-height:100vh;
+overflow-x:hidden;
+}
+
+@keyframes waterFlow{
+0%{background-position:0% 50%;}
+25%{background-position:100% 50%;}
+50%{background-position:100% 0%;}
+75%{background-position:0% 0%;}
+100%{background-position:0% 50%;}
+}
+
+/* BUBBLES */
+
+.bubble{
+position:fixed;
+border-radius:50%;
+background:linear-gradient(
+135deg,
+rgba(187,225,250,0.3),
+rgba(50,130,184,0.2)
+);
+backdrop-filter:blur(15px);
+border:2px solid rgba(187,225,250,0.4);
+animation:waterDrop 15s infinite ease-in-out;
+z-index:0;
+}
+
+@keyframes waterDrop{
+0%{
+transform:translateY(0) scale(1);
+opacity:.7;
+}
+50%{
+transform:translateY(-40px) scale(1.1);
+opacity:1;
+}
+100%{
+transform:translateY(0) scale(1);
+opacity:.7;
+}
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:260px;
+height:100vh;
+position:fixed;
+padding:20px;
+background:rgba(15,76,117,0.9);
+backdrop-filter:blur(25px);
+border-right:1px solid rgba(255,255,255,0.2);
+z-index:10;
+}
+
+.brand{
+font-size:24px;
+font-weight:bold;
+color:#bbe1fa;
+text-align:center;
+margin-bottom:30px;
+}
+
+.sidebar button{
+width:100%;
+padding:16px;
+margin:10px 0;
+border:none;
+border-radius:16px;
+background:rgba(255,255,255,0.08);
+color:white;
+cursor:pointer;
+font-size:15px;
+transition:.3s;
+text-align:left;
+}
+
+.sidebar button:hover{
+background:rgba(255,255,255,0.18);
+transform:translateX(5px);
+}
+
+/* MAIN */
+
+.main{
+margin-left:260px;
+padding:30px;
+width:100%;
+position:relative;
+z-index:1;
+}
+
+/* TOPBAR */
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+}
+
+.topbar h1{
+font-size:32px;
+color:#bbe1fa;
+}
+
+.clock{
+padding:14px 20px;
+border-radius:16px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(15px);
+}
+
+/* GRID */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
+
+/* CARD */
+
+.card{
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(20px);
+border-radius:22px;
+padding:25px;
+border:1px solid rgba(255,255,255,0.15);
+box-shadow:0 8px 30px rgba(0,0,0,0.2);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+/* STAT */
+
+.stat{
+text-align:center;
+}
+
+.stat h2{
+font-size:40px;
+color:#bbe1fa;
+}
+
+.stat p{
+margin-top:10px;
+color:#dbeafe;
+}
+
+/* TABLE */
+
+table{
+width:100%;
+border-collapse:collapse;
+overflow:hidden;
+border-radius:16px;
+}
+
+th,td{
+padding:16px;
+text-align:left;
+}
+
+th{
+background:rgba(15,76,117,0.5);
+color:#bbe1fa;
+}
+
+tr{
+background:rgba(255,255,255,0.05);
+}
+
+tr:hover{
+background:rgba(255,255,255,0.1);
+}
+
+/* STATUS */
+
+.status{
+padding:8px 14px;
+border-radius:20px;
+font-size:12px;
+font-weight:bold;
+}
+
+.pending{
+background:#f59e0b;
+}
+
+.delivered{
+background:#22c55e;
+}
+
+.ontime{
+background:#3b82f6;
+}
+
+/* NOTIFY */
+
+.notify{
+padding:18px;
+margin:12px 0;
+border-radius:14px;
+background:rgba(255,255,255,0.08);
+}
+
+/* BUTTON */
+
+.btn{
+padding:12px 20px;
+border:none;
+border-radius:14px;
+background:#3b82f6;
+color:white;
+cursor:pointer;
+font-weight:bold;
+transition:.3s;
+}
+
+.btn:hover{
+transform:scale(1.05);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+body{
+flex-direction:column;
+}
+
+.sidebar{
+position:relative;
+width:100%;
+height:auto;
+}
+
+.main{
+margin-left:0;
+}
+
+}
+
+/* CALENDAR */
+
+.calendar{
+width:100%;
+}
+
+.calendar-header{
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:10px;
+margin-bottom:10px;
+}
+
+.calendar-header div{
+background:rgba(255,255,255,0.08);
+padding:12px;
+text-align:center;
+border-radius:12px;
+font-weight:bold;
+color:#bbe1fa;
+}
+
+.calendar-grid{
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:10px;
+}
+
+.day{
+height:90px;
+border-radius:16px;
+padding:10px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+font-weight:bold;
+transition:.3s;
+color:white;
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+.day:hover{
+transform:translateY(-3px);
+background:rgba(255,255,255,0.1);
+}
+
+.day span{
+font-weight:bold;
+font-size:18px;
+}
+
+.day small{
+font-size:11px;
+margin-top:8px;
+}
+
+.attended{
+border:2px solid #22c55e;
+}
+
+.late{
+border:2px solid #f59e0b;
+}
+
+.empty{
+background:transparent;
+border:none;
+}
+
+/* ================= CALENDAR ================= */
+
+.calendar-controls{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+}
+
+.calendar-controls h2{
+font-size:32px;
+font-weight:bold;
+color:white;
+}
+
+.calendar-btn{
+width:55px;
+height:55px;
+border:none;
+border-radius:18px;
+background:#3b82f6;
+color:white;
+font-size:22px;
+cursor:pointer;
+transition:.3s;
+}
+
+.calendar-btn:hover{
+transform:scale(1.08);
+background:#2563eb;
+}
+
+/* DAYS HEADER */
+
+.calendar-header{
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:10px;
+margin-bottom:15px;
+}
+
+.calendar-header div{
+text-align:center;
+font-weight:bold;
+padding:10px;
+font-size:20px;
+color:white;
+}
+
+/* GRID */
+
+.calendar-grid{
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:10px;
+}
+
+/* DAY BOX */
+
+.day{
+height:120px;
+border-radius:20px;
+padding:15px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+font-weight:bold;
+transition:.3s;
+color:white;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+.day:hover{
+transform:translateY(-5px);
+}
+
+/* COLORS */
+
+.presentDay{
+background:#22c55e;
+}
+
+.lateDay{
+background:#f59e0b;
+}
+
+.absentDay{
+background:#ef4444;
+}
+
+.empty{
+background:transparent;
+box-shadow:none;
+}
+
+/* TEXT */
+
+.day-number{
+font-size:28px;
+}
+
+.time{
+font-size:10px;
+opacity:.95;
+line-height:1.3;
+}
+
+.status-label{
+font-size:10px;
+padding:4px 8px;
+border-radius:10px;
+background:rgba(255,255,255,0.2);
+width:fit-content;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+.calendar-grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+.calendar-header{
+display:none;
+}
+
+.day{
+height:110px;
+}
+
+}
+
+.rider-card{
+cursor:pointer;
+transition:.3s;
+}
+
+.rider-card:hover{
+transform:translateY(-5px) scale(1.02);
+background:rgba(255,255,255,0.15);
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="brand">
+💧 OWNER DASHBOARD
+</div>
+
+<button onclick="salesReport()">💰 Sales Report</button>
+
+<button onclick="managerPerformance()">👨‍💼 Manager Performance</button>
+
+<button onclick="riderPerformance()">🚴 Rider Performance</button>
+
+<button onclick="inventoryFilter()">🧪 Inventory & Filter</button>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<div class="topbar">
+
+<h1>Owner Monitoring System</h1>
+
+<div class="clock" id="clock"></div>
+
+</div>
+
+<div id="content"></div>
+
+</div>
+
+<script>
+
+/* CLOCK */
+
+setInterval(()=>{
+
+document.getElementById("clock").innerHTML =
+new Date().toLocaleTimeString();
+
+},1000);
+
+/* SAMPLE DATA */
+
+let gallonsInput = parseFloat(localStorage.getItem("gallons")) || 500;
+let filterLife = parseFloat(localStorage.getItem("filterLife")) || 78;
+let inventoryLogs = JSON.parse(localStorage.getItem("inventoryLogs")) || [];
+/* ADD GALLONS */
+
+function addGallons(count){
+
+gallonsInput += count;
+
+/* 0.005 deduction */
+filterLife -= (count * 0.005);
+
+if(filterLife < 0){
+filterLife = 0;
+}
+
+inventoryFilter();
+
+}
+
+/* ================= SALES REPORT ================= */
+
+function salesReport(){
+
+document.getElementById("content").innerHTML = `
+
+<div class="grid">
+
+<div class="card stat">
+<h2>120</h2>
+<p>Daily Delivered Gallons</p>
+</div>
+
+<div class="card stat">
+<h2>₱7,200</h2>
+<p>Daily Income</p>
+</div>
+
+<div class="card stat">
+<h2>850</h2>
+<p>Weekly Delivered</p>
+</div>
+
+<div class="card stat">
+<h2>₱210,000</h2>
+<p>Monthly Sales</p>
+</div>
+
+</div>
+
+<br>
+
+<div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
+
+<h3>📈 Sales Overview</h3>
+
+<select id="salesFilter"
+style="
+padding:8px 14px;
+border:none;
+border-radius:10px;
+background:#0f4c75;
+color:white;
+font-weight:bold;
+cursor:pointer;
+"
+onchange="updateSalesChart()">
+
+<option value="today">Today</option>
+<option value="weekly">Weekly</option>
+<option value="monthly">Monthly</option>
+
+</select>
+
+</div>
+
+<br>
+
+<canvas id="salesChart"></canvas>
+
+</div>
+
+<br>
+
+<div class="card">
+
+<h3>💰 Total Sales Summary</h3>
+
+<br>
+
+<table>
+
+<tr>
+<th>Period</th>
+<th>Gallons Sold</th>
+<th>Income</th>
+</tr>
+
+<tr>
+<td>Today</td>
+<td>120</td>
+<td>₱7,200</td>
+</tr>
+
+<tr>
+<td>This Week</td>
+<td>850</td>
+<td>₱52,000</td>
+</tr>
+
+<tr>
+<td>This Month</td>
+<td>3,200</td>
+<td>₱210,000</td>
+</tr>
+
+</table>
+
+</div>
+
+`;
+
+setTimeout(loadChart,100);
+
+}
+
+/* CHART */
+
+let salesChart;
+
+function loadChart(){
+
+const ctx = document.getElementById("salesChart");
+
+salesChart = new Chart(ctx, {
+
+type:'line',
+
+data:{
+labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+
+datasets:[
+
+{
+label:'Refill Gallons',
+data:[80,100,120,90,140,130,160],
+borderColor:'#22c55e',
+backgroundColor:'rgba(34,197,94,0.2)',
+fill:true,
+tension:.4
+},
+
+{
+label:'Total Sales',
+data:[5000,7000,9000,6000,12000,10000,15000],
+borderColor:'#3b82f6',
+backgroundColor:'rgba(59,130,246,0.2)',
+fill:true,
+tension:.4
+}
+
+]
+
+},
+
+options:{
+responsive:true,
+
+plugins:{
+legend:{
+labels:{
+color:'white'
+}
+}
+},
+
+scales:{
+x:{
+ticks:{
+color:'white'
+}
+},
+
+y:{
+ticks:{
+color:'white'
+}
+}
+}
+
+}
+
+});
+
+}
+
+function updateSalesChart(){
+
+const filter =
+document.getElementById("salesFilter").value;
+
+if(filter === "today"){
+
+salesChart.data.labels =
+['8AM','10AM','12PM','2PM','4PM','6PM','8PM'];
+
+salesChart.data.datasets[0].data =
+[20,35,40,50,45,60,70];
+
+salesChart.data.datasets[1].data =
+[1200,2500,3000,4500,5000,6200,7200];
+
+}
+
+else if(filter === "weekly"){
+
+salesChart.data.labels =
+['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+
+salesChart.data.datasets[0].data =
+[80,100,120,90,140,130,160];
+
+salesChart.data.datasets[1].data =
+[5000,7000,9000,6000,12000,10000,15000];
+
+}
+
+else if(filter === "monthly"){
+
+salesChart.data.labels =
+['Week 1','Week 2','Week 3','Week 4'];
+
+salesChart.data.datasets[0].data =
+[500,700,850,1000];
+
+salesChart.data.datasets[1].data =
+[35000,48000,52000,75000];
+
+}
+
+salesChart.update();
+
+}
+
+/* ================= MANAGER PERFORMANCE ================= */
+
+function managerPerformance(){
+
+/* GET DATA FROM MANAGER PAGE */
+
+let loginTime =
+localStorage.getItem("managerLoginTime");
+
+let loginDate =
+localStorage.getItem("managerLoginDate");
+
+let attendanceStatus =
+localStorage.getItem("managerAttendanceStatus");
+
+let logoutTime =
+localStorage.getItem("managerLogoutTime");
+
+/* DEFAULT VALUES */
+
+if(!loginTime){
+
+loginTime = "-";
+loginDate = "-";
+attendanceStatus = "No Record";
+logoutTime = "-";
+
+}
+
+/* SAMPLE REPORT DATA */
+
+let refilled = 150;
+let sold = 120;
+let unsold = 30;
+
+document.getElementById("content").innerHTML = `
+
+<div class="grid">
+
+<div class="card stat">
+<h2>${attendanceStatus}</h2>
+<p>Attendance Status</p>
+</div>
+
+<div class="card stat">
+<h2>${refilled}</h2>
+<p>Refilled Gallons</p>
+</div>
+
+<div class="card stat">
+<h2>${sold}</h2>
+<p>Gallons Sold</p>
+</div>
+
+<div class="card stat">
+<h2>${unsold}</h2>
+<p>Unsold Gallons</p>
+</div>
+
+</div>
+
+<br>
+
+<div class="card">
+
+<h3>📅 Attendance Calendar</h3>
+
+<br>
+
+<div class="card">
+
+<div class="calendar-controls">
+
+<button class="calendar-btn" onclick="prevMonth()">
+⬅
+</button>
+
+<h2 id="monthTitle">
+📅 May 2026
+</h2>
+
+<button class="calendar-btn" onclick="nextMonth()">
+➡
+</button>
+
+</div>
+
+<div class="calendar-header">
+
+<div>Sun</div>
+<div>Mon</div>
+<div>Tue</div>
+<div>Wed</div>
+<div>Thu</div>
+<div>Fri</div>
+<div>Sat</div>
+
+</div>
+
+<div class="calendar-grid" id="calendarGrid">
+
+</div>
+
+</div>
+
+<br>
+
+<div class="card">
+
+<h3>📋 Submitted Report</h3>
+
+<br>
+
+<div class="notify">
+🧾 Refilled Gallons:
+${refilled}
+</div>
+
+<div class="notify">
+💧 Sold Gallons:
+${sold}
+</div>
+
+<div class="notify">
+⚠ Unsold Gallons:
+${unsold}
+</div>
+
+<div class="notify">
+📌 Reason:
+Reserve gallons prepared for next day delivery.
+</div>
+
+</div>
+
+`;
+
+}
+
+/* ================= REAL CALENDAR ================= */
+
+let currentMonth = 4;
+let currentYear = 2026;
+
+const months = [
+"January","February","March","April",
+"May","June","July","August",
+"September","October","November","December"
+];
+
+/* SAMPLE ATTENDANCE */
+
+const attendance = {
+
+1:{
+status:"Present",
+in:"8:00 AM",
+out:"5:00 PM"
+},
+
+2:{
+status:"Late",
+in:"8:45 AM",
+out:"5:15 PM"
+},
+
+4:{
+status:"Absent"
+},
+
+5:{
+status:"Present",
+in:"7:55 AM",
+out:"5:00 PM"
+},
+
+7:{
+status:"Absent"
+},
+
+8:{
+status:"Late",
+in:"8:30 AM",
+out:"5:05 PM"
+},
+
+11:{
+status:"Absent"
+},
+
+14:{
+status:"Absent"
+},
+
+15:{
+status:"Late",
+in:"8:40 AM",
+out:"5:20 PM"
+},
+
+17:{
+status:"Absent"
+},
+
+21:{
+status:"Late",
+in:"8:50 AM",
+out:"5:15 PM"
+},
+
+23:{
+status:"Absent"
+},
+
+28:{
+status:"Absent"
+},
+
+30:{
+status:"Absent"
+},
+
+31:{
+status:"Absent"
+}
+
+};
+
+function generateCalendar(){
+
+const grid =
+document.getElementById("calendarGrid");
+
+if(!grid) return;
+
+grid.innerHTML = "";
+
+document.getElementById("monthTitle").innerHTML =
+`📅 ${months[currentMonth]} ${currentYear}`;
+
+const firstDay =
+new Date(currentYear,currentMonth,1).getDay();
+
+const totalDays =
+new Date(currentYear,currentMonth + 1,0).getDate();
+
+/* EMPTY CELLS */
+
+for(let i=0;i<firstDay;i++){
+
+grid.innerHTML += `
+<div class="day empty"></div>
+`;
+
+}
+
+/* DAYS */
+
+for(let day=1; day<=totalDays; day++){
+
+let data = attendance[day];
+
+let className = "presentDay";
+let content = "";
+
+if(data){
+
+if(data.status === "Late"){
+
+className = "lateDay";
+
+}
+
+else if(data.status === "Absent"){
+
+className = "absentDay";
+
+}
+
+content = `
+
+<div class="day-number">
+${day}
+</div>
+
+<div class="time">
+
+${data.in ? `🕘 ${data.in}<br>` : ""}
+
+${data.out ? `🕔 ${data.out}` : "No Attendance"}
+
+</div>
+
+<div class="status-label">
+${data.status}
+</div>
+
+`;
+
+}
+
+else{
+
+content = `
+
+<div class="day-number">
+${day}
+</div>
+
+<div class="time">
+🕘 8:00 AM<br>
+🕔 5:00 PM
+</div>
+
+<div class="status-label">
+Present
+</div>
+
+`;
+
+}
+
+grid.innerHTML += `
+<div class="day ${className}">
+${content}
+</div>
+`;
+
+}
+
+}
+
+/* BUTTONS */
+
+function prevMonth(){
+
+currentMonth--;
+
+if(currentMonth < 0){
+
+currentMonth = 11;
+currentYear--;
+
+}
+
+generateCalendar();
+
+}
+
+function nextMonth(){
+
+currentMonth++;
+
+if(currentMonth > 11){
+
+currentMonth = 0;
+currentYear++;
+
+}
+
+generateCalendar();
+
+}
+
+/* ================= RIDER PERFORMANCE ================= */
+
+function riderPerformance(){
+
+document.getElementById("content").innerHTML = `
+
+<div class="grid">
+
+<div class="card rider-card"
+onclick="openRider('Juan Rider')">
+
+<h2>🚴 Juan Rider</h2>
+
+<br>
+
+<p>Deliveries: 120</p>
+<p>Status: Active</p>
+
+</div>
+
+<div class="card rider-card"
+onclick="openRider('Mark Rider')">
+
+<h2>🚴 Mark Rider</h2>
+
+<br>
+
+<p>Deliveries: 98</p>
+<p>Status: Active</p>
+
+</div>
+
+
+</div>
+
+<div id="riderDetails"></div>
+
+`;
+
+}
+
+let riderChart;
+
+function loadRiderChart(){
+
+const ctx =
+document.getElementById("riderChart");
+
+riderChart = new Chart(ctx,{
+
+type:'line',
+
+data:{
+
+labels:[
+'Mon','Tue','Wed',
+'Thu','Fri','Sat','Sun'
+],
+
+datasets:[{
+
+label:'Income',
+
+data:[
+1200,1800,1500,
+2200,2500,2000,3000
+],
+
+borderColor:'#22c55e',
+
+backgroundColor:
+'rgba(34,197,94,0.2)',
+
+fill:true,
+tension:.4
+
+}]
+
+},
+
+options:{
+responsive:true,
+
+plugins:{
+legend:{
+labels:{
+color:'white'
+}
+}
+},
+
+scales:{
+x:{
+ticks:{
+color:'white'
+}
+},
+y:{
+ticks:{
+color:'white'
+}
+}
+}
+
+}
+
+});
+
+}
+
+function updateRiderChart(){
+
+const filter =
+document.getElementById(
+"riderIncomeFilter"
+).value;
+
+if(filter === "today"){
+
+riderChart.data.labels = [
+'8AM','10AM',
+'12PM','2PM',
+'4PM','6PM'
+];
+
+riderChart.data.datasets[0].data = [
+300,500,700,
+900,1200,1500
+];
+
+}
+
+else if(filter === "weekly"){
+
+riderChart.data.labels = [
+'Mon','Tue','Wed',
+'Thu','Fri','Sat','Sun'
+];
+
+riderChart.data.datasets[0].data = [
+1200,1800,1500,
+2200,2500,2000,3000
+];
+
+}
+
+else{
+
+riderChart.data.labels = [
+'Week 1',
+'Week 2',
+'Week 3',
+'Week 4'
+];
+
+riderChart.data.datasets[0].data = [
+12000,
+15000,
+18000,
+22000
+];
+
+}
+
+riderChart.update();
+
+}
+
+/* ================= OPEN RIDER ================= */
+
+function openRider(name){
+
+document.getElementById("content").innerHTML = `
+
+<button class="btn"
+onclick="riderPerformance()"
+style="margin-bottom:20px;">
+⬅ Back to Riders
+</button>
+
+<div class="grid">
+
+<div class="card stat">
+<h2>₱12,500</h2>
+<p>Total Income</p>
+</div>
+
+<div class="card stat">
+<h2>120</h2>
+<p>Total Deliveries</p>
+</div>
+
+<div class="card stat">
+<h2>Present</h2>
+<p>Status</p>
+</div>
+
+</div>
+
+<br>
+
+<div class="card">
+
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:10px;
+">
+
+<h2>💰 ${name} Income Tracker</h2>
+
+<select id="riderIncomeFilter"
+style="
+padding:10px;
+border:none;
+border-radius:10px;
+background:#0f4c75;
+color:white;
+font-weight:bold;
+"
+onchange="updateRiderChart()">
+
+<option value="today">
+Today
+</option>
+
+<option value="weekly">
+Weekly
+</option>
+
+<option value="monthly">
+Monthly
+</option>
+
+</select>
+
+</div>
+
+<br>
+
+<canvas id="riderChart"></canvas>
+
+</div>
+
+<br>
+
+<div class="card">
+
+<div class="calendar-controls">
+
+<button class="calendar-btn"
+onclick="prevRiderMonth()">
+⬅
+</button>
+
+<h2 id="riderMonthTitle">
+📅 Rider Attendance
+</h2>
+
+<button class="calendar-btn"
+onclick="nextRiderMonth()">
+➡
+</button>
+
+</div>
+
+<div class="calendar-header">
+
+<div>Sun</div>
+<div>Mon</div>
+<div>Tue</div>
+<div>Wed</div>
+<div>Thu</div>
+<div>Fri</div>
+<div>Sat</div>
+
+</div>
+
+<div class="calendar-grid"
+id="riderCalendarGrid">
+
+</div>
+
+</div>
+
+`;
+
+setTimeout(()=>{
+
+loadRiderChart();
+generateRiderCalendar();
+
+},100);
+
+}
+
+/* ================= RIDER CALENDAR ================= */
+
+let riderCurrentMonth = 4;
+let riderCurrentYear = 2026;
+
+const riderMonths = [
+"January","February","March","April",
+"May","June","July","August",
+"September","October","November","December"
+];
+
+/* SAMPLE RIDER ATTENDANCE */
+
+const riderAttendance = {
+
+1:{
+status:"Present",
+in:"8:00 AM",
+out:"5:00 PM"
+},
+
+2:{
+status:"Late",
+in:"8:45 AM",
+out:"5:10 PM"
+},
+
+3:{
+status:"Absent"
+},
+
+5:{
+status:"Present",
+in:"7:55 AM",
+out:"5:00 PM"
+},
+
+8:{
+status:"Late",
+in:"8:30 AM",
+out:"5:20 PM"
+},
+
+10:{
+status:"Absent"
+},
+
+15:{
+status:"Present",
+in:"8:00 AM",
+out:"5:00 PM"
+},
+
+20:{
+status:"Late",
+in:"8:50 AM",
+out:"5:15 PM"
+},
+
+25:{
+status:"Absent"
+}
+
+};
+
+function generateRiderCalendar(){
+
+const grid =
+document.getElementById(
+"riderCalendarGrid"
+);
+
+if(!grid) return;
+
+grid.innerHTML = "";
+
+/* MONTH TITLE */
+
+document.getElementById(
+"riderMonthTitle"
+).innerHTML =
+
+`📅 ${
+riderMonths[riderCurrentMonth]
+} ${riderCurrentYear}`;
+
+/* FIRST DAY */
+
+const firstDay =
+new Date(
+riderCurrentYear,
+riderCurrentMonth,
+1
+).getDay();
+
+/* TOTAL DAYS */
+
+const totalDays =
+new Date(
+riderCurrentYear,
+riderCurrentMonth + 1,
+0
+).getDate();
+
+/* EMPTY BOXES */
+
+for(let i=0;i<firstDay;i++){
+
+grid.innerHTML += `
+<div class="day empty"></div>
+`;
+
+}
+
+/* DAYS */
+
+for(let day=1; day<=totalDays; day++){
+
+let data =
+riderAttendance[day];
+
+let className =
+"presentDay";
+
+let content = "";
+
+/* WITH RECORD */
+
+if(data){
+
+if(data.status === "Late"){
+
+className = "lateDay";
+
+}
+
+else if(
+data.status === "Absent"
+){
+
+className = "absentDay";
+
+}
+
+content = `
+
+<div class="day-number">
+${day}
+</div>
+
+<div class="time">
+
+${data.in ?
+`🕘 ${data.in}<br>` : ""}
+
+${data.out ?
+`🕔 ${data.out}` :
+"No Attendance"}
+
+</div>
+
+<div class="status-label">
+${data.status}
+</div>
+
+`;
+
+}
+
+/* DEFAULT PRESENT */
+
+else{
+
+content = `
+
+<div class="day-number">
+${day}
+</div>
+
+<div class="time">
+🕘 8:00 AM<br>
+🕔 5:00 PM
+</div>
+
+<div class="status-label">
+Present
+</div>
+
+`;
+
+}
+
+/* APPEND */
+
+grid.innerHTML += `
+
+<div class="day ${className}">
+${content}
+</div>
+
+`;
+
+}
+
+}
+
+/* PREVIOUS MONTH */
+
+function prevRiderMonth(){
+
+riderCurrentMonth--;
+
+if(riderCurrentMonth < 0){
+
+riderCurrentMonth = 11;
+riderCurrentYear--;
+
+}
+
+generateRiderCalendar();
+
+}
+
+/* NEXT MONTH */
+
+function nextRiderMonth(){
+
+riderCurrentMonth++;
+
+if(riderCurrentMonth > 11){
+
+riderCurrentMonth = 0;
+riderCurrentYear++;
+
+}
+
+generateRiderCalendar();
+
+}
+
+/* ================= INVENTORY & FILTER ================= */
+
+function inventoryFilter(){
+
+let latestUpdate = "15 mins ago";
+
+let warning = filterLife <= 10;
+
+document.getElementById("content").innerHTML = `
+
+<div class="grid">
+
+<div class="card stat">
+<h2>${gallonsInput}</h2>
+<p>Total Gallons Input</p>
+</div>
+
+<div class="card stat">
+<h2>${filterLife.toFixed(2)}%</h2>
+<p>Filter Lifespan</p>
+</div>
+
+<div class="card stat">
+<h2>${latestUpdate}</h2>
+<p>Latest Update</p>
+</div>
+
+</div>
+
+<br>
+
+<div class="card">
+
+<h3>🧪 Real-Time Inventory</h3>
+
+<br>
+
+<table>
+
+<tr>
+<th>Date</th>
+<th>Gallons Added</th>
+<th>Status</th>
+<th>Time</th>
+</tr>
+
+<tr>
+<td>May 19, 2026</td>
+<td>25 Gallons</td>
+<td>
+<span class="status delivered">
+Not Edited
+</span>
+</td>
+<td>10:45 PM</td>
+</tr>
+
+<tr>
+<td>May 19, 2026</td>
+<td>30 Gallons</td>
+<td>
+<span class="status pending">
+Edited
+</span>
+</td>
+<td>11:20 PM</td>
+</tr>
+
+</table>
+
+<br>
+
+
+</div>
+
+<br>
+
+<div class="card">
+
+<h3>⚙ Filter Status</h3>
+
+<br>
+
+<div class="notify">
+💧 Every gallon input reduces filter lifespan by 0.005%
+</div>
+
+<div class="notify">
+🧪 Current Filter Life: ${filterLife.toFixed(2)}%
+</div>
+
+${warning ? `
+
+<div class="notify" style="background:rgba(255,0,0,0.2); border:1px solid red;">
+⚠ WARNING:
+Filter is below 10%.
+
+Replace within 14 days.
+</div>
+
+` : `
+
+<div class="notify">
+✅ Filter condition is stable.
+</div>
+
+`}
+
+</div>
+
+`;
+
+}
+
+/* DEFAULT PAGE */
+
+salesReport();
+
+/* BUBBLES */
+
+function createBubble(){
+
+const bubble = document.createElement('div');
+
+bubble.className = 'bubble';
+
+const size = Math.random() * 40 + 20;
+
+bubble.style.width = size + 'px';
+bubble.style.height = size + 'px';
+
+bubble.style.left = Math.random() * 100 + 'vw';
+bubble.style.top = Math.random() * 100 + 'vh';
+
+document.body.appendChild(bubble);
+
+setTimeout(()=>{
+bubble.remove();
+},15000);
+
+}
+
+setInterval(createBubble,2000);
+
+for(let i=0;i<8;i++){
+
+setTimeout(createBubble,Math.random()*5000);
+
+}
+
+</script>
+
+</body>
+</html>

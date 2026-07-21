@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Alka-Jozen Rider Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Nunito', 'Segoe UI', sans-serif; }
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(160deg, #2a8bc4 0%, #3fa0d8 40%, #65bde8 100%);
+  overflow-x: hidden;
+}
+
+/* Dot grid */
+.bg-dots {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Blobs */
+.blob { position: fixed; border-radius: 50%; filter: blur(70px); z-index: 0; pointer-events: none; animation: blobFloat 14s infinite ease-in-out; }
+.blob1 { width: 380px; height: 380px; background: rgba(56,189,248,0.2); top: -120px; left: -100px; }
+.blob2 { width: 260px; height: 260px; background: rgba(14,165,233,0.16); bottom: -80px; right: -80px; animation-delay: -5s; }
+.blob3 { width: 180px; height: 180px; background: rgba(125,211,252,0.12); top: 45%; left: 60%; animation-delay: -9s; }
+@keyframes blobFloat { 0%,100%{transform:translateY(0) scale(1);} 50%{transform:translateY(-22px) scale(1.05);} }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: 220px; height: 100vh;
+  position: fixed; left: 0; top: 0;
+  background: linear-gradient(185deg, #1a6daa 0%, #1e78b8 55%, #2282c4 100%);
+  display: flex; flex-direction: column; align-items: center;
+  padding: 32px 16px;
+  box-shadow: 4px 0 30px rgba(8,50,100,0.25);
+  z-index: 100;
+  overflow: hidden;
+}
+.sidebar::before {
+  content:''; position:absolute; inset:0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.09) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+.brand-icon {
+  width: 62px; height: 62px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 18px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 10px;
+  border: 1.5px solid rgba(255,255,255,0.22);
+  box-shadow: 0 4px 22px rgba(0,0,0,0.18);
+  position: relative; z-index: 1;
+}
+.brand-icon i { font-size: 26px; color: #90d8f8; filter: drop-shadow(0 0 8px rgba(144,216,248,0.55)); }
+
+.brand-name { font-size: 16px; font-weight: 800; color: #fff; text-align: center; text-shadow: 0 2px 8px rgba(0,0,0,0.18); position: relative; z-index: 1; }
+.brand-tagline { font-size: 11px; color: rgba(255,255,255,0.52); margin-top: 2px; text-align: center; font-weight: 600; position: relative; z-index: 1; }
+
+.sidebar-nav { margin-top: 32px; width: 100%; display: flex; flex-direction: column; gap: 8px; position: relative; z-index: 1; }
+
+.nav-btn {
+  width: 100%; border: none;
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px; border-radius: 14px;
+  background: rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.62);
+  font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: 0.2s;
+  border: 1px solid transparent;
+  text-align: left;
+}
+.nav-btn i { font-size: 14px; width: 16px; }
+.nav-btn:hover { background: rgba(255,255,255,0.15); color: #fff; transform: translateX(3px); }
+.nav-btn.active {
+  background: rgba(255,255,255,0.2); color: #fff;
+  border-color: rgba(255,255,255,0.22);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.14);
+}
+
+.sidebar-bottom {
+  margin-top: auto; position: relative; z-index: 1;
+  width: 100%;
+}
+.rider-badge {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 13px; border-radius: 14px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.18);
+}
+.rider-avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: linear-gradient(135deg, #38bdf8, #0284c7);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; color: white; font-weight: 800; flex-shrink: 0;
+}
+.rider-info { overflow: hidden; }
+.rider-name { font-size: 12px; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rider-role { font-size: 10px; color: rgba(255,255,255,0.5); font-weight: 600; }
+
+/* ── MAIN ── */
+.main {
+  margin-left: 220px;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  position: relative; z-index: 1;
+}
+
+/* TOP BAR */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 30px;
+  background: rgba(168,214,238,0.38);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+.page-title { font-size: 20px; font-weight: 800; color: rgba(255,255,255,0.92); text-shadow: 0 1px 5px rgba(10,55,105,0.18); }
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+.clock {
+  background: rgba(255,255,255,0.28); border: 1px solid rgba(255,255,255,0.42);
+  padding: 6px 14px; border-radius: 20px;
+  font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.92);
+  min-width: 108px; text-align: center;
+}
+.stat-pill {
+  background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.35);
+  padding: 6px 13px; border-radius: 20px;
+  font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.88);
+  display: flex; align-items: center; gap: 5px;
+}
+.stat-pill i { font-size: 11px; color: #90d8f8; }
+
+/* CONTENT */
+.content { padding: 28px 30px; flex: 1; }
+
+/* GLASS CARD */
+.card {
+  background: rgba(220,238,250,0.45);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  border: 1.5px solid rgba(255,255,255,0.55);
+  border-radius: 20px; padding: 22px 24px;
+  margin-bottom: 16px;
+  box-shadow: 0 8px 30px rgba(10,55,105,0.1), inset 0 1px 0 rgba(255,255,255,0.6);
+  transition: 0.25s ease;
+  animation: cardIn 0.4s ease both;
+}
+.card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(10,55,105,0.15); }
+@keyframes cardIn { from{opacity:0;transform:translateY(12px);} to{opacity:1;transform:translateY(0);} }
+
+/* Card header */
+.card-header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 14px;
+}
+.card-title { font-size: 15px; font-weight: 800; color: #0d3460; }
+.order-badge {
+  background: rgba(56,189,248,0.18); border: 1px solid rgba(56,189,248,0.35);
+  color: #0284c7; font-size: 11px; font-weight: 800;
+  padding: 3px 10px; border-radius: 20px;
+}
+
+/* Info rows */
+.info-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: #1e4976; }
+.info-row i { color: #38bdf8; width: 14px; font-size: 12px; }
+
+/* Status badge */
+.status-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 800;
+  background: rgba(56,189,248,0.15); border: 1px solid rgba(56,189,248,0.3); color: #0284c7;
+}
+.status-badge.delivered { background: rgba(34,197,94,0.15); border-color: rgba(34,197,94,0.3); color: #16a34a; }
+.status-badge.pending { background: rgba(245,158,11,0.15); border-color: rgba(245,158,11,0.3); color: #d97706; }
+
+/* STEP BUTTONS */
+.steps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
+.step-btn {
+  border: 1.5px solid rgba(255,255,255,0.6);
+  padding: 10px 12px; border-radius: 12px;
+  background: rgba(255,255,255,0.4);
+  color: #0d3460; font-weight: 700; font-size: 12px;
+  cursor: pointer; transition: 0.2s;
+  display: flex; align-items: center; gap: 6px;
+  font-family: 'Nunito', sans-serif;
+}
+.step-btn:hover { background: rgba(255,255,255,0.65); transform: translateY(-1px); }
+.step-btn.active-step {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white; border-color: transparent;
+  box-shadow: 0 4px 14px rgba(34,197,94,0.3);
+}
+.step-btn.done-step {
+  background: rgba(34,197,94,0.12);
+  color: #16a34a; border-color: rgba(34,197,94,0.3);
+}
+.step-btn i { font-size: 11px; }
+
+/* ACTION BUTTONS */
+.action-row { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+.btn {
+  flex: 1; min-width: 120px; padding: 11px 16px; border: none; border-radius: 12px;
+  font-weight: 800; font-size: 13px; cursor: pointer; transition: 0.22s;
+  font-family: 'Nunito', sans-serif; display: flex; align-items: center; justify-content: center; gap: 7px;
+}
+.btn-primary {
+  background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 60%, #0284c7 100%);
+  color: white; box-shadow: 0 4px 15px rgba(56,189,248,0.35);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(56,189,248,0.45); }
+.btn-secondary {
+  background: rgba(255,255,255,0.45); color: #0d3460;
+  border: 1.5px solid rgba(255,255,255,0.65);
+}
+.btn-secondary:hover { background: rgba(255,255,255,0.65); }
+.btn-success {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white; box-shadow: 0 4px 14px rgba(34,197,94,0.3);
+}
+.btn-success:hover { transform: translateY(-2px); }
+
+/* SECTION TITLE */
+.section-title { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 18px; text-shadow: 0 1px 6px rgba(10,55,105,0.2); display: flex; align-items: center; gap: 8px; }
+.section-title i { color: #90d8f8; }
+
+/* STATS GRID */
+.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px; }
+.stat-card {
+  background: rgba(220,238,250,0.45);
+  backdrop-filter: blur(18px);
+  border: 1.5px solid rgba(255,255,255,0.55);
+  border-radius: 18px; padding: 18px 20px;
+  box-shadow: 0 6px 20px rgba(10,55,105,0.08), inset 0 1px 0 rgba(255,255,255,0.6);
+  animation: cardIn 0.4s ease both;
+}
+.stat-label { font-size: 11px; font-weight: 700; color: rgba(13,52,96,0.6); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.stat-value { font-size: 26px; font-weight: 800; color: #0d3460; }
+.stat-sub { font-size: 11px; font-weight: 600; color: rgba(13,52,96,0.5); margin-top: 2px; }
+.stat-icon { float: right; width: 38px; height: 38px; border-radius: 12px; background: rgba(56,189,248,0.15); display: flex; align-items: center; justify-content: center; margin-top: -4px; }
+.stat-icon i { font-size: 16px; color: #0ea5e9; }
+
+/* CHART CARD */
+.chart-card {
+  background: rgba(220,238,250,0.45);
+  backdrop-filter: blur(18px);
+  border: 1.5px solid rgba(255,255,255,0.55);
+  border-radius: 20px; padding: 22px 24px;
+  box-shadow: 0 8px 30px rgba(10,55,105,0.1), inset 0 1px 0 rgba(255,255,255,0.6);
+  animation: cardIn 0.4s ease 0.1s both;
+}
+.chart-card canvas { max-height: 220px; }
+
+/* RATING */
+.rating { display: flex; gap: 3px; margin-top: 10px; }
+.rating i { color: #f59e0b; font-size: 16px; }
+
+/* EMPTY STATE */
+.empty-state { text-align: center; padding: 40px 20px; color: rgba(13,52,96,0.5); }
+.empty-state i { font-size: 40px; color: rgba(56,189,248,0.4); margin-bottom: 12px; display: block; }
+.empty-state p { font-size: 14px; font-weight: 600; }
+
+/* MODAL */
+.modal {
+  position: fixed; inset: 0;
+  background: rgba(10,40,80,0.55);
+  display: flex; justify-content: center; align-items: center;
+  z-index: 9999; backdrop-filter: blur(8px);
+}
+.modal-box {
+  width: 90%; max-width: 430px;
+  background: rgba(236,246,255,0.98);
+  backdrop-filter: blur(22px);
+  border: 1px solid rgba(255,255,255,0.7);
+  border-radius: 32px; padding: 30px 28px;
+  box-shadow: 0 28px 70px rgba(16,80,139,0.18);
+  animation: popIn 0.28s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes popIn { from{transform:scale(0.94);opacity:0;} to{transform:scale(1);opacity:1;} }
+.modal-title { font-size: 20px; font-weight: 800; color: #0f172a; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+.modal-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(15,76,117,0.12); font-size: 14px; }
+.modal-row:last-of-type { border-bottom: none; }
+.modal-label { font-weight: 700; color: rgba(15,76,117,0.72); }
+.modal-value { font-weight: 700; color: #0f172a; text-align: right; }
+.modal-actions { display: flex; justify-content: space-between; gap: 16px; margin-top: 24px; }
+
+/* DIVIDER */
+.divider { height: 1px; background: rgba(255,255,255,0.35); margin: 4px 0 16px; }
+
+/* ───────────────── MOBILE OPTIMIZED ───────────────── */
+@media (max-width: 768px) {
+
+  body{
+    padding-bottom:90px;
+  }
+
+  /* SIDEBAR → bottom nav */
+  .sidebar{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:72px;
+    padding:8px 10px;
+    z-index:999;
+    border-top:1px solid rgba(255,255,255,0.15);
+
+    background:rgba(18,95,150,0.92);
+    backdrop-filter:blur(20px);
+
+    flex-direction:row;
+    justify-content:space-around;
+    align-items:center;
+  }
+
+  .brand-icon,
+  .brand-name,
+  .brand-tagline,
+  .sidebar-bottom{
+    display:none;
+  }
+
+  .sidebar-nav{
+    width:100%;
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    align-items:center;
+    gap:6px;
+    margin:0;
+  }
+
+  .nav-btn{
+    flex:1;
+    min-width:0;
+    padding:10px 6px;
+    border-radius:14px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+
+    font-size:10px;
+    font-weight:800;
+
+    background:transparent;
+  }
+
+  .nav-btn i{
+    font-size:18px;
+    width:auto;
+  }
+
+  .nav-btn.active{
+    background:rgba(255,255,255,0.15);
+  }
+
+  /* MAIN */
+  .main{
+    margin-left:0;
+    width:100%;
+  }
+
+  /* TOPBAR */
+  .topbar{
+    padding:14px;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+
+    position:sticky;
+    top:0;
+  }
+
+  .page-title{
+    font-size:18px;
+  }
+
+  .topbar-right{
+    width:100%;
+    justify-content:space-between;
+  }
+
+  .clock{
+    min-width:auto;
+    padding:6px 12px;
+    font-size:11px;
+  }
+
+  /* CONTENT */
+  .content{
+    padding:14px;
+  }
+
+  /* CARD */
+  .card{
+    padding:18px;
+    border-radius:18px;
+  }
+
+  .card-header{
+    gap:10px;
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .card-title{
+    font-size:15px;
+  }
+
+  .info-row{
+    font-size:12px;
+    line-height:1.5;
+  }
+
+  /* BUTTONS */
+  .action-row{
+    flex-direction:column;
+  }
+
+  .btn{
+    width:100%;
+    min-width:100%;
+    padding:13px;
+    font-size:13px;
+  }
+
+  /* STEPS */
+  .steps-grid{
+    grid-template-columns:1fr;
+  }
+
+  .step-btn{
+    width:100%;
+    justify-content:flex-start;
+    padding:13px;
+    font-size:12px;
+  }
+
+  /* STATS */
+  .stats-grid{
+    grid-template-columns:1fr;
+  }
+
+  .stat-card{
+    padding:18px;
+  }
+
+  .stat-value{
+    font-size:24px;
+  }
+
+  /* CHART */
+  .chart-card{
+    padding:18px;
+    overflow-x:auto;
+  }
+
+  .chart-card canvas{
+    min-width:320px;
+    max-height:220px;
+  }
+
+  /* MODAL */
+  .modal{
+    padding:16px;
+  }
+
+  .modal-box{
+    width:100%;
+    max-width:100%;
+    padding:22px 18px;
+    border-radius:22px;
+  }
+
+  .modal-title{
+    font-size:17px;
+  }
+
+  .modal-row{
+    gap:10px;
+    align-items:flex-start;
+  }
+
+  .modal-label,
+  .modal-value{
+    font-size:12px;
+  }
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="bg-dots"></div>
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="blob blob3"></div>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="brand-icon"><i class="fa-solid fa-droplet"></i></div>
+  <div class="brand-name">Alka-Jozen</div>
+  <div class="brand-tagline">Rider Portal</div>
+
+  <div class="sidebar-nav">
+    <button class="nav-btn active" id="nav-incoming" onclick="setNav('incoming'); loadOrders()">
+      <i class="fa-solid fa-box-open"></i> Incoming
+    </button>
+    <button class="nav-btn" id="nav-active" onclick="setNav('active'); active()">
+      <i class="fa-solid fa-motorcycle"></i> Active
+    </button>
+    <button class="nav-btn" id="nav-earnings" onclick="setNav('earnings'); earnings()">
+      <i class="fa-solid fa-peso-sign"></i> Earnings
+    </button>
+    <button class="nav-btn" id="nav-delivered" onclick="setNav('delivered'); delivered()">
+      <i class="fa-solid fa-circle-check"></i> Delivered
+    </button>
+
+    <!-- 🔴 ADD THIS -->
+  <button class="nav-btn" onclick="showLogoutModal()">
+    <i class="fa-solid fa-right-from-bracket"></i> Logout
+  </button>
+</div>
+  </div>
+
+  <div class="sidebar-bottom">
+    <div class="rider-badge">
+      <div class="rider-avatar" id="riderAvatar">R</div>
+      <div class="rider-info">
+        <div class="rider-name" id="riderNameBadge">Rider</div>
+        <div class="rider-role">Delivery Rider</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="page-title" id="pageTitle">Incoming Orders</div>
+    <div class="topbar-right">
+      <div class="stat-pill"><i class="fa-solid fa-circle" style="color:#22c55e;font-size:8px;"></i> Online</div>
+      <div class="clock" id="clockDisplay">--:-- --</div>
+    </div>
+  </div>
+  <div class="content" id="content"></div>
+</div>
+
+<script>
+
+  function getDateTimeNow() {
+  const now = new Date();
+  return now.toLocaleString('en-PH', {
+    year: 'numeric',
+    month: 'long',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
+}
+
+function showAttendanceModal() {
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.id = 'attendanceModal';
+
+  const riderName = getRiderName();
+
+  modal.innerHTML = `
+    <div class="modal-box">
+      <div class="modal-title">
+        <i class="fa-solid fa-clock" style="color:#38bdf8;"></i>
+        Attendance Check-In
+      </div>
+
+      <div class="modal-row">
+        <span class="modal-label">Rider Name</span>
+        <span class="modal-value">${riderName}</span>
+      </div>
+
+      <div class="modal-row">
+        <span class="modal-label">Current Date & Time</span>
+        <span class="modal-value">${getDateTimeNow()}</span>
+      </div>
+
+      <div style="margin-top:18px;padding:14px;background:rgba(56,189,248,0.12);border-radius:16px;color:#0d3460;font-weight:700;line-height:1.5;">
+        To mark yourself present, please scan your manager-provided attendance QR code. If the scanner is unavailable, you can use manual check-in.
+      </div>
+
+      <div class="action-row" style="margin-top:18px;justify-content:center;gap:12px;flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="openAttendanceScannerModal(null)">
+          <i class="fa-solid fa-camera"></i> Scan Attendance QR
+        </button>
+        <button class="btn btn-secondary" onclick="requestManualAttendance()">
+          <i class="fa-solid fa-key"></i> Manual Check-In
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+}
+
+function markPresent() {
+
+  const riderName = getRiderName();
+
+  // REQUEST DATA
+  const request = {
+    rider: riderName,
+    date: new Date().toLocaleDateString(),
+    time: new Date().toLocaleTimeString(),
+    status: "pending"
+  };
+
+  // SAVE REQUEST
+  localStorage.setItem(
+    "attendanceRequest",
+    JSON.stringify(request)
+  );
+
+  // WAITING STATUS
+  localStorage.setItem(
+    "attendance",
+    "waiting"
+  );
+
+  // REMOVE MODAL
+  const m = document.getElementById('attendanceModal');
+  if (m) m.remove();
+
+  // SHOW WAITING SCREEN
+  showWaitingApproval();
+}
+
+function showWaitingApproval(){
+
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.id = 'waitingModal';
+
+  const riderName = getRiderName();
+
+  const request = JSON.parse(localStorage.getItem("attendanceRequest")) || {};
+
+  modal.innerHTML = `
+    <div class="modal-box">
+
+      <div class="modal-title">
+        <i class="fa-solid fa-clock" style="color:#f59e0b;"></i>
+        Waiting for Manager Approval
+      </div>
+
+      <div class="modal-row">
+        <span class="modal-label">Rider Name</span>
+        <span class="modal-value">${riderName}</span>
+      </div>
+
+      <div class="modal-row">
+        <span class="modal-label">Submitted Time</span>
+        <span class="modal-value">${request.time || '--'}</span>
+      </div>
+
+      <div class="modal-row">
+        <span class="modal-label">Status</span>
+        <span class="modal-value" style="color:#f59e0b;font-weight:800;">
+          PENDING
+        </span>
+      </div>
+
+      <div style="margin-top:18px;text-align:center;">
+        <div style="
+          font-size:55px;
+          animation: pulse 1.5s infinite;
+        ">⏳</div>
+
+        <p style="margin-top:10px;color:#1e4976;font-size:13px;">
+          Please wait while the manager reviews your attendance.
+        </p>
+      </div>
+
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+}
+
+/* CLOCK */
+function updateClock() {
+  const now = new Date();
+  let h = now.getHours();
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12 || 12;
+  document.getElementById('clockDisplay').textContent =
+    `${String(h).padStart(2,'0')}:${m}:${s} ${ampm}`;
+}
+updateClock(); setInterval(updateClock, 1000);
+
+/* RIDER NAME */
+function getRiderName() { return localStorage.getItem("username") || "Rider"; }
+function initRiderBadge() {
+  const name = getRiderName();
+  document.getElementById('riderNameBadge').textContent = name;
+  document.getElementById('riderAvatar').textContent = name.charAt(0).toUpperCase();
+}
+initRiderBadge();
+
+/* STORAGE */
+function getOrders() { return JSON.parse(localStorage.getItem("history")) || []; }
+function save(data) { localStorage.setItem("history", JSON.stringify(data)); }
+function getName(o) { return o.name || o.user || "Unknown"; }
+
+/* NAV */
+function setNav(id) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const el = document.getElementById('nav-' + id);
+  if (el) el.classList.add('active');
+  const titles = { incoming: 'Incoming Orders', active: 'Active Deliveries', earnings: 'Earnings', delivered: 'Delivered Orders' };
+  document.getElementById('pageTitle').textContent = titles[id] || '';
+}
+
+/* ── INCOMING ── */
+loadOrders();
+function loadOrders() {
+  const o = getOrders();
+  let html = '';
+  const pending = o.filter(x => x.status === 'Order Received');
+
+  if (pending.length === 0) {
+    // Sample card
+    html += `
+    <div class="card" style="animation-delay:0s">
+      <div class="card-header">
+        <div>
+          <div class="card-title"><i class="fa-solid fa-box" style="color:#38bdf8;margin-right:6px;"></i>Order #001</div>
+          <span class="status-badge pending" style="margin-top:5px;display:inline-flex;"><i class="fa-solid fa-clock"></i> Pending</span>
+        </div>
+        <div class="order-badge">Sample</div>
+      </div>
+      <div class="info-row"><i class="fa-solid fa-user"></i> Juan Dela Cruz</div>
+      <div class="info-row"><i class="fa-solid fa-location-dot"></i> Urduja, Caloocan City</div>
+      <div class="info-row"><i class="fa-solid fa-droplet"></i> 5-gallon × 2</div>
+      <div class="info-row"><i class="fa-solid fa-peso-sign"></i> ₱150.00</div>
+      <div class="action-row">
+        <button class="btn btn-primary" onclick="alert('Sample order only')"><i class="fa-solid fa-check"></i> Accept Order</button>
+        <button class="btn btn-secondary" onclick="alert('Sample order only')"><i class="fa-solid fa-eye"></i> Details</button>
+      </div>
+    </div>`;
+  } else {
+    pending.forEach((x, i) => {
+      html += `
+      <div class="card" style="animation-delay:${i*0.06}s">
+        <div class="card-header">
+          <div>
+            <div class="card-title"><i class="fa-solid fa-box" style="color:#38bdf8;margin-right:6px;"></i>${x.orderNumber || '#00' + (i+1)}</div>
+            <span class="status-badge pending" style="margin-top:5px;display:inline-flex;"><i class="fa-solid fa-clock"></i> Pending</span>
+          </div>
+        </div>
+        <div class="info-row"><i class="fa-solid fa-user"></i> ${getName(x)}</div>
+        <div class="info-row"><i class="fa-solid fa-location-dot"></i> ${x.address || 'N/A'}</div>
+        <div class="info-row"><i class="fa-solid fa-peso-sign"></i> ₱${x.total || 0}</div>
+        <div class="action-row">
+          <button class="btn btn-primary" onclick="accept(${i})"><i class="fa-solid fa-check"></i> Accept</button>
+          <button class="btn btn-secondary" onclick="showDetails(${i})"><i class="fa-solid fa-eye"></i> Details</button>
+        </div>
+      </div>`;
+    });
+  }
+  document.getElementById('content').innerHTML = html;
+}
+
+/* ── ACCEPT ── */
+function accept(i) {
+  const o = getOrders();
+  o[i].status = "Go to Pickup";
+  o[i].rider = getRiderName();
+  save(o);
+  setNav('active'); active();
+}
+
+/* ── ACTIVE ── */
+const stepFlow = ["Go to Pickup","Collecting Gallon","Cleaning","Refilling","Out for Delivery","Delivered"];
+const stepIcons = ["fa-route","fa-bucket","fa-soap","fa-fill-drip","fa-truck-fast","fa-circle-check"];
+
+function active() {
+  const o = getOrders();
+  const activeOrders = o.filter(x => x.status && x.status !== "Order Received" && x.status !== "Delivered");
+  let html = '';
+
+  if (activeOrders.length === 0) {
+    // Sample
+    html += buildActiveCard(-1, {
+      orderNumber: '#001', name: 'Juan Dela Cruz', address: 'Urduja, Caloocan City',
+      total: 150, status: 'Go to Pickup', contact: '09xx-xxx-xxxx'
+    }, true);
+  } else {
+    activeOrders.forEach((x, i) => {
+      const realIdx = o.indexOf(x);
+      html += buildActiveCard(realIdx, x, false);
+    });
+  }
+  document.getElementById('content').innerHTML = html;
+}
+
+function buildActiveCard(idx, x, isSample) {
+  const curStep = stepFlow.indexOf(x.status);
+  const steps = stepFlow.map((step, si) => {
+    let cls = '';
+    if (si < curStep) cls = 'done-step';
+    else if (si === curStep) cls = 'active-step';
+    const clickFn = isSample ? `alert('Sample order only')` : `setStatus(${idx},'${step}')`;
+    return `<button class="step-btn ${cls}" onclick="${clickFn}"><i class="fa-solid ${stepIcons[si]}"></i>${step}</button>`;
+  }).join('');
+
+  const detailFn = isSample ? `alert('Sample order only')` : `showDetails(${idx})`;
+  return `
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div class="card-title"><i class="fa-solid fa-motorcycle" style="color:#38bdf8;margin-right:6px;"></i>${x.orderNumber || '#001'}</div>
+        <span class="status-badge" style="margin-top:5px;display:inline-flex;"><i class="fa-solid fa-circle-dot"></i> ${x.status}</span>
+      </div>
+      ${isSample ? '<div class="order-badge">Sample</div>' : ''}
+    </div>
+    <div class="info-row"><i class="fa-solid fa-user"></i> ${x.name || x.user || 'Juan Dela Cruz'}</div>
+    <div class="info-row"><i class="fa-solid fa-person-biking"></i> Rider: ${getRiderName()}</div>
+    <div class="info-row"><i class="fa-solid fa-location-dot"></i> ${x.address || 'Urduja, Caloocan City'}</div>
+    <div class="divider"></div>
+    <div style="font-size:12px;font-weight:800;color:rgba(13,52,96,0.6);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px;">Delivery Steps</div>
+    <div class="steps-grid">${steps}</div>
+    <div class="action-row">
+      <button class="btn btn-secondary" onclick="${detailFn}"><i class="fa-solid fa-eye"></i> View Details</button>
+      <button class="btn btn-primary" onclick="${ isSample ? "alert('Sample order only')" : `openGallonScannerModal(${idx})` }"><i class="fa-solid fa-qrcode"></i> Scan Gallon</button>
+      <button class="btn btn-success" onclick="${ isSample ? "alert('Sample order only')" : `openAttendanceScannerModal(${idx})` }"><i class="fa-solid fa-camera"></i> Scan Attendance</button>
+    </div>
+  </div>`;
+}
+
+function setStatus(i, status) {
+  const o = getOrders();
+  o[i].status = status;
+  if (status === "Delivered") o[i].deliveredAt = new Date().toLocaleString();
+  save(o);
+  active();
+}
+
+/* ── DETAILS MODAL ── */
+function showDetails(i) {
+  const o = getOrders(); const x = o[i];
+  const modal = document.createElement('div');
+  modal.className = 'modal'; modal.id = 'modal';
+  modal.innerHTML = `
+  <div class="modal-box">
+    <div class="modal-title"><i class="fa-solid fa-box-open" style="color:#38bdf8;"></i> Order Details</div>
+    <div class="modal-row"><span class="modal-label">Order #</span><span class="modal-value">${x.orderNumber || 'N/A'}</span></div>
+    <div class="modal-row"><span class="modal-label">Customer</span><span class="modal-value">${getName(x)}</span></div>
+    <div class="modal-row"><span class="modal-label">Contact</span><span class="modal-value">${x.contact || 'N/A'}</span></div>
+    <div class="modal-row"><span class="modal-label">Address</span><span class="modal-value">${x.address || 'N/A'}</span></div>
+    <div class="modal-row"><span class="modal-label">Total</span><span class="modal-value">₱${x.total || 0}</span></div>
+    <div class="modal-row"><span class="modal-label">Status</span><span class="modal-value">${x.status}</span></div>
+    <div class="rating">${'<i class="fa-solid fa-star"></i>'.repeat(5)}</div>
+    <div class="action-row" style="margin-top:18px;">
+      <button class="btn btn-primary" onclick="closeModal()"><i class="fa-solid fa-xmark"></i> Close</button>
+    </div>
+  </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+}
+function closeModal() { const m = document.getElementById('modal'); if (m) m.remove(); }
+
+/* ── EARNINGS ── */
+
+let earningsChart;
+let currentRange = "today";
+
+function earnings(range = "today") {
+
+  currentRange = range;
+
+  const rider = getRiderName();
+
+  const orders = getOrders().filter(
+    x => x.status === "Delivered" && x.rider === rider
+  );
+
+  // SAMPLE VALUES
+  let total = 1200;
+  let weekly = 5400;
+  let monthly = 18500;
+  let deliveries = orders.length || 8;
+
+  // DATA
+  const chartData = {
+    today: {
+      labels: ['8AM','10AM','12PM','2PM','4PM','6PM','8PM'],
+      data: [120, 250, 180, 300, 150, 100, 100],
+      total: total
+    },
+
+    weekly: {
+      labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+      data: [800,1100,950,1300,1200,1600,1400],
+      total: weekly
+    },
+
+   monthly: {
+  labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+
+  data: [
+    4200,
+    5100,
+    3900,
+    5300,
+    6100,
+    4800,
+    7200,
+    6900,
+    5700,
+    6200,
+    7100,
+    8000
+  ],
+
+  total: monthly
+}
+  };
+
+  const selected = chartData[range];
+
+  document.getElementById('content').innerHTML = `
+
+  <!-- FILTER BUTTONS -->
+  <div style="
+    display:flex;
+    gap:10px;
+    margin-bottom:18px;
+    flex-wrap:wrap;
+  ">
+
+    <button class="btn ${range==='today' ? 'btn-primary' : 'btn-secondary'}"
+      style="min-width:120px;"
+      onclick="earnings('today')">
+      Today
+    </button>
+
+    <button class="btn ${range==='weekly' ? 'btn-primary' : 'btn-secondary'}"
+      style="min-width:120px;"
+      onclick="earnings('weekly')">
+      Weekly
+    </button>
+
+    <button class="btn ${range==='monthly' ? 'btn-primary' : 'btn-secondary'}"
+      style="min-width:120px;"
+      onclick="earnings('monthly')">
+      Monthly
+    </button>
+
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-grid">
+
+    <div class="stat-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div>
+          <div class="stat-label">${range}</div>
+          <div class="stat-value">₱${selected.total}</div>
+          <div class="stat-sub">Total Earnings</div>
+        </div>
+
+        <div class="stat-icon">
+          <i class="fa-solid fa-peso-sign"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div>
+          <div class="stat-label">Deliveries</div>
+          <div class="stat-value">${deliveries}</div>
+          <div class="stat-sub">Completed Orders</div>
+        </div>
+
+        <div class="stat-icon">
+          <i class="fa-solid fa-box"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div>
+          <div class="stat-label">Average</div>
+          <div class="stat-value">
+            ₱${Math.round(selected.total / deliveries)}
+          </div>
+          <div class="stat-sub">Per Delivery</div>
+        </div>
+
+        <div class="stat-icon">
+          <i class="fa-solid fa-chart-line"></i>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CHART -->
+  <div class="chart-card">
+
+    <div style="
+      font-size:14px;
+      font-weight:800;
+      color:#0d3460;
+      margin-bottom:16px;
+    ">
+      <i class="fa-solid fa-chart-column"
+      style="color:#38bdf8;margin-right:6px;"></i>
+
+      ${range.charAt(0).toUpperCase() + range.slice(1)} Earnings Overview
+    </div>
+
+    <canvas id="earnChart"></canvas>
+
+  </div>
+  `;
+
+  setTimeout(() => {
+    renderChart(selected.labels, selected.data);
+  }, 100);
+}
+
+/* CHART */
+function renderChart(labels, data) {
+
+  const ctx = document.getElementById('earnChart');
+
+  if (!ctx) return;
+
+  // DESTROY OLD CHART
+  if (earningsChart) {
+    earningsChart.destroy();
+  }
+
+  earningsChart = new Chart(ctx, {
+
+    type: 'bar',
+
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Income (₱)',
+        data: data,
+
+        backgroundColor: 'rgba(56,189,248,0.55)',
+        borderColor: '#0ea5e9',
+        borderWidth: 2,
+        borderRadius: 10,
+        borderSkipped: false,
+      }]
+    },
+
+    options: {
+
+      responsive: true,
+
+      plugins: {
+        legend: {
+          display: false
+        }
+      },
+
+      scales: {
+
+        x: {
+          grid: { display: false },
+          ticks: {
+            color: 'rgba(13,52,96,0.6)',
+            font: {
+              family: 'Nunito',
+              weight: '700'
+            }
+          }
+        },
+
+        y: {
+          grid: {
+            color: 'rgba(13,52,96,0.08)'
+          },
+
+          ticks: {
+            color: 'rgba(13,52,96,0.6)',
+            font: {
+              family: 'Nunito',
+              weight: '700'
+            }
+          }
+        }
+
+      }
+
+    }
+
+  });
+}
+
+
+
+
+/* ── DELIVERED ── */
+function delivered() {
+  const rider = getRiderName();
+  const o = getOrders().filter(x => x.status === "Delivered");
+  let html = '';
+
+  if (o.length === 0) {
+    html += `
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title"><i class="fa-solid fa-circle-check" style="color:#22c55e;margin-right:6px;"></i>Order #001</div>
+          <span class="status-badge delivered" style="margin-top:5px;display:inline-flex;"><i class="fa-solid fa-circle-check"></i> Delivered</span>
+        </div>
+        <div class="order-badge">Sample</div>
+      </div>
+      <div class="info-row"><i class="fa-solid fa-user"></i> Juan Dela Cruz</div>
+      <div class="info-row"><i class="fa-solid fa-person-biking"></i> Rider: ${rider}</div>
+      <div class="info-row"><i class="fa-solid fa-peso-sign"></i> ₱150</div>
+      <div class="info-row"><i class="fa-solid fa-location-dot"></i> Urduja, Caloocan City</div>
+      <div class="rating">${'<i class="fa-solid fa-star"></i>'.repeat(5)}</div>
+    </div>`;
+  } else {
+    o.forEach((x, i) => {
+      html += `
+      <div class="card" style="animation-delay:${i*0.06}s">
+        <div class="card-header">
+          <div>
+            <div class="card-title"><i class="fa-solid fa-circle-check" style="color:#22c55e;margin-right:6px;"></i>${x.orderNumber || '#00'+(i+1)}</div>
+            <span class="status-badge delivered" style="margin-top:5px;display:inline-flex;"><i class="fa-solid fa-circle-check"></i> Delivered</span>
+          </div>
+        </div>
+        <div class="info-row"><i class="fa-solid fa-user"></i> ${getName(x)}</div>
+        <div class="info-row"><i class="fa-solid fa-person-biking"></i> Rider: ${x.rider || rider}</div>
+        <div class="info-row"><i class="fa-solid fa-peso-sign"></i> ₱${x.total || 0}</div>
+        <div class="info-row"><i class="fa-solid fa-location-dot"></i> ${x.address || 'N/A'}</div>
+        ${x.deliveredAt ? `<div class="info-row"><i class="fa-solid fa-clock"></i> ${x.deliveredAt}</div>` : ''}
+        <div class="rating">${'<i class="fa-solid fa-star"></i>'.repeat(5)}</div>
+      </div>`;
+    });
+  }
+  document.getElementById('content').innerHTML = html;
+}
+
+window.onload = function () {
+
+  const attendance = localStorage.getItem("attendance");
+
+  if (!attendance) {
+    showAttendanceModal();
+  }
+
+  else if (attendance === "waiting") {
+    showWaitingApproval();
+  }
+
+  else if (attendance === "approved") {
+    loadOrders();
+  }
+
+  else if (attendance === "rejected") {
+    document.getElementById("content").innerHTML = `
+      <div class="card" style="text-align:center;padding:60px;">
+        <h1 style="font-size:60px;">❌</h1>
+        <h2>Attendance Rejected</h2>
+        <p>Please contact your manager.</p>
+      </div>
+    `;
+  }
+
+};
+
+function markAttendance(riderId){
+
+let attendance =
+JSON.parse(localStorage.getItem("attendance")) || {};
+
+let today = new Date();
+
+let dateKey =
+today.toISOString().split("T")[0];
+
+let time =
+today.toLocaleTimeString();
+
+if(!attendance[riderId]){
+attendance[riderId] = {};
+}
+
+attendance[riderId][dateKey] = {
+
+loginTime: time,
+status: "Pending"
+
+};
+
+localStorage.setItem(
+"attendance",
+JSON.stringify(attendance)
+);
+
+// ✅ GET EXISTING NOTIFICATIONS
+let notifications =
+JSON.parse(localStorage.getItem("managerNotifications")) || [];
+
+// ✅ PUSH NEW NOTIFICATION
+notifications.push(
+`📌 ${riderId} submitted attendance at ${time}`
+);
+
+// ✅ SAVE
+localStorage.setItem(
+"managerNotifications",
+JSON.stringify(notifications)
+);
+
+alert("Attendance Submitted ✅");
+
+}
+
+function requestManualAttendance() {
+  const riderId = getRiderName();
+  const confirmation = confirm("Scanner unavailable? Submit manual attendance anyway?");
+  if (!confirmation) return;
+  markAttendance(riderId);
+  const modal = document.getElementById('attendanceModal');
+  if (modal) modal.remove();
+  showWaitingApproval();
+}
+
+function showLogoutModal() {
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.id = 'logoutModal';
+
+  modal.innerHTML = `
+    <div class="modal-box">
+      <div class="modal-title">
+        <i class="fa-solid fa-right-from-bracket" style="color:#f59e0b;"></i>
+        Confirm Logout
+      </div>
+
+      <div class="modal-row">
+        <span class="modal-label">Logout Time</span>
+        <span class="modal-value">${getDateTimeNow()}</span>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeLogout()">
+          Cancel
+        </button>
+        <button class="btn btn-primary" onclick="logoutNow()">
+          Logout
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeLogout();
+    }
+  });
+}
+
+function closeLogout() {
+  const m = document.getElementById('logoutModal');
+  if (m) m.remove();
+}
+
+function logoutNow() {
+  localStorage.removeItem("attendance");
+  localStorage.removeItem("loginTime");
+  window.location.href = "login.html"; // or your login page
+}
+
+function simulateManagerApprove() {
+  localStorage.setItem("attendance", "approved");
+  showApprovalResult("approved");
+}
+
+function simulateManagerReject() {
+  localStorage.setItem("attendance", "rejected");
+  showApprovalResult("rejected");
+}
+
+function showApprovalResult(status) {
+
+  const modal = document.createElement("div");
+  modal.className = "modal";
+
+  let icon = status === "approved" ? "✅" : "❌";
+  let title = status === "approved" ? "Approved!" : "Rejected";
+  let color = status === "approved" ? "#22c55e" : "#ef4444";
+
+  modal.innerHTML = `
+    <div class="modal-box" style="text-align:center;">
+      
+      <div style="font-size:60px;margin-bottom:10px;">
+        ${icon}
+      </div>
+
+      <div class="modal-title" style="justify-content:center;color:${color}">
+        ${title}
+      </div>
+
+      <p style="color:#1e4976;margin-bottom:20px;">
+        ${status === "approved" 
+          ? "You can now start accepting orders." 
+          : "Please contact admin/manager for review."}
+      </p>
+
+      <button class="btn btn-primary" onclick="closeApproval(); location.reload();">
+        OK
+      </button>
+
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+}
+
+function simulateApprove() {
+  localStorage.setItem("attendance", "approved");
+  showApprovalPopup("approved");
+}
+
+function simulateReject() {
+  localStorage.setItem("attendance", "rejected");
+  showApprovalPopup("rejected");
+}
+
+function showApprovalPopup(status){
+
+  const modal = document.createElement("div");
+  modal.className = "modal";
+
+  let icon = status === "approved" ? "🎉" : "❌";
+  let title = status === "approved" ? "Approved!" : "Rejected";
+  let color = status === "approved" ? "#22c55e" : "#ef4444";
+  let msg = status === "approved"
+    ? "You can now accept orders."
+    : "Your attendance was rejected.";
+
+  modal.innerHTML = `
+    <div class="modal-box" style="text-align:center;">
+
+      <div style="font-size:60px;margin-bottom:10px;">
+        ${icon}
+      </div>
+
+      <div class="modal-title" style="justify-content:center;color:${color}">
+        ${title}
+      </div>
+
+      <p style="color:#1e4976;margin:15px 0;">
+        ${msg}
+      </p>
+
+      <div style="display:flex;justify-content:center;margin-top:20px;">
+  <button class="btn btn-primary" onclick="closePopup(); location.reload();"
+  style="min-width:120px;">
+    OK
+  </button>
+</div>
+
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+}
+
+function closePopup(){
+  const m = document.querySelector(".modal");
+  if(m) m.remove();
+}
+
+</script>
+<div style="
+position:fixed;
+bottom:20px;
+right:20px;
+z-index:9999;
+display:flex;
+flex-direction:column;
+gap:8px;
+">
+
+<button onclick="simulateApprove()" style="
+padding:10px;
+background:#22c55e;
+color:white;
+border:none;
+border-radius:10px;
+font-weight:bold;
+">
+Approve (Test)
+</button>
+
+<button onclick="simulateReject()" style="
+padding:10px;
+background:#ef4444;
+color:white;
+border:none;
+border-radius:10px;
+font-weight:bold;
+">
+Reject (Test)
+</button>
+
+</div>
+</button>
+
+<!-- HTML5 QR Code library -->
+<script src="https://unpkg.com/html5-qrcode@2.3.7/dist/html5-qrcode.min.js"></script>
+<script>
+// Create Scan Attendance floating button
+const scanBtn = document.createElement('button');
+scanBtn.className = 'chat-btn';
+scanBtn.style.right = '20px';
+scanBtn.style.bottom = '160px';
+scanBtn.title = 'Scan Attendance QR';
+scanBtn.innerHTML = '<i class="fa fa-camera"></i>';
+scanBtn.onclick = openScannerModal;
+document.body.appendChild(scanBtn);
+
+function openScannerModal(){
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.id = 'scannerModal';
+
+  modal.innerHTML = `
+    <div class="modal-box">
+      <div class="modal-title"><i class="fa-solid fa-camera" style="color:#38bdf8"></i> Scan Attendance QR</div>
+      <div style="margin-top:12px;text-align:center">
+        <div id="qrreader" style="width:320px;height:260px;margin:auto;"></div>
+        <div id="qrresult" style="margin-top:12px;font-weight:800;color:#0d3460"></div>
+      </div>
+      <div class="action-row" style="margin-top:18px">
+        <button class="btn btn-secondary" onclick="closeScanner()">Close</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  const html5QrCode = new Html5Qrcode("qrreader");
+
+  Html5Qrcode.getCameras().then(cameras => {
+    const cameraId = cameras && cameras.length ? cameras[0].id : null;
+    html5QrCode.start(
+      cameraId,
+      { fps: 10, qrbox: 250 },
+      qrCodeMessage => {
+        // on success
+        document.getElementById('qrresult').textContent = 'Scanned: ' + qrCodeMessage;
+        try{
+          if(qrCodeMessage.startsWith('attendance|')){
+            const parts = qrCodeMessage.split('|');
+            const riderId = parts[1];
+            // mark attendance
+            markAttendance(riderId || getRiderName());
+            alert('Attendance recorded for: ' + (riderId || getRiderName()));
+          } else {
+            alert('Scanned data: ' + qrCodeMessage);
+          }
+        }catch(e){ console.error(e); }
+        html5QrCode.stop();
+        closeScanner();
+      },
+      errorMessage => {
+        // ignore
+      }
+    ).catch(err => {
+      console.error(err);
+      alert('Unable to start camera for scanning');
+    });
+  }).catch(err => {
+    console.error(err);
+    alert('No camera found');
+  });
+}
+
+function closeScanner(){
+  const m = document.getElementById('scannerModal'); if(m) m.remove();
+}
+
+/* Gallon QR scanner for Active Deliveries */
+function openGallonScannerModal(idx){
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.id = 'gallonScannerModal';
+
+  modal.innerHTML = `
+    <div class="modal-box">
+      <div class="modal-title"><i class="fa-solid fa-qrcode" style="color:#38bdf8"></i> Scan Gallon QR</div>
+      <div style="margin-top:12px;text-align:center">
+        <div id="gallonQrReader" style="width:320px;height:260px;margin:auto;"></div>
+        <div id="gallonQrResult" style="margin-top:12px;font-weight:800;color:#0d3460"></div>
+      </div>
+      <div class="action-row" style="margin-top:18px">
+        <button class="btn btn-secondary" onclick="closeGallonScanner()">Close</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  const html5QrCode = new Html5Qrcode("gallonQrReader");
+
+  Html5Qrcode.getCameras().then(cameras => {
+    const cameraId = cameras && cameras.length ? cameras[0].id : null;
+    html5QrCode.start(
+      cameraId,
+      { fps: 10, qrbox: 250 },
+      qrCodeMessage => {
+        document.getElementById('gallonQrResult').textContent = 'Scanned: ' + qrCodeMessage;
+        try{
+          const payload = JSON.parse(qrCodeMessage);
+          if(payload.type === 'gallon'){
+            const o = getOrders();
+            let orderIdx = idx;
+            if(orderIdx == null || orderIdx < 0){
+              orderIdx = o.findIndex(item => (item.user && item.user === payload.user) || (item.name && item.name === payload.user));
+            }
+
+            if(orderIdx >= 0){
+              o[orderIdx].gallonScanned = true;
+              o[orderIdx].gallonOwner = payload.user;
+              o[orderIdx].gallonCount = payload.gallons;
+              save(o);
+              alert('Gallon matched to order: ' + payload.user + ' ('+payload.gallons+' gallons)');
+            } else {
+              alert('Gallon belongs to: ' + payload.user + ' ('+payload.gallons+' gallons)');
+            }
+
+            const scans = JSON.parse(localStorage.getItem('gallonScans')||'[]');
+            scans.push({ user: payload.user, gallons: payload.gallons, time: new Date().toISOString(), orderIndex: orderIdx });
+            localStorage.setItem('gallonScans', JSON.stringify(scans));
+
+          } else {
+            alert('Scanned QR is not a gallon payload');
+          }
+        }catch(e){ console.error(e); alert('Invalid QR data'); }
+        html5QrCode.stop();
+        closeGallonScanner();
+      },
+      errorMessage => {
+        // ignore
+      }
+    ).catch(err => { console.error(err); alert('Unable to start camera for scanning'); });
+  }).catch(err => { console.error(err); alert('No camera found'); });
+}
+
+function closeGallonScanner(){ const m = document.getElementById('gallonScannerModal'); if(m) m.remove(); }
+
+/* Attendance scanner callable from Active Deliveries */
+function openAttendanceScannerModal(idx){
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.id = 'attendanceScannerModal';
+
+  modal.innerHTML = `
+    <div class="modal-box">
+      <div class="modal-title"><i class="fa-solid fa-camera" style="color:#38bdf8"></i> Scan Attendance QR</div>
+      <div style="margin-top:12px;text-align:center">
+        <div id="attendanceQrReader" style="width:320px;height:260px;margin:auto;"></div>
+        <div id="attendanceQrResult" style="margin-top:12px;font-weight:800;color:#0d3460"></div>
+      </div>
+      <div class="action-row" style="margin-top:18px">
+        <button class="btn btn-secondary" onclick="closeAttendanceScanner()">Close</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  const html5QrCode = new Html5Qrcode("attendanceQrReader");
+
+  Html5Qrcode.getCameras().then(cameras => {
+    const cameraId = cameras && cameras.length ? cameras[0].id : null;
+    html5QrCode.start(
+      cameraId,
+      { fps: 10, qrbox: 250 },
+      qrCodeMessage => {
+        document.getElementById('attendanceQrResult').textContent = 'Scanned: ' + qrCodeMessage;
+        try{
+          if(qrCodeMessage.startsWith('attendance|')){
+            const parts = qrCodeMessage.split('|');
+            const riderId = parts[1] || getRiderName();
+            markAttendance(riderId);
+            alert('Attendance recorded for: ' + riderId);
+          } else {
+            alert('Scanned data: ' + qrCodeMessage);
+          }
+        }catch(e){ console.error(e); }
+        html5QrCode.stop();
+        closeAttendanceScanner();
+      },
+      errorMessage => {
+        // ignore
+      }
+    ).catch(err => { console.error(err); alert('Unable to start camera for scanning'); });
+  }).catch(err => { console.error(err); alert('No camera found'); });
+}
+
+function closeAttendanceScanner(){ const m = document.getElementById('attendanceScannerModal'); if(m) m.remove(); }
+
+</script>
+</body>
+</html>
+ 

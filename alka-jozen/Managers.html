@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Manager Dashboard</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+<style>
+
+/* RESET */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+    scroll-behavior:smooth;
+}
+
+body{
+    background:
+    linear-gradient(
+        135deg,
+        #0f4c75 0%,
+        #3282b8 25%,
+        #bbe1fa 50%,
+        #3282b8 75%,
+        #0f4c75 100%
+    );
+
+    background-size: 400% 400%;
+    animation: waterFlow 20s ease infinite;
+    overflow-x:hidden;
+    min-height: 100vh;
+    color:#0f172a;
+}
+
+@keyframes waterFlow {
+    0% { background-position: 0% 50%; }
+    25% { background-position: 100% 50%; }
+    50% { background-position: 100% 0%; }
+    75% { background-position: 0% 0%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* WATER DROPLETS (replaces bg-dots / blobs) */
+
+.blob{
+    position:fixed;
+    border-radius:50%;
+    background:linear-gradient(135deg, rgba(187, 225, 250, 0.3), rgba(50, 130, 184, 0.2));
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(187, 225, 250, 0.4);
+    animation: waterDrop 15s infinite ease-in-out, ripple 3s infinite ease-in-out;
+    z-index:0;
+    pointer-events:none;
+    box-shadow:
+        0 8px 32px rgba(15, 76, 117, 0.2),
+        inset 0 0 20px rgba(187, 225, 250, 0.1);
+}
+
+@keyframes waterDrop{
+    0%{ transform:translateY(0) rotate(0deg) scale(1); opacity: 0.7; }
+    25%{ transform:translateY(-40px) rotate(90deg) scale(1.1); opacity: 0.9; }
+    50%{ transform:translateY(-20px) rotate(180deg) scale(0.9); opacity: 0.8; }
+    75%{ transform:translateY(-50px) rotate(270deg) scale(1.2); opacity: 0.6; }
+    100%{ transform:translateY(0) rotate(360deg) scale(1); opacity: 0.7; }
+}
+
+@keyframes ripple {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 8px 32px rgba(15, 76, 117, 0.2), inset 0 0 20px rgba(187, 225, 250, 0.1);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 12px 40px rgba(15, 76, 117, 0.3), inset 0 0 25px rgba(187, 225, 250, 0.15);
+    }
+}
+
+.blob1{ width:140px; height:140px; top:8%; left:5%; }
+.blob2{ width:90px; height:90px; bottom:10%; left:15%; }
+.blob3{ width:180px; height:180px; top:15%; right:8%; }
+.blob4{ width:100px; height:100px; bottom:12%; right:15%; }
+
+/* MOBILE MENU TOGGLE */
+
+.menu-btn{
+  display:none;
+  position:fixed;
+  top:15px;
+  left:15px;
+  z-index:9999;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  border:1px solid rgba(255,255,255,0.2);
+  color:white;
+  font-size:22px;
+  padding:10px 14px;
+  border-radius:12px;
+  cursor:pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.menu-btn:hover{
+  background:rgba(255,255,255,0.25);
+}
+
+/* SIDEBAR */
+
+.sidebar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:220px;
+  height:100%;
+
+  background:
+  linear-gradient(
+      180deg,
+      rgba(15, 76, 117, 0.9),
+      rgba(50, 130, 184, 0.8),
+      rgba(15, 76, 117, 0.9)
+  );
+
+  backdrop-filter: blur(25px);
+  border-right: 2px solid rgba(187, 225, 250, 0.3);
+
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  padding:20px 15px;
+  box-sizing:border-box;
+  transition:.3s;
+  z-index:100;
+  color:white;
+
+  box-shadow:
+  0 8px 32px rgba(15, 76, 117, 0.3),
+  inset 0 0 50px rgba(187, 225, 250, 0.1);
+}
+
+.brand{
+  font-size:22px;
+  font-weight:800;
+  color:#bbe1fa;
+  text-align:center;
+  margin-bottom:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  text-shadow: 0 2px 10px rgba(187, 225, 250, 0.5);
+  width:100%;
+  padding:16px 18px;
+  border-radius:16px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar button{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:14px 18px;
+  margin:8px 0;
+  border:none;
+  border-radius:18px;
+  background:rgba(255,255,255,0.08);
+  color:#eff6ff;
+  font-size:14px;
+  font-weight:600;
+  text-align:left;
+  cursor:pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+}
+
+.sidebar button i{ width:18px; text-align:center; }
+
+.sidebar button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.sidebar button:hover::before { left: 100%; }
+
+.sidebar button:hover{
+  transform:translateX(8px) scale(1.02);
+  background:rgba(255,255,255,0.2);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.sidebar button.active{
+  background: linear-gradient(135deg, rgba(56,189,248,0.3), rgba(14,165,233,0.3));
+  border: 1px solid rgba(56,189,248,0.5);
+  box-shadow: 0 0 20px rgba(56,189,248,0.3);
+  color:#fff;
+}
+
+/* MAIN */
+
+.main{
+  margin-left:220px;
+  min-height:100vh;
+  position:relative;
+  z-index:1;
+}
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:50;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:22px 30px;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(25px);
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.topbar h1{
+  font-size:26px;
+  color:#fff;
+  text-shadow:0 1px 6px rgba(0,0,0,0.18);
+}
+
+.clock{
+  padding:10px 18px;
+  background:rgba(255,255,255,0.2);
+  border:1px solid rgba(255,255,255,0.3);
+  border-radius:999px;
+  color:#fff;
+  font-weight:700;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+
+/* GLASS CARDS */
+
+.card{
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius:24px;
+  padding:25px;
+  margin-bottom:20px;
+  box-shadow:
+  0 20px 40px rgba(0,0,0,0.1),
+  0 0 0 1px rgba(255,255,255,0.05) inset;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  color:#0f172a;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.6s;
+}
+
+.card:hover::before { left: 100%; }
+
+.card:hover{
+  transform:translateY(-8px) scale(1.01);
+  box-shadow:
+  0 25px 50px rgba(0,0,0,0.15),
+  0 0 0 1px rgba(255,255,255,0.1) inset,
+  0 0 30px rgba(56,189,248,0.1);
+}
+
+.card h2{ color:#0f172a; margin-bottom:5px; }
+
+.stat{
+  text-align:center;
+}
+.stat h2{
+  font-size:38px;
+  color:#0f172a;
+}
+.stat p{
+  margin-top:10px;
+  color:#334155;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  color:#0f172a;
+}
+th,td{
+  padding:14px;
+  text-align:left;
+}
+th{
+  background:rgba(14,165,233,0.18);
+  color:#0f172a;
+}
+tr{
+  background:rgba(255,255,255,0.8);
+}
+tr:hover{
+  background:rgba(229,246,255,0.95);
+}
+
+/* BUTTONS */
+
+.btn{
+  padding:12px 18px;
+  border:none;
+  border-radius:16px;
+  cursor:pointer;
+  font-weight:700;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.btn:hover{
+  transform:translateY(-2px);
+}
+.blue{background:linear-gradient(90deg,#0ea5e9,#38bdf8);color:#fff;}
+.green{background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;}
+.orange{background:linear-gradient(135deg,#f97316,#fb923c);color:#fff;}
+
+/* STATUS */
+
+.status{padding:8px 15px;border-radius:999px;font-size:12px;font-weight:700;display:inline-block;}
+.pending{background:#fff7ed;color:#f59e0b;}
+.delivered{background:#ecfdf5;color:#22c55e;}
+.prepare{background:#eff6ff;color:#3b82f6;}
+
+.notify{padding:16px;border-radius:18px;background:rgba(255,255,255,0.36);margin:14px 0;color:#0f172a;backdrop-filter: blur(10px);}
+
+/* INPUTS */
+
+input, select, textarea{
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:16px;
+  margin-top:10px;
+  font-size:15px;
+  outline:none;
+  background:#f8fafc;
+  color:#0f172a;
+}
+
+/* POPUPS */
+
+.popup-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,0.45);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:99999;
+  backdrop-filter:blur(10px);
+}
+.popup-card{
+  width:100%;
+  max-width:520px;
+  padding:30px;
+  border-radius:24px;
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.55);
+  text-align:center;
+  box-shadow:0 20px 60px rgba(15,23,42,0.18);
+}
+
+@media(max-width:768px){
+  .menu-btn{display:block;}
+  .sidebar{left:-100%;width:100%;height:auto;position:fixed;top:0;left:0;padding:20px 16px;}
+  .sidebar.active{left:0;}
+  .main{margin-left:0;padding-top:90px;}
+  .topbar{flex-direction:column;align-items:flex-start;gap:10px;}
+  .popup-card{width:90%;}
+  .card{padding:18px;border-radius:18px;}
+}
+
+.bar-container{width:100%;height:18px;background:rgba(255,255,255,0.15);border-radius:20px;overflow:hidden;margin-top:10px;}
+.bar-fill{height:100%;width:0%;background:linear-gradient(90deg,#22c55e,#facc15,#f97316,#ef4444);transition:0.5s ease;border-radius:20px;}
+.bar-text{margin-top:10px;font-size:14px;opacity:0.9;}
+
+html{ -webkit-text-size-adjust:100%; }
+button, input, select, textarea{ font-size:16px; }
+
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
+<script>
+function notify(text){
+  const d = document.createElement('div');
+  d.className = 'notify';
+  d.style.position = 'fixed';
+  d.style.top = '20px';
+  d.style.right = '20px';
+  d.style.zIndex = 99999;
+  d.innerHTML = text;
+  document.body.appendChild(d);
+  setTimeout(()=>{ d.remove(); },3000);
+}
+
+function openAttendanceGenerator(){
+  const modal = document.createElement('div');
+  modal.className = 'popup-overlay';
+  modal.id = 'attendanceGen';
+  modal.style.display = 'flex';
+
+  const riderOptions = ridersList.map(r => `<option value="${r.id}">${r.name} (${r.id})</option>`).join('');
+
+  modal.innerHTML = `
+    <div class="popup-card">
+      <h2>🟩 Generate Attendance QR</h2>
+      <br>
+      <select id="attendanceRider">${riderOptions}</select>
+      <br><br>
+      <div id="attendanceQrHolder" style="margin-top:12px;text-align:center"></div>
+      <br>
+      <button class="btn green" onclick="generateAttendanceQR()">Generate QR</button>
+      <button class="btn orange" onclick="closeAttendanceGenerator()">Close</button>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+}
+
+function closeAttendanceGenerator(){
+  const m = document.getElementById('attendanceGen'); if(m) m.remove();
+}
+
+async function generateAttendanceQR(){
+  const riderId = document.getElementById('attendanceRider').value;
+  if(!riderId) return alert('Select a rider');
+
+  const payload = `attendance|${riderId}`;
+
+  try{
+    const dataUrl = await QRCode.toDataURL(payload, { width: 280 });
+    document.getElementById('attendanceQrHolder').innerHTML = `<img src="${dataUrl}" style="width:280px;height:280px;"/>` +
+      `<br><a class="btn blue" href="${dataUrl}" download="attendance-${riderId}-${Date.now()}.png">Download</a>`;
+    const gen = JSON.parse(localStorage.getItem('generatedAttendance')||'[]');
+    gen.push({ riderId, time:new Date().toISOString(), dataUrl });
+    localStorage.setItem('generatedAttendance', JSON.stringify(gen));
+    notify('✅ Attendance QR generated');
+  }catch(e){ console.error(e); alert('Failed to generate QR'); }
+}
+
+function showAttendanceLogs(){
+  const attendance = JSON.parse(localStorage.getItem('attendance')||'{}');
+  let html = `<div class="card"><h2>📋 Attendance Logs</h2>`;
+  for(const riderId in attendance){
+    html += `<h3>${riderId}</h3><table>`;
+    html += `<tr><th>Date</th><th>Time</th><th>Status</th></tr>`;
+    const entries = attendance[riderId];
+    for(const d in entries){
+      html += `<tr><td>${d}</td><td>${entries[d].loginTime}</td><td>${entries[d].status}</td></tr>`;
+    }
+    html += `</table>`;
+  }
+  html += `</div>`;
+  document.getElementById('content').innerHTML = html;
+}
+</script>
+
+</head>
+
+<body>
+
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="blob blob3"></div>
+<div class="blob blob4"></div>
+
+<button class="menu-btn" onclick="toggleSidebar()">
+☰
+</button>
+
+<div id="attendancePopup" class="popup-overlay">
+<div class="popup-card">
+<h2>📅 Attendance Confirmation</h2>
+<br>
+<p id="attendanceDate"></p>
+<p id="attendanceTime"></p>
+<br>
+<button class="btn green" onclick="managerPresent()">
+✅ I Am Present
+</button>
+</div>
+</div>
+
+<div id="logoutPopup" class="popup-overlay">
+<div class="popup-card">
+<h2>🚪 Logout Confirmation</h2>
+<br>
+<p id="logoutDate"></p>
+<p id="logoutTime"></p>
+<br>
+<button class="btn orange" onclick="confirmLogout()">
+📌 Confirm Log Out
+</button>
+</div>
+</div>
+
+<div class="sidebar">
+<div class="brand">
+💧 MANAGER
+</div>
+<button onclick="dashboard()">📊 Dashboard</button>
+<button onclick="inventory()">📦 Inventory</button>
+<button onclick="riderPerformance()">🚚 Rider Performance</button>
+<button onclick="showNotifications()">🔔 Notifications</button>
+<button onclick="openAttendanceGenerator()">🟩 Attendance QR</button>
+<button onclick="reports()">📋 Reports</button>
+<button onclick="showLogoutPopup()">🚪 Log Out</button>
+</div>
+
+<div class="main">
+<div class="topbar">
+<h1>Manager Dashboard</h1>
+<div class="clock" id="clock"></div>
+</div>
+<div id="content"></div>
+</div>
+
+<div id="reportPopup" class="popup-overlay">
+<div class="popup-card">
+<h2>📋 Create Report</h2>
+<br>
+<input id="repRefilled" type="number" placeholder="Total Gallons Refilled">
+<input id="repSold" type="number" placeholder="Total Gallons Sold">
+<input id="repUnsold" type="number" placeholder="Total Gallons Unsold">
+<input id="repReason" type="text" placeholder="Reason">
+<br><br>
+<button class="btn green" onclick="saveReport()">💾 Save Report</button>
+<br><br>
+<button class="btn orange" onclick="closeReportForm()">❌ Close</button>
+</div>
+</div>
+
+<script>
+
+function openReportForm(){
+document.getElementById("reportPopup").style.display = "flex";
+}
+
+function closeReportForm(){
+document.getElementById("reportPopup").style.display = "none";
+}
+
+function saveReport(){
+let refilled = parseFloat(document.getElementById("repRefilled").value);
+let sold = parseFloat(document.getElementById("repSold").value);
+let unsold = parseFloat(document.getElementById("repUnsold").value);
+let reason = document.getElementById("repReason").value;
+
+if(isNaN(refilled) || isNaN(sold) || isNaN(unsold) || reason.trim() === ""){
+alert("Please complete all fields");
+return;
+}
+
+let report = {
+date: new Date().toLocaleString(),
+refilled,
+sold,
+unsold,
+reason
+};
+
+reportsList.push(report);
+localStorage.setItem("reportsList", JSON.stringify(reportsList));
+closeReportForm();
+reports();
+}
+
+function getAttendance(){
+  return JSON.parse(localStorage.getItem("attendance")) || {};
+}
+
+function saveAttendance(data){
+  localStorage.setItem("attendance", JSON.stringify(data));
+}
+
+let ridersList = [
+  { id: "r1", name: "Rider John" },
+  { id: "r2", name: "Rider Mike" }
+];
+
+function riderPerformance(){
+
+  const totalRiders = ridersList.length;
+  const activeRiders = 2;
+  const lateRiders = 1;
+
+  document.getElementById("content").innerHTML = `
+
+    <div class="grid">
+      <div class="card stat">
+        <h2>${totalRiders}</h2>
+        <p>Total Riders</p>
+      </div>
+      <div class="card stat">
+        <h2>${activeRiders}</h2>
+        <p>Active Riders</p>
+      </div>
+      <div class="card stat">
+        <h2>${lateRiders}</h2>
+        <p>Late Riders</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🚚 Rider Performance</h2>
+      <p>Select a rider to view full performance</p>
+      <br>
+      ${ridersList.map(r=>`
+        <div class="notify"
+          style="cursor:pointer"
+          onclick="openRider(${JSON.stringify(r).replace(/"/g,'&quot;')})">
+          👤 ${r.name}
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
+function openRider(rider){
+
+  const orders = [
+    { name:"Juan Dela Cruz", address:"Blk 1 Lot 2 Caloocan City", status:"Delivered", total:120, rider:"Rider John" },
+    { name:"Maria Santos", address:"blk3 lot4 Caloocan City", status:"Pending", total:80, rider:"Rider John" },
+    { name:"Pedro Reyes", address:"Urduja Caloocan City", status:"Delivered", total:150, rider:"Rider John" },
+    { name:"Ana Lopez", address:"Blk1 Lot2 Urduja Caloocan City", status:"Pending", total:200, rider:"Rider Mike" },
+    { name:"Carlo Ramos", address:"Urduja Caloocan City", status:"Delivered", total:175, rider:"Rider Mike" },
+    { name:"Liza Cruz", address:"Caloocan Urduja City", status:"Delivered", total:140, rider:"Rider Mike" }
+  ];
+
+  const riderOrders = orders.filter(o => o.rider === rider.name);
+  const delivered = riderOrders.filter(o => o.status === "Delivered").length;
+  const pending = riderOrders.filter(o => o.status === "Pending").length;
+
+  document.getElementById("content").innerHTML = `
+
+    <div class="card">
+      <h2>👤 ${rider.name} Performance</h2>
+
+      <div class="grid">
+        <div class="card stat">
+          <h2>${riderOrders.length}</h2>
+          <p>Total Orders</p>
+        </div>
+        <div class="card stat">
+          <h2>${delivered}</h2>
+          <p>Delivered</p>
+        </div>
+        <div class="card stat">
+          <h2>${pending}</h2>
+          <p>Pending</p>
+        </div>
+      </div>
+
+      <br>
+      <h3>📦 Customer Orders (Pickup / Delivery List)</h3>
+
+      <table>
+        <tr>
+          <th>Customer</th>
+          <th>Address</th>
+          <th>Status</th>
+          <th>Total</th>
+        </tr>
+        ${riderOrders.map(o=>`
+          <tr>
+            <td>${o.name}</td>
+            <td>${o.address}</td>
+            <td>
+              <span class="status ${o.status === "Delivered" ? "delivered" : "pending"}">
+                ${o.status}
+              </span>
+            </td>
+            <td>₱${o.total}</td>
+          </tr>
+        `).join("")}
+      </table>
+    </div>
+
+    ${renderAttendanceCalendar(rider)}
+
+  `;
+}
+
+let currentMonth = 4;
+let currentYear = 2026;
+
+function renderAttendanceCalendar(rider){
+
+  const attendanceData = {
+    "2026-05-01":{ timeIn:"7:58 AM", timeOut:"5:02 PM", status:"present" },
+    "2026-05-02":{ timeIn:"8:10 AM", timeOut:"5:00 PM", status:"late" },
+    "2026-05-03":{ timeIn:"7:55 AM", timeOut:"5:15 PM", status:"present" },
+    "2026-05-05":{ timeIn:"8:00 AM", timeOut:"5:12 PM", status:"present" },
+    "2026-05-06":{ timeIn:"7:49 AM", timeOut:"5:20 PM", status:"present" },
+    "2026-05-08":{ timeIn:"8:20 AM", timeOut:"5:00 PM", status:"late" },
+    "2026-05-09":{ timeIn:"7:50 AM", timeOut:"5:05 PM", status:"present" },
+    "2026-05-10":{ timeIn:"7:59 AM", timeOut:"5:18 PM", status:"present" },
+    "2026-05-12":{ timeIn:"8:01 AM", timeOut:"5:10 PM", status:"present" },
+    "2026-05-13":{ timeIn:"7:45 AM", timeOut:"5:30 PM", status:"present" },
+    "2026-05-15":{ timeIn:"8:25 AM", timeOut:"5:00 PM", status:"late" },
+    "2026-05-16":{ timeIn:"7:52 AM", timeOut:"5:08 PM", status:"present" },
+    "2026-05-18":{ timeIn:"7:48 AM", timeOut:"5:22 PM", status:"present" },
+    "2026-05-19":{ timeIn:"8:00 AM", timeOut:"5:05 PM", status:"present" },
+    "2026-05-20":{ timeIn:"8:01 AM", timeOut:"5:10 PM", status:"present" },
+    "2026-05-21":{ timeIn:"8:35 AM", timeOut:"5:00 PM", status:"late" },
+    "2026-05-22":{ timeIn:"7:56 AM", timeOut:"5:11 PM", status:"present" },
+    "2026-05-24":{ timeIn:"7:50 AM", timeOut:"5:15 PM", status:"present" },
+    "2026-05-25":{ timeIn:"8:03 AM", timeOut:"5:07 PM", status:"present" },
+    "2026-05-26":{ timeIn:"7:55 AM", timeOut:"5:20 PM", status:"present" },
+    "2026-05-27":{ timeIn:"8:00 AM", timeOut:"5:00 PM", status:"present" },
+    "2026-05-29":{ timeIn:"7:46 AM", timeOut:"5:18 PM", status:"present" }
+  };
+
+  const monthNames = [
+    "January","February","March","April",
+    "May","June","July","August",
+    "September","October","November","December"
+  ];
+
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+  const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+
+  let html = `
+
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+      <button class="btn blue" onclick="changeMonth(-1, '${rider.name}')">⬅</button>
+      <h2>📅 ${monthNames[currentMonth]} ${currentYear}</h2>
+      <button class="btn blue" onclick="changeMonth(1, '${rider.name}')">➡</button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;text-align:center;margin-bottom:10px;font-weight:bold;">
+      <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;">
+  `;
+
+  for(let i=0; i<firstDay; i++){
+    html += `<div></div>`;
+  }
+
+  for(let day=1; day<=daysInMonth; day++){
+
+    let dateKey = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    let record = attendanceData[dateKey];
+
+    let bg = "#ef4444";
+    let tooltip = "❌ Absent";
+
+    if(record){
+      if(record.status === "present"){ bg = "#22c55e"; }
+      if(record.status === "late"){ bg = "#f59e0b"; }
+      tooltip = `Status: ${record.status}\n\nTime In: ${record.timeIn}\n\nTime Out: ${record.timeOut}`;
+    }
+
+    html += `
+      <div title="${tooltip}" style="background:${bg};padding:15px 10px;border-radius:14px;min-height:75px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.3s;font-weight:bold;color:white;"
+        onmouseover="this.style.transform='scale(1.07)';this.style.boxShadow='0 0 15px rgba(255,255,255,0.4)';"
+        onmouseout="this.style.transform='scale(1)';this.style.boxShadow='none';">
+        ${day}
+      </div>
+    `;
+  }
+
+  html += `
+    </div>
+    <br>
+    <div class="notify">🟢 Present &nbsp;&nbsp; 🟡 Late &nbsp;&nbsp; 🔴 Absent</div>
+  </div>
+  `;
+
+  return html;
+}
+
+function changeMonth(step, riderName){
+
+  currentMonth += step;
+
+  if(currentMonth > 11){
+    currentMonth = 0;
+    currentYear++;
+  }
+
+  if(currentMonth < 0){
+    currentMonth = 11;
+    currentYear--;
+  }
+
+  openRider({ name:riderName });
+}
+
+function getFilterPercent(){
+return Math.max(0, Math.min(100, filterLife));
+}
+
+setInterval(()=>{
+document.getElementById("clock").innerHTML = new Date().toLocaleTimeString();
+},1000);
+
+function toggleSidebar(){
+document.querySelector(".sidebar").classList.toggle("active");
+}
+
+let gallons = 500;
+let totalGallonsSold = 0;
+let filterLife = 80;
+
+let notifications = JSON.parse(localStorage.getItem("notifications")) || [];
+
+if (notifications.length === 0) {
+  notifications.push({
+    id: 1,
+    riderName: "Rider John",
+    message: "I am present",
+    date: "5/22/2026",
+    time: "8:00 AM",
+    status: "Pending"
+  });
+  localStorage.setItem("notifications", JSON.stringify(notifications));
+}
+
+let inventoryLogs = [
+  { date:new Date().toLocaleDateString(), time:"8:00 AM", refill:120, sold:90 },
+  { date:new Date().toLocaleDateString(), time:"9:00 AM", refill:150, sold:130 },
+  { date:new Date().toLocaleDateString(), time:"10:00 AM", refill:180, sold:160 },
+  { date:new Date().toLocaleDateString(), time:"11:00 AM", refill:220, sold:200 },
+  { date:new Date().toLocaleDateString(), time:"12:00 PM", refill:260, sold:230 },
+  { date:new Date().toLocaleDateString(), time:"1:00 PM", refill:300, sold:280 },
+  { date:new Date().toLocaleDateString(), time:"2:00 PM", refill:350, sold:320 },
+  { date:new Date().toLocaleDateString(), time:"3:00 PM", refill:400, sold:370 },
+  { date:new Date().toLocaleDateString(), time:"4:00 PM", refill:430, sold:390 },
+  { date:new Date().toLocaleDateString(), time:"5:00 PM", refill:470, sold:430 },
+  { date:"5/16/2026", refill:200, sold:180 },
+  { date:"5/17/2026", refill:240, sold:210 },
+  { date:"5/18/2026", refill:280, sold:250 },
+  { date:"5/19/2026", refill:320, sold:290 },
+  { date:"5/20/2026", refill:360, sold:330 },
+  { date:"5/21/2026", refill:390, sold:350 },
+  { date:"5/22/2026", refill:420, sold:390 },
+  { date:"1/10/2026", refill:1000, sold:900 },
+  { date:"2/10/2026", refill:1300, sold:1200 },
+  { date:"3/10/2026", refill:1600, sold:1450 },
+  { date:"4/10/2026", refill:1900, sold:1700 },
+  { date:"5/10/2026", refill:2200, sold:2000 }
+];
+
+let reportsList = JSON.parse(localStorage.getItem("reportsList")) || [];
+
+let customerOrders = [
+  { customer: "Juan Dela Cruz", address: "Caloocan City", status: "Delivered", total: 120 },
+  { customer: "Maria Santos", address: "Quezon City", status: "Pending", total: 80 },
+  { customer: "Pedro Reyes", address: "Valenzuela City", status: "Delivered", total: 150 },
+  { customer: "Ana Lopez", address: "Caloocan City", status: "Preparing", total: 200 },
+  { customer: "Carlo Ramos", address: "Manila City", status: "Delivered", total: 175 }
+];
+
+function updateAttendancePopup(){
+const now = new Date();
+document.getElementById("attendanceDate").innerHTML = "📅 Date: " + now.toDateString();
+document.getElementById("attendanceTime").innerHTML = "⏰ Time In: " + now.toLocaleTimeString();
+}
+
+updateAttendancePopup();
+
+function managerPresent(){
+const now = new Date();
+let status = now.getHours() >= 22 ? "Late" : "On Time";
+
+localStorage.setItem("managerLoginDate", now.toDateString());
+localStorage.setItem("managerLoginTime", now.toLocaleTimeString());
+localStorage.setItem("managerAttendanceStatus", status);
+
+document.getElementById("attendancePopup").style.display = "none";
+
+dashboard();
+}
+
+function dashboard(){
+
+document.getElementById("content").innerHTML = `
+
+<div class="grid">
+<div class="card stat">
+<h2>${gallons}</h2>
+<p>Total Gallons</p>
+</div>
+<div class="card stat">
+<h2>${filterLife.toFixed(2)}%</h2>
+<p>Filter Lifespan</p>
+</div>
+</div>
+
+<div class="card">
+<h2>📊 Sales Analytics</h2>
+<br>
+<select id="analyticsFilter" onchange="renderAnalytics()" style="padding:12px;border:none;border-radius:12px;margin-bottom:20px;font-size:16px;">
+<option value="today">Today</option>
+<option value="week">Weekly</option>
+<option value="month">Monthly</option>
+</select>
+<canvas id="salesChart" height="120"></canvas>
+</div>
+
+${renderManagerAttendanceCalendar()}
+
+`;
+
+renderAnalytics();
+
+}
+
+function renderManagerAttendanceCalendar(){
+
+ const managerAttendance = {
+  "2026-05-01":{ status:"present", timeIn:"7:58 AM", timeOut:"5:02 PM" },
+  "2026-05-02":{ status:"present", timeIn:"7:55 AM", timeOut:"5:10 PM" },
+  "2026-05-03":{ status:"present", timeIn:"7:50 AM", timeOut:"5:15 PM" },
+  "2026-05-04":{ status:"present", timeIn:"7:45 AM", timeOut:"5:20 PM" },
+  "2026-05-05":{ status:"present", timeIn:"7:52 AM", timeOut:"5:08 PM" },
+  "2026-05-06":{ status:"present", timeIn:"7:48 AM", timeOut:"5:18 PM" },
+  "2026-05-07":{ status:"present", timeIn:"7:56 AM", timeOut:"5:05 PM" },
+  "2026-05-08":{ status:"late", timeIn:"8:20 AM", timeOut:"5:00 PM" },
+  "2026-05-09":{ status:"present", timeIn:"7:54 AM", timeOut:"5:12 PM" },
+  "2026-05-10":{ status:"present", timeIn:"7:49 AM", timeOut:"5:25 PM" },
+  "2026-05-11":{ status:"present", timeIn:"7:58 AM", timeOut:"5:07 PM" },
+  "2026-05-12":{ status:"present", timeIn:"7:53 AM", timeOut:"5:16 PM" },
+  "2026-05-13":{ status:"present", timeIn:"7:47 AM", timeOut:"5:22 PM" },
+  "2026-05-14":{ status:"present", timeIn:"7:51 AM", timeOut:"5:11 PM" },
+  "2026-05-15":{ status:"late", timeIn:"8:30 AM", timeOut:"5:00 PM" },
+  "2026-05-16":{ status:"present", timeIn:"7:50 AM", timeOut:"5:19 PM" },
+  "2026-05-17":{ status:"present", timeIn:"7:57 AM", timeOut:"5:06 PM" },
+  "2026-05-18":{ status:"present", timeIn:"7:46 AM", timeOut:"5:24 PM" },
+  "2026-05-19":{ status:"present", timeIn:"7:55 AM", timeOut:"5:09 PM" },
+  "2026-05-20":{ status:"present", timeIn:"7:52 AM", timeOut:"5:14 PM" },
+  "2026-05-21":{ status:"late", timeIn:"8:15 AM", timeOut:"5:00 PM" },
+  "2026-05-22":{ status:"present", timeIn:"7:48 AM", timeOut:"5:20 PM" },
+  "2026-05-23":{ status:"present", timeIn:"7:59 AM", timeOut:"5:03 PM" },
+  "2026-05-24":{ status:"present", timeIn:"7:51 AM", timeOut:"5:17 PM" },
+  "2026-05-25":{ status:"present", timeIn:"7:54 AM", timeOut:"5:13 PM" },
+  "2026-05-26":{ status:"present", timeIn:"7:49 AM", timeOut:"5:21 PM" },
+  "2026-05-27":{ status:"present", timeIn:"7:56 AM", timeOut:"5:10 PM" },
+  "2026-05-28":{ status:"present", timeIn:"7:53 AM", timeOut:"5:15 PM" },
+  "2026-05-29":{ status:"present", timeIn:"7:47 AM", timeOut:"5:23 PM" },
+  "2026-05-30":{ status:"present", timeIn:"7:58 AM", timeOut:"5:05 PM" },
+  "2026-05-31":{ status:"present", timeIn:"7:55 AM", timeOut:"5:12 PM" }
+};
+
+  const monthNames = [
+    "January","February","March","April",
+    "May","June","July","August",
+    "September","October","November","December"
+  ];
+
+  let year = 2026;
+  let month = 4;
+
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const firstDay = new Date(year, month, 1).getDay();
+
+  let html = `
+
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+      <button class="btn blue">⬅</button>
+      <h2>📅 Manager Attendance - ${monthNames[month]} ${year}</h2>
+      <button class="btn blue">➡</button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;text-align:center;margin-bottom:10px;font-weight:bold;">
+      <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;">
+  `;
+
+  for(let i=0; i<firstDay; i++){
+    html += `<div></div>`;
+  }
+
+  for(let day=1; day<=daysInMonth; day++){
+
+    let dateKey = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    let record = managerAttendance[dateKey];
+
+    let bg = "#ef4444";
+    let tooltip = `❌ Absent\n\nTime In: -\n\nTime Out: -`;
+
+    if(record){
+      if(record.status === "present"){ bg = "#22c55e"; }
+      if(record.status === "late"){ bg = "#f59e0b"; }
+      if(record.status === "absent"){ bg = "#ef4444"; }
+      tooltip = `${record.status.toUpperCase()}\n\n⏰ Time In: ${record.timeIn}\n\n🕔 Time Out: ${record.timeOut}`;
+    }
+
+    html += `
+      <div title="${tooltip}" style="background:${bg};padding:18px 10px;border-radius:14px;min-height:75px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.3s;font-weight:bold;color:white;"
+        onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 0 15px rgba(255,255,255,0.3)';"
+        onmouseout="this.style.transform='scale(1)';this.style.boxShadow='none';">
+        ${day}
+      </div>
+    `;
+  }
+
+  html += `
+    </div>
+    <br>
+    <div class="notify">🟢 Present &nbsp;&nbsp;&nbsp; 🟡 Late &nbsp;&nbsp;&nbsp; 🔴 Absent</div>
+  </div>
+  `;
+
+  return html;
+}
+
+function inventory(){
+
+document.getElementById("content").innerHTML = `
+
+<div class="grid">
+<div class="card stat">
+<h2>${gallons}</h2>
+<p>Total Gallons Refilled</p>
+</div>
+
+<div class="card stat">
+<h3>Filter Health</h3>
+<div class="bar-container">
+  <div class="bar-fill" style="width:${getFilterPercent()}%"></div>
+</div>
+<div class="bar-text">${filterLife.toFixed(2)}% remaining</div>
+</div>
+
+<div class="card stat">
+<h2>${totalGallonsSold}</h2>
+<p>Total Gallons Sold</p>
+</div>
+</div>
+
+<div class="card">
+<h2>📦 Daily Sales Input</h2>
+<br>
+<p>Enter gallons refilled today:</p>
+<input type="number" id="gallonInput" placeholder="e.g. 100">
+<br><br>
+<button class="btn blue" onclick="addSoldGallons()">➕ Submit</button>
+<br><br>
+<div class="notify">💧 Every gallon reduces filter life by 0.005%</div>
+<br>
+${
+filterLife <= 10
+? `<div class="notify" style="background:rgba(255,0,0,0.2);">⚠ CRITICAL: Replace filter immediately</div>`
+: filterLife <= 30
+? `<div class="notify" style="background:rgba(255,165,0,0.2);">⚠ WARNING: Filter is degrading</div>`
+: `<div class="notify">✅ Filter condition is good</div>`
+}
+</div>
+
+<div class="card">
+<h2>📊 History of Daily Sales Input</h2>
+<br>
+<table>
+<tr>
+<th>Date</th>
+<th>Total Input</th>
+<th>Impact</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+${
+inventoryLogs.length === 0
+? `<tr><td colspan="5">No records yet</td></tr>`
+: inventoryLogs.map(log => `
+<tr>
+<td>${log.date || "5/20/2026, 12:00 PM"}</td>
+<td>${log.totalInput ?? "50"} gal</td>
+<td>${log.impact ?? "-0.25"}%</td>
+<td>
+<span class="status ${log.status === "Edited" ? "prepare" : log.status === "Pending" ? "pending" : "delivered"}">
+${log.status || "Unedited"}
+</span>
+</td>
+<td>
+${
+log.editRequested
+? `<span class="status pending">Pending Approval</span>`
+: `<button class="btn orange" onclick="requestEdit(${log.id})">Request Edit</button>`
+}
+</td>
+</tr>
+`).join("")
+}
+</table>
+</div>
+
+`;
+}
+
+function requestEdit(id){
+
+let log = inventoryLogs.find(l => l.id === id);
+if(!log) return;
+
+log.editRequested = true;
+
+notifications.push({
+  id: "edit_" + id,
+  type: "edit-request",
+  logId: id,
+  riderName: "System",
+  message: "Edit request for daily sales input",
+  status: "Pending",
+  date: new Date().toLocaleDateString(),
+  time: new Date().toLocaleTimeString()
+});
+
+localStorage.setItem("inventoryLogs", JSON.stringify(inventoryLogs));
+
+inventory();
+}
+
+function addSoldGallons(){
+
+let input = document.getElementById("gallonInput").value;
+let sold = parseFloat(input);
+
+if(isNaN(sold) || sold <= 0){
+alert("Invalid input");
+return;
+}
+
+gallons += sold;
+totalGallonsSold += sold;
+filterLife -= sold * 0.005;
+
+if(filterLife < 0){
+filterLife = 0;
+}
+
+inventoryLogs.push({
+  id: Date.now(),
+  date: new Date().toLocaleDateString(),
+  fullDate: new Date().toLocaleString(),
+  totalInput: sold,
+  impact: -(sold * 0.005).toFixed(2),
+  status: "Unedited",
+  editRequested: false,
+  approved: false
+});
+
+localStorage.setItem("gallons", gallons);
+localStorage.setItem("totalGallonsSold", totalGallonsSold);
+localStorage.setItem("filterLife", filterLife);
+localStorage.setItem("inventoryLogs", JSON.stringify(inventoryLogs));
+
+if(filterLife <= 10){
+notifications.push({
+  id: Date.now(),
+  riderName: "System",
+  date: new Date().toLocaleDateString(),
+  time: new Date().toLocaleTimeString(),
+  status: "Filter replacement needed"
+});
+localStorage.setItem("notifications", JSON.stringify(notifications));
+}
+
+document.getElementById("gallonInput").value = "";
+
+inventory();
+
+}
+
+function riderMonitoring(){
+
+document.getElementById("content").innerHTML = `
+
+<div class="card">
+<h2>🚚 Rider Monitoring</h2>
+<br>
+<table>
+<tr>
+<th>Rider</th>
+<th>Status</th>
+</tr>
+${ridersList.map(r=>`
+<tr>
+<td>${r.name}</td>
+<td><span class="status pending">Unknown</span></td>
+</tr>
+`).join("")}
+</table>
+</div>
+
+`;
+
+}
+
+function showNotifications(){
+
+  notifications = JSON.parse(localStorage.getItem("notifications")) || [];
+
+  document.getElementById("content").innerHTML = `
+
+  <div class="card">
+    <h2>🔔 Attendance Notifications</h2>
+    <br>
+    ${
+      notifications.length === 0
+      ? `<div class="notify">No notifications yet</div>`
+      : notifications.map(n => `
+        <div class="notify">
+          <b>👤 ${n.riderName}</b><br><br>
+          📅 ${n.date}<br>
+          ⏰ ${n.time}<br><br>
+          📌 Status: <b>${n.status}</b>
+          <br><br>
+          ${
+            n.status === "Pending"
+            ? `
+              <button class="btn green" onclick="approveRider(${JSON.stringify(n.id)})">✅ Approve</button>
+              <button class="btn orange" onclick="rejectRider(${JSON.stringify(n.id)})">❌ Reject</button>
+            `
+            : `
+              <span class="status ${n.status === "Approved" ? "delivered" : "pending"}">
+                ${n.status}
+              </span>
+            `
+          }
+        </div>
+      `).join("")
+    }
+  </div>
+
+  `;
+}
+
+function approveRider(id){
+  notifications = JSON.parse(localStorage.getItem("notifications")) || [];
+  let notif = notifications.find(n => n.id == id);
+  if(!notif) return;
+  notif.status = "Approved";
+  localStorage.setItem("notifications", JSON.stringify(notifications));
+  notify("Attendance Approved ✅");
+  showNotifications();
+}
+
+function rejectRider(id){
+  notifications = JSON.parse(localStorage.getItem("notifications")) || [];
+  let notif = notifications.find(n => n.id == id);
+  if(!notif) return;
+  notif.status = "Rejected";
+  localStorage.setItem("notifications", JSON.stringify(notifications));
+  notify("Attendance Rejected ❌");
+  showNotifications();
+}
+
+function reports(){
+
+document.getElementById("content").innerHTML = `
+
+<div class="card">
+<h2>📋 Reports</h2>
+<br>
+<button class="btn blue" onclick="openReportForm()">➕ Create Report</button>
+<br><br>
+<h3>📄 Generated Reports</h3>
+${
+reportsList.length === 0
+? `<div class="notify">No reports yet</div>`
+: reportsList.map(r=>`
+<div class="notify">
+<b>${r.date}</b><br><br>
+💧 Refilled: ${r.refilled} gallons<br>
+📦 Sold: ${r.sold} gallons<br>
+📉 Unsold: ${r.unsold} gallons<br>
+📝 Reason: ${r.reason}
+</div>
+`).join("")
+}
+</div>
+
+`;
+}
+
+function showLogoutPopup(){
+const now = new Date();
+document.getElementById("logoutDate").innerHTML = "📅 Date: " + now.toDateString();
+document.getElementById("logoutTime").innerHTML = "⏰ Time Out: " + now.toLocaleTimeString();
+document.getElementById("logoutPopup").style.display = "flex";
+}
+
+function confirmLogout(){
+const now = new Date();
+localStorage.setItem("managerLogoutDate", now.toDateString());
+localStorage.setItem("managerLogoutTime", now.toLocaleTimeString());
+alert("Logged Out Successfully ✅");
+window.location.href = "login.html";
+}
+
+document.getElementById("attendancePopup").style.display = "flex";
+
+gallons = parseFloat(localStorage.getItem("gallons")) || 500;
+totalGallonsSold = parseFloat(localStorage.getItem("totalGallonsSold")) || 0;
+filterLife = parseFloat(localStorage.getItem("filterLife")) || 80;
+
+const savedLogs = JSON.parse(localStorage.getItem("inventoryLogs"));
+
+if(savedLogs && savedLogs.length > 0){
+  inventoryLogs = savedLogs.map(log => ({
+    ...log,
+    refill: Number(log.refill || log.totalInput || Math.floor(Math.random()*5000)+1000),
+    sold: Number(log.sold || log.totalInput || Math.floor(Math.random()*4000)+800)
+  }));
+}
+
+let salesChart;
+
+function renderAnalytics(){
+
+  const filter = document.getElementById("analyticsFilter").value;
+
+  let labels = [];
+  let refillData = [];
+  let salesData = [];
+
+  if(filter === "today"){
+    labels = ["8AM","9AM","10AM","11AM","12PM","1PM","2PM","3PM","4PM","5PM"];
+    refillData = [120,150,180,220,260,300,350,400,430,470];
+    salesData = [90,130,160,200,230,280,320,370,390,430];
+  }
+
+  if(filter === "week"){
+    labels = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+    refillData = [200,240,280,320,360,390,420];
+    salesData = [180,210,250,290,330,350,390];
+  }
+
+  if(filter === "month"){
+    labels = ["Jan","Feb","Mar","Apr","May"];
+    refillData = [1000,1300,1600,1900,2200];
+    salesData = [900,1200,1450,1700,2000];
+  }
+
+  const ctx = document.getElementById("salesChart");
+
+  if(salesChart){
+    salesChart.destroy();
+  }
+
+  salesChart = new Chart(ctx, {
+    type:"line",
+    data:{
+      labels:labels,
+      datasets:[
+      {
+        label:"Refill Gallons",
+        data:refillData,
+        borderColor:"#22c55e",
+        backgroundColor:"rgba(34,197,94,0.18)",
+        fill:true,
+        tension:0.5,
+        borderWidth:3,
+        pointRadius:5,
+        pointHoverRadius:8
+      },
+      {
+        label:"Total Sales",
+        data:salesData,
+        borderColor:"#3b82f6",
+        backgroundColor:"rgba(59,130,246,0.18)",
+        fill:true,
+        tension:0.5,
+        borderWidth:3,
+        pointRadius:5,
+        pointHoverRadius:8
+      }
+      ]
+    },
+    options:{
+      responsive:true,
+      interaction:{ mode:"index", intersect:false },
+      plugins:{ legend:{ labels:{ color:"white" } } },
+      scales:{
+        x:{ ticks:{ color:"white" }, grid:{ color:"rgba(255,255,255,0.08)" } },
+        y:{ beginAtZero:true, ticks:{ color:"white" }, grid:{ color:"rgba(255,255,255,0.08)" } }
+      }
+    }
+  });
+
+}
+
+dashboard();
+
+</script>
+
+</body>
+</html>

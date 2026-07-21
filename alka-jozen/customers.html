@@ -1,0 +1,3478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Alka-Jozen Customer</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<style>
+
+/* RESET */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+    scroll-behavior:smooth;
+}
+
+body{
+    background:
+    linear-gradient(
+        135deg,
+        #0f4c75 0%,
+        #3282b8 25%,
+        #bbe1fa 50%,
+        #3282b8 75%,
+        #0f4c75 100%
+    );
+
+    background-size: 400% 400%;
+    animation: waterFlow 20s ease infinite;
+    overflow-x:hidden;
+    min-height: 100vh;
+}
+
+@keyframes waterFlow {
+    0% { background-position: 0% 50%; }
+    25% { background-position: 100% 50%; }
+    50% { background-position: 100% 0%; }
+    75% { background-position: 0% 0%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* WATER DROPLETS */
+
+.bubble{
+    position:fixed;
+    border-radius:50%;
+    background:linear-gradient(135deg, rgba(187, 225, 250, 0.3), rgba(50, 130, 184, 0.2));
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(187, 225, 250, 0.4);
+    animation: waterDrop 15s infinite ease-in-out, ripple 3s infinite ease-in-out;
+    z-index:0;
+    box-shadow:
+        0 8px 32px rgba(15, 76, 117, 0.2),
+        inset 0 0 20px rgba(187, 225, 250, 0.1);
+}
+
+@keyframes waterDrop{
+    0%{
+        transform:translateY(0) rotate(0deg) scale(1);
+        opacity: 0.7;
+    }
+    25%{
+        transform:translateY(-40px) rotate(90deg) scale(1.1);
+        opacity: 0.9;
+    }
+    50%{
+        transform:translateY(-20px) rotate(180deg) scale(0.9);
+        opacity: 0.8;
+    }
+    75%{
+        transform:translateY(-50px) rotate(270deg) scale(1.2);
+        opacity: 0.6;
+    }
+    100%{
+        transform:translateY(0) rotate(360deg) scale(1);
+        opacity: 0.7;
+    }
+}
+
+@keyframes ripple {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow:
+            0 8px 32px rgba(15, 76, 117, 0.2),
+            inset 0 0 20px rgba(187, 225, 250, 0.1);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow:
+            0 12px 40px rgba(15, 76, 117, 0.3),
+            inset 0 0 25px rgba(187, 225, 250, 0.15);
+    }
+}
+
+.b1{
+    width:140px;
+    height:140px;
+    top:8%;
+    left:5%;
+}
+
+.b2{
+    width:90px;
+    height:90px;
+    bottom:10%;
+    left:15%;
+}
+
+.b3{
+    width:180px;
+    height:180px;
+    top:15%;
+    right:8%;
+}
+
+.b4{
+    width:100px;
+    height:100px;
+    bottom:12%;
+    right:15%;
+}
+
+/* WRAPPER */
+
+.wrapper{
+    display:flex;
+    min-height:100vh;
+    position:relative;
+    z-index:1;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+
+    width:220px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+
+    background:
+    linear-gradient(
+        180deg,
+        rgba(15, 76, 117, 0.9),
+        rgba(50, 130, 184, 0.8),
+        rgba(15, 76, 117, 0.9)
+    );
+
+    backdrop-filter: blur(25px);
+
+    border-right: 2px solid rgba(187, 225, 250, 0.3);
+
+    padding:20px 15px;
+
+    color:white;
+
+    box-shadow:
+    0 8px 32px rgba(15, 76, 117, 0.3),
+    inset 0 0 50px rgba(187, 225, 250, 0.1);
+}
+
+.brand{
+
+    font-size:28px;
+    font-weight:800;
+
+    color:#bbe1fa;
+
+    text-align:center;
+
+    margin-bottom:20px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    text-shadow: 0 2px 10px rgba(187, 225, 250, 0.5);
+
+    width:100%;
+
+    padding:16px 18px;
+
+    margin-bottom:10px;
+
+    border:none;
+
+    border-radius:16px;
+
+    background:
+    rgba(255,255,255,0.1);
+
+    backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255,255,255,0.1);
+
+    color:white;
+
+    text-align:left;
+
+    cursor:pointer;
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    font-weight: 500;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.menu-btn{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:14px 18px;
+    margin:10px 0;
+    border:none;
+    border-radius:18px;
+    background:rgba(255,255,255,0.08);
+    color:#eff6ff;
+    font-size:16px;
+    font-weight:600;
+    text-align:left;
+    cursor:pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+}
+
+.menu-btn i{
+    width:26px;
+    text-align:center;
+    font-size:18px;
+}
+
+.menu-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.menu-btn:hover::before {
+    left: 100%;
+}
+
+.menu-btn:hover{
+
+    transform:translateX(8px) scale(1.02);
+
+    background:
+    rgba(255,255,255,0.2);
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.menu-btn.active{
+
+    background:
+    linear-gradient(135deg, rgba(56,189,248,0.3), rgba(14,165,233,0.3));
+
+    border: 1px solid rgba(56,189,248,0.5);
+
+    box-shadow: 0 0 20px rgba(56,189,248,0.3);
+}
+
+/* CONTENT */
+
+.content{
+    flex:1;
+    padding:30px;
+}
+
+/* GLASS CARDS */
+
+.card,
+.order-card,
+.track-card,
+.profile-card{
+
+    background:
+    rgba(255, 255, 255, 0.15);
+
+    backdrop-filter:
+    blur(25px);
+
+    border:
+    1px solid rgba(255, 255, 255, 0.2);
+
+    border-radius:24px;
+
+    padding:25px;
+
+    margin-bottom:20px;
+
+    box-shadow:
+    0 20px 40px rgba(0,0,0,0.1),
+    0 0 0 1px rgba(255,255,255,0.05) inset;
+
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.6s;
+}
+
+.card:hover::before {
+    left: 100%;
+}
+
+.card:hover,
+.order-card:hover,
+.track-card:hover{
+
+    transform:translateY(-8px) scale(1.01);
+
+    box-shadow:
+    0 25px 50px rgba(0,0,0,0.15),
+    0 0 0 1px rgba(255,255,255,0.1) inset,
+    0 0 30px rgba(56,189,248,0.1);
+}
+
+h2{
+    color:#0f172a;
+    margin-bottom:5px;
+    font-size:24px;
+}
+
+.sub{
+    color:#64748b;
+}
+
+/* INPUTS */
+
+input,
+select,
+textarea{
+
+    width:100%;
+
+    padding:18px;
+
+    margin-top:10px;
+
+    border:none;
+
+    border-radius:16px;
+
+    background:#f8fafc;
+
+    outline:none;
+}
+
+/* ADDRESS WRAPPER */
+
+.address-wrapper{
+    position:relative;
+    margin-top:10px;
+}
+
+.address-wrapper input{
+    margin-top:0;
+    padding-right:50px;
+}
+
+.locate-btn{
+    position:absolute;
+    right:10px;
+    top:50%;
+    transform:translateY(-50%);
+    background:linear-gradient(135deg,#0ea5e9,#38bdf8);
+    border:none;
+    border-radius:12px;
+    width:36px;
+    height:36px;
+    color:white;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:15px;
+    transition:.2s;
+    z-index:2;
+}
+
+.locate-btn:hover{
+    transform:translateY(-50%) scale(1.1);
+    box-shadow:0 4px 14px rgba(14,165,233,0.4);
+}
+
+.locate-btn.loading{
+    animation:spin 1s linear infinite;
+    pointer-events:none;
+}
+
+@keyframes spin{
+    from{transform:translateY(-50%) rotate(0deg);}
+    to{transform:translateY(-50%) rotate(360deg);}
+}
+
+/* LOCATION BADGE */
+
+.location-badge{
+    display:none;
+    align-items:center;
+    gap:8px;
+    margin-top:5px;
+    padding:10px 14px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#ecfdf5,#d1fae5);
+    border:1px solid #86efac;
+    color:#15803d;
+    font-size:13px;
+    font-weight:600;
+    animation:fadeIn .3s ease;
+}
+
+.location-badge.show{
+    display:flex;
+}
+
+.location-badge.error{
+    background:linear-gradient(135deg,#fef2f2,#fee2e2);
+    border-color:#fca5a5;
+    color:#dc2626;
+}
+
+@keyframes fadeIn{
+    from{opacity:0;transform:translateY(-6px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+/* CONTACT WRAPPER */
+
+.contact-wrapper{
+    position:relative;
+    margin-top:10px;
+}
+
+.contact-wrapper input{
+    margin-top:0;
+    padding-right:50px;
+}
+
+.validate-btn{
+    position:absolute;
+    right:10px;
+    top:50%;
+    transform:translateY(-50%);
+    background:linear-gradient(135deg,#22c55e,#16a34a);
+    border:none;
+    border-radius:12px;
+    width:36px;
+    height:36px;
+    color:white;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:15px;
+    transition:.2s;
+    z-index:2;
+}
+
+.validate-btn:hover{
+    transform:translateY(-50%) scale(1.1);
+    box-shadow:0 4px 14px rgba(34,197,94,0.4);
+}
+
+.validate-btn.validating{
+    animation:spin 1s linear infinite;
+    pointer-events:none;
+}
+
+/* CONTACT BADGE */
+
+.contact-badge{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:5px;
+    padding:10px 14px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#fef3c7,#fde68a);
+    border:1px solid #fcd34d;
+    color:#92400e;
+    font-size:13px;
+    font-weight:600;
+    animation:fadeIn .3s ease;
+}
+
+.contact-badge.valid{
+    background:linear-gradient(135deg,#ecfdf5,#d1fae5);
+    border-color:#86efac;
+    color:#15803d;
+}
+
+.contact-badge.invalid{
+    background:linear-gradient(135deg,#fef2f2,#fee2e2);
+    border-color:#fca5a5;
+    color:#dc2626;
+}
+
+/* MAP PREVIEW */
+
+.map-preview{
+    display:none;
+    margin-top:8px;
+    border-radius:18px;
+    overflow:hidden;
+    border:2px solid rgba(56,189,248,0.3);
+    box-shadow:0 6px 20px rgba(14,165,233,0.15);
+    animation:fadeIn .4s ease;
+}
+
+.map-preview.show{
+    display:block;
+}
+
+.map-preview iframe{
+    width:100%;
+    height:180px;
+    border:none;
+    display:block;
+}
+
+/* BUTTON */
+
+.primary-btn{
+
+    width:100%;
+
+    padding:18px;
+
+    margin-top:12px;
+
+    border:none;
+
+    border-radius:16px;
+
+    background:
+    linear-gradient(
+        90deg,
+        #0ea5e9,
+        #38bdf8
+    );
+
+    color:white;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.primary-btn:hover{
+
+    transform:translateY(-2px);
+}
+
+/* STATUS */
+
+.status{
+
+    padding:8px 15px;
+
+    border-radius:999px;
+
+    font-size:12px;
+
+    font-weight:700;
+}
+
+.pending{
+    background:#fff7ed;
+    color:#f59e0b;
+}
+
+.delivery{
+    background:#eff6ff;
+    color:#3b82f6;
+}
+
+.done-status{
+    background:#ecfdf5;
+    color:#22c55e;
+}
+
+/* TRACK */
+
+.track-wrapper{
+    margin-top:25px;
+    position:relative;
+}
+
+.track-line{
+
+    position:absolute;
+
+    top:28px;
+    left:8%;
+
+    width:84%;
+    height:6px;
+
+    background:#d1d5db;
+
+    border-radius:999px;
+}
+
+.track-progress{
+
+    display:flex;
+    justify-content:space-between;
+
+    position:relative;
+}
+
+.track-step{
+    width:20%;
+    text-align:center;
+}
+
+.circle{
+
+    width:60px;
+    height:60px;
+
+    border-radius:50%;
+
+    background:#d1d5db;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    margin:auto;
+
+    color:white;
+
+    font-size:22px;
+
+    border:5px solid white;
+}
+
+.active{
+    background:#22c55e;
+}
+
+.current{
+    background:#2563eb;
+}
+
+.track-label{
+
+    margin-top:10px;
+
+    font-size:12px;
+    font-weight:700;
+}
+
+/* ETA */
+
+.eta-box{
+
+    margin-top:12px;
+
+    padding:16px;
+
+    border-radius:18px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #dbeafe,
+        #eff6ff
+    );
+
+    font-weight:700;
+}
+
+/* CHAT */
+
+.chat-btn{
+
+    position:fixed;
+
+    right:25px;
+    bottom:90px;
+
+    width:65px;
+    height:65px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:
+    linear-gradient(
+        90deg,
+        #0ea5e9,
+        #38bdf8
+    );
+
+    color:white;
+
+    font-size:24px;
+
+    cursor:pointer;
+
+    z-index:9999;
+}
+
+.chat-box{
+
+    position:fixed;
+
+    right:25px;
+    bottom:165px;
+
+    width:340px;
+    height:420px;
+
+    background:white;
+
+    border-radius:28px;
+
+    overflow:hidden;
+
+    display:none;
+    flex-direction:column;
+
+    box-shadow:
+    0 10px 40px rgba(0,0,0,0.18);
+
+    z-index:9999;
+}
+
+.chat-header{
+
+    padding:18px;
+
+    background:
+    linear-gradient(
+        90deg,
+        #0ea5e9,
+        #38bdf8
+    );
+
+    color:white;
+    font-weight:700;
+}
+
+.chat-body{
+
+    flex:1;
+
+    padding:15px;
+
+    overflow-y:auto;
+
+    background:#f8fafc;
+}
+
+.chat-input{
+    display:flex;
+}
+
+.chat-input input{
+
+    margin:0;
+    border-radius:0;
+}
+
+.chat-input button{
+
+    width:90px;
+
+    border:none;
+
+    background:#0ea5e9;
+
+    color:white;
+}
+
+/* NOTIFY */
+
+.notify{
+
+    position:fixed;
+
+    top:20px;
+    right:20px;
+
+    background:
+    linear-gradient(
+        90deg,
+        #22c55e,
+        #16a34a
+    );
+
+    color:white;
+
+    padding:15px 22px;
+
+    border-radius:18px;
+
+    z-index:99999;
+
+    animation:slide .4s ease;
+}
+
+@keyframes slide{
+
+    from{
+        transform:translateX(100%);
+        opacity:0;
+    }
+
+    to{
+        transform:translateX(0);
+        opacity:1;
+    }
+}
+
+/* STARS */
+
+.stars{
+
+    display:flex;
+    gap:8px;
+
+    margin-top:12px;
+}
+
+.stars i{
+
+    font-size:30px;
+
+    color:#d1d5db;
+
+    cursor:pointer;
+}
+
+.stars i.active{
+    color:#f59e0b;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav{
+
+    position:fixed;
+
+    bottom:0;
+    left:0;
+
+    width:100%;
+    height:75px;
+
+    background:
+    rgba(255,255,255,0.75);
+
+    backdrop-filter:
+    blur(18px);
+
+    border-top:
+    1px solid rgba(255,255,255,0.45);
+
+    display:none;
+
+    justify-content:space-around;
+    align-items:center;
+
+    z-index:9999;
+}
+
+.bottom-nav button{
+
+    background:none;
+    border:none;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    gap:4px;
+
+    color:#64748b;
+
+    cursor:pointer;
+}
+
+.bottom-nav button.active{
+    color:#0ea5e9;
+}
+
+/* =========================
+   LOGOUT / GENERIC MODAL
+   (moved out of the mobile-only
+   media query so it renders
+   correctly on every screen size)
+========================= */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(10,40,80,0.55);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(8px);
+}
+
+.modal-box {
+    width: 90%;
+    max-width: 430px;
+    background: rgba(236,246,255,0.98);
+    backdrop-filter: blur(22px);
+    border: 1px solid rgba(255,255,255,0.7);
+    border-radius: 32px;
+    padding: 30px 28px;
+    box-shadow: 0 28px 70px rgba(16,80,139,0.18);
+    animation: popIn 0.28s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+@keyframes popIn {
+    from { transform: scale(0.94); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.modal-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(15,76,117,0.12);
+    font-size: 14px;
+}
+
+.modal-row:last-of-type {
+    border-bottom: none;
+}
+
+.modal-label {
+    font-weight: 700;
+    color: rgba(15,76,117,0.72);
+}
+
+.modal-value {
+    font-weight: 700;
+    color: #0f172a;
+    text-align: right;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.btn {
+    border: none;
+    border-radius: 999px;
+    padding: 16px 26px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+    min-width: 140px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+    color: white;
+    box-shadow: 0 14px 30px rgba(14,165,233,0.25);
+}
+
+.btn-secondary {
+    background: rgba(255,255,255,0.95);
+    color: #0f172a;
+    border: 1px solid rgba(15,76,117,0.12);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.6);
+}
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+
+@media screen and (max-width:768px){
+
+    body{
+        overflow-x:hidden;
+    }
+
+    .wrapper{
+        flex-direction:column;
+    }
+
+    /* HIDE SIDEBAR */
+
+    .sidebar{
+        display:none;
+    }
+
+    /* CONTENT */
+
+    .content{
+        width:100%;
+        padding:15px;
+        padding-bottom:100px;
+    }
+
+    /* CARDS */
+
+    .card,
+    .order-card,
+    .track-card,
+    .profile-card{
+        padding:18px;
+        border-radius:18px;
+    }
+
+    h2{
+        font-size:20px;
+    }
+
+    /* INPUTS */
+
+    input,
+    select,
+    textarea{
+        padding:14px;
+        font-size:14px;
+    }
+
+    /* BUTTONS */
+
+    .primary-btn{
+        padding:15px;
+        font-size:15px;
+    }
+
+    /* TRACKING */
+
+    .track-wrapper{
+        overflow-x:auto;
+    }
+
+    .track-progress{
+        min-width:500px;
+    }
+
+    .circle{
+        width:45px;
+        height:45px;
+        font-size:16px;
+    }
+
+    .track-label{
+        font-size:10px;
+    }
+
+    .track-line{
+        top:22px;
+    }
+
+    /* PROFILE GRID */
+
+    .profile-card div[style*="grid-template-columns"]{
+        grid-template-columns:1fr !important;
+    }
+
+    /* CHAT BUTTON */
+
+    .chat-btn{
+        width:58px;
+        height:58px;
+        font-size:20px;
+        right:15px;
+        bottom:85px;
+    }
+
+    /* CHAT BOX */
+
+    .chat-box{
+        width:92%;
+        height:70vh;
+        right:4%;
+        bottom:160px;
+        border-radius:22px;
+    }
+
+    /* MAP */
+
+    .map-preview iframe{
+        height:160px;
+    }
+
+    /* NOTIFICATION */
+
+    .notify{
+        width:90%;
+        right:5%;
+        top:15px;
+        text-align:center;
+        font-size:14px;
+    }
+
+    /* BOTTOM NAV */
+
+    .bottom-nav{
+        display:flex;
+        height:75px;
+    }
+
+    .bottom-nav button{
+        font-size:12px;
+    }
+
+    .bottom-nav i{
+        font-size:18px;
+    }
+
+    /* BRAND */
+
+    .brand{
+        font-size:22px;
+    }
+
+    /* MENU BUTTON */
+
+    .menu-btn{
+        padding:12px;
+        font-size:14px;
+    }
+
+    /* STARS */
+
+    .stars i{
+        font-size:24px;
+    }
+
+}
+
+/* AI CHAT EFFECT */
+
+.ai-msg{
+    box-shadow:
+    0 4px 15px rgba(14,165,233,0.15);
+}
+
+.user-msg{
+    box-shadow:
+    0 4px 15px rgba(0,0,0,0.08);
+}
+
+html{
+    -webkit-text-size-adjust:100%;
+}
+
+button,
+input,
+select,
+textarea{
+    font-size:16px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="bubble b1"></div>
+<div class="bubble b2"></div>
+<div class="bubble b3"></div>
+<div class="bubble b4"></div>
+
+<div class="wrapper">
+
+<div class="sidebar">
+
+<div class="brand">
+<img src="water drop.png" alt="Logo" style="width:60px; height:60px; margin-bottom:10px;">
+<div>💧 Alka-Jozen</div>
+</div>
+
+<button class="menu-btn active"
+onclick="home()">
+<i class="fa fa-house"></i>
+Home
+</button>
+
+<button class="menu-btn"
+onclick="newOrder()">
+<i class="fa fa-cart-shopping"></i>
+New Order
+</button>
+
+<button class="menu-btn"
+onclick="trackOrder()">
+<i class="fa fa-box"></i>
+Tracking
+</button>
+
+<button class="menu-btn"
+onclick="paymentHistory()">
+<i class="fa fa-credit-card"></i>
+Payments
+</button>
+
+<button class="menu-btn"
+onclick="profile()">
+<i class="fa fa-user"></i>
+Profile
+</button>
+
+<button class="menu-btn"
+onclick="showCustomerLogoutModal()">
+<i class="fa fa-right-from-bracket"></i>
+Logout
+</button>
+
+</div>
+
+<div class="content">
+
+<div id="content"></div>
+
+</div>
+
+</div>
+
+<!-- FAQ AI -->
+
+<button class="chat-btn" onclick="toggleFAQ()">
+<i class="fa fa-robot"></i>
+</button>
+
+<div class="chat-box" id="faqBox">
+
+<div class="chat-header">
+FAQ Assistant
+</div>
+
+<div class="chat-body" id="faqBody">
+
+<p><b>AI:</b> Hi! Ask me about delivery time, payment, or orders.</p>
+
+</div>
+
+<div class="chat-input">
+
+<input 
+id="faqInput"
+placeholder="Ask AI anything..."
+onkeypress="if(event.key==='Enter') sendFAQ()"
+>
+
+<button onclick="sendFAQ()">Send</button>
+
+</div>
+
+</div>
+<!-- BOTTOM NAV -->
+
+<div class="bottom-nav">
+
+<button onclick="home()">
+<i class="fa fa-house"></i>
+<span>Home</span>
+</button>
+
+<button onclick="newOrder()">
+<i class="fa fa-cart-shopping"></i>
+<span>Order</span>
+</button>
+
+<button onclick="trackOrder()">
+<i class="fa fa-truck"></i>
+<span>Track</span>
+</button>
+
+<button onclick="paymentHistory()">
+<i class="fa fa-credit-card"></i>
+<span>Payments</span>
+</button>
+
+<button onclick="profile()">
+<i class="fa fa-user"></i>
+<span>Profile</span>
+</button>
+
+</div>
+
+<script>
+
+/* STORAGE */
+
+function getOrders(){
+
+    return JSON.parse(
+    localStorage.getItem("history")
+    ) || [];
+}
+
+function saveOrders(data){
+
+    localStorage.setItem(
+    "history",
+    JSON.stringify(data)
+    );
+}
+
+function getUser(){
+
+    return localStorage.getItem(
+    "username"
+    ) || "Guest";
+}
+
+/* STEPS */
+
+const steps = [
+
+    {
+        label:"Pickup"
+    },
+
+    {
+        label:"Cleaning"
+    },
+
+    {
+        label:"Refilling"
+    },
+
+    {
+        label:"Out for Delivery"
+    },
+
+    {
+        label:"Delivered"
+    }
+];
+
+/* HOME */
+
+function home(){
+
+    let user = getUser();
+
+    let orders =
+    getOrders().filter(
+    o=>o.user===user
+    );
+
+    let html = `
+
+    <div class="card">
+
+        <h2>
+        👋 Welcome ${user}
+        </h2>
+
+        <p class="sub">
+        Your Orders Dashboard
+        </p>
+
+    </div>
+    `;
+
+    orders.reverse().slice(0,5)
+    .forEach(o=>{
+
+        html += `
+
+        <div class="card">
+
+            <b>
+            Order #${o.orderNumber}
+            </b>
+
+            <br>
+
+            💧 ${o.gallon} ${o.gallonType || 'Gallon'}
+
+            <br>
+
+            💵 Payment: ${o.payment || 'Not selected'}${o.payment === 'GCash' && o.paymentReference ? ` · Ref: ${String(o.paymentReference).replace(/.(?=.{4})/g, '*')}` : ''}
+
+            <br>
+
+            🧾 Total: ₱${o.total || '0'}
+
+            <br>
+
+            📍 ${o.address}${o.altAddress ? ` (Alt: ${o.altAddress})` : ''}${o.specificLocation ? `, ${o.specificLocation}` : ''}
+
+            <br>
+
+            👤 ${o.recipient}${o.deliveryNotes ? ` - ${o.deliveryNotes}` : ''}
+
+            <br>
+
+            <div class="status delivery">
+
+            ${o.status || "Pending"}
+
+            </div>
+
+        </div>
+        `;
+    });
+
+    document.getElementById(
+    "content"
+    ).innerHTML = html;
+}
+
+/* NEW ORDER */
+
+function newOrder(){
+
+    document.getElementById("content").innerHTML = `
+
+    <div class="card">
+
+        <h2>🛒 New Order</h2>
+
+        <input 
+            id="gallon" 
+            placeholder="💧 Gallons (or select from list)"
+            list="gallonOptions"
+            type="number"
+            min="1"
+        >
+        <datalist id="gallonOptions">
+            <option value="1">1 Gallon</option>
+            <option value="2">2 Gallons</option>
+            <option value="3">3 Gallons</option>
+            <option value="4">4 Gallons</option>
+            <option value="5">5 Gallons</option>
+        </datalist>
+
+        <select id="gallonType" required>
+            <option value="">💧 Select Gallon Availability</option>
+            <option value="Half Empty">Half Empty</option>
+            <option value="Needs Replacement">Needs to be refilled </option>
+        </select>
+
+        <!-- ADDRESS WITH GEOLOCATION -->
+        <div class="address-wrapper">
+            <input
+                id="address"
+                placeholder="📍 Delivery Address"
+                oninput="onAddressInput()"
+            >
+            <button
+                class="locate-btn"
+                id="locateBtn"
+                onclick="useMyLocation()"
+                title="Use my current location"
+            >
+                <i class="fa fa-location-crosshairs" id="locateIcon"></i>
+            </button>
+        </div>
+
+        <!-- STATUS BADGE -->
+        <div class="location-badge" id="locationBadge">
+            <i class="fa fa-circle-check"></i>
+            <span id="locationBadgeText">Location detected!</span>
+        </div>
+
+        <!-- MAP PREVIEW -->
+        <div class="map-preview" id="mapPreview">
+            <iframe id="mapFrame" src="" allowfullscreen loading="lazy"></iframe>
+        </div>
+
+        <input id="altAddress" placeholder="📍 Add Another Address (If you put wrong address) ">
+
+        <input id="specificLocation" placeholder="🏠 Specific Location (e.g., Apartment, Floor, Landmark)">
+
+        <!-- CONTACT WITH VALIDATION -->
+        <div class="contact-wrapper">
+            <input
+                id="contact"
+                placeholder="📞 Contact Number (e.g. 0917-123-4567)"
+                oninput="validateContact()"
+                inputmode="numeric"
+                maxlength="17"
+            >
+            <button
+                class="validate-btn"
+                id="validateBtn"
+                onclick="validateContactNumber()"
+                title="Validate contact number"
+            >
+                <i class="fa fa-check" id="validateIcon"></i>
+            </button>
+        </div>
+
+        <!-- CONTACT STATUS BADGE -->
+        <div class="contact-badge" id="contactBadge">
+            <i class="fa fa-circle-info"></i>
+            <span id="contactBadgeText">Add another contact number in case of the person is unavailable</span>
+        </div>
+
+        <!-- DELIVERY RECIPIENT -->
+        <select id="recipient" required>
+            <option value="">👤 Who will receive the order?</option>
+            <option value="Me">I will receive it personally</option>
+            <option value="Family Member">Family member (spouse, parent, child)</option>
+            <option value="Friend">Friend or roommate</option>
+            <option value="Neighbor">Neighbor</option>
+            <option value="Security Guard">Building security guard</option>
+            <option value="Receptionist">Office receptionist</option>
+            <option value="Leave at Door">Leave at door/front desk</option>
+            <option value="Other">Other (specify in notes)</option>
+        </select>
+
+        <textarea id="deliveryNotes" 
+            placeholder="📝 Additional delivery instructions (optional)"
+            rows="3"
+            style="width:100%;margin-top:10px;padding:12px;border-radius:12px;border:none;background:#f8fafc;resize:vertical;"
+        ></textarea>
+
+        <h3 style="margin-top:20px;margin-bottom:10px;color:#0f172a;font-size:16px;">💳 Mode of Payment</h3>
+
+        <select id="payment" onchange="showPaymentMethod()">
+            <option value="Cash">💵 Cash on Delivery</option>
+            <option value="GCash">📱 GCash</option>
+        </select>
+
+        <!-- GCASH BOX -->
+        <div id="gcashBox" style="display:none;margin-top:15px;">
+
+            <div style="
+                background:#f8fafc;
+                padding:20px;
+                border-radius:18px;
+                text-align:center;
+                border:2px dashed #38bdf8;
+            ">
+
+                <h3>💳 GCash Payment</h3>
+
+                <img src="gcashqr.png"
+                style="width:200px;border-radius:12px;margin-top:10px;">
+
+                <p style="margin-top:10px;">
+                    Send to: <b>0912****789</b>
+                </p>
+
+                <input id="reference" type="password"
+                placeholder="Enter GCash Reference Number">
+
+            </div>
+
+        </div>
+
+        <button class="primary-btn" onclick="saveOrder()">
+            Place Order
+        </button>
+
+    </div>
+    `;
+}
+
+/* ── GEOLOCATION FEATURE ── */
+
+let detectedLat = null;
+let detectedLon = null;
+
+function useMyLocation(){
+
+    if(!navigator.geolocation){
+        showBadge("❌ Geolocation not supported by your browser.", true);
+        return;
+    }
+
+    // Spinner state
+    const btn  = document.getElementById("locateBtn");
+    const icon = document.getElementById("locateIcon");
+
+    btn.classList.add("loading");
+    icon.className = "fa fa-spinner";
+
+    navigator.geolocation.getCurrentPosition(
+
+        async (pos) => {
+
+            detectedLat = pos.coords.latitude;
+            detectedLon = pos.coords.longitude;
+
+            try {
+                // Reverse geocode via OpenStreetMap Nominatim (free, no key)
+                const res = await fetch(
+                    `https://nominatim.openstreetmap.org/reverse?lat=${detectedLat}&lon=${detectedLon}&format=json`,
+                    { headers:{ "Accept-Language":"en" } }
+                );
+
+                const data = await res.json();
+
+                const addr = buildAddress(data);
+
+                document.getElementById("address").value = addr;
+
+                showBadge("✅ Location detected & filled in!", false);
+                showMap(detectedLat, detectedLon);
+
+            } catch(e) {
+
+                // Fallback: just fill coordinates
+                document.getElementById("address").value =
+                    `Lat: ${detectedLat.toFixed(5)}, Lon: ${detectedLon.toFixed(5)}`;
+
+                showBadge("📍 Coordinates used (address lookup failed).", false);
+                showMap(detectedLat, detectedLon);
+            }
+
+            // Reset button
+            btn.classList.remove("loading");
+            icon.className = "fa fa-location-crosshairs";
+        },
+
+        (err) => {
+
+            btn.classList.remove("loading");
+            icon.className = "fa fa-location-crosshairs";
+
+            let msg = "❌ Location access denied.";
+
+            if(err.code === 1)
+                msg = "❌ Permission denied. Please allow location access.";
+            else if(err.code === 2)
+                msg = "❌ Location unavailable. Check your GPS.";
+            else if(err.code === 3)
+                msg = "❌ Location request timed out.";
+
+            showBadge(msg, true);
+        },
+
+        { enableHighAccuracy: true, timeout: 10000 }
+    );
+}
+
+/* Build a readable address from Nominatim response */
+function buildAddress(data){
+
+    const a = data.address || {};
+
+    const parts = [
+        a.house_number,
+        a.road || a.street,
+        a.neighbourhood || a.suburb,
+        a.city || a.town || a.municipality || a.village,
+        a.state || a.region,
+        a.country
+    ].filter(Boolean);
+
+    return parts.join(", ") || data.display_name || "Unknown Address";
+}
+
+/* Show the status badge */
+function showBadge(text, isError){
+
+    const badge = document.getElementById("locationBadge");
+
+    if(!badge) return;
+
+    badge.className = "location-badge show" + (isError ? " error" : "");
+    document.getElementById("locationBadgeText").textContent = text;
+}
+
+/* Show OpenStreetMap embed preview */
+function showMap(lat, lon){
+
+    const preview = document.getElementById("mapPreview");
+    const frame   = document.getElementById("mapFrame");
+
+    if(!preview || !frame) return;
+
+    // OpenStreetMap embed (free, no API key)
+    frame.src =
+        `https://www.openstreetmap.org/export/embed.html?bbox=${lon-0.005},${lat-0.005},${lon+0.005},${lat+0.005}&layer=mapnik&marker=${lat},${lon}`;
+
+    preview.classList.add("show");
+}
+
+/* Hide map when user manually edits the address */
+function onAddressInput(){
+
+    const preview = document.getElementById("mapPreview");
+    const badge   = document.getElementById("locationBadge");
+
+    if(preview) preview.classList.remove("show");
+    if(badge)   badge.classList.remove("show");
+
+    detectedLat = null;
+    detectedLon = null;
+}
+
+/* CONTACT VALIDATION FUNCTIONS */
+
+function validateContact(){
+    const input = document.getElementById("contact");
+    const cursorAtEnd = input.selectionStart === input.value.length;
+    const value = input.value.replace(/\D/g, '').slice(0, 13); // Remove non-digits, allow up to +63 length
+
+    // Auto-format Philippine numbers
+    if(value.startsWith('09')){
+        // Format as 09XX-XXX-XXXX
+        let formatted = value.slice(0, 11);
+        if(formatted.length > 4) formatted = formatted.slice(0,4) + '-' + formatted.slice(4);
+        if(formatted.length > 8) formatted = formatted.slice(0,8) + '-' + formatted.slice(8);
+        input.value = formatted;
+    } else if(value.startsWith('63')){
+        // Format as +63-9XX-XXX-XXXX
+        let rest = value.slice(2, 12);
+        let formatted = '+63-' + rest;
+        if(rest.length > 3) formatted = '+63-' + rest.slice(0,3) + '-' + rest.slice(3);
+        if(rest.length > 6) formatted = '+63-' + rest.slice(0,3) + '-' + rest.slice(3,6) + '-' + rest.slice(6);
+        input.value = formatted;
+    } else {
+        input.value = value;
+    }
+
+    if(cursorAtEnd){
+        input.setSelectionRange(input.value.length, input.value.length);
+    }
+
+    // Update badge based on validation
+    updateContactBadge();
+}
+
+function validateContactNumber(){
+    const input = document.getElementById("contact");
+    const value = input.value.replace(/\D/g, ''); // Remove non-digits
+    
+    // Show validating state
+    const btn = document.getElementById("validateBtn");
+    const icon = document.getElementById("validateIcon");
+    btn.classList.add("validating");
+    icon.className = "fa fa-spinner";
+    
+    // Simulate validation delay
+    setTimeout(() => {
+        btn.classList.remove("validating");
+        
+        // Check if it's a valid Philippine mobile number
+        const isValid = (value.startsWith('09') && value.length === 11) || 
+                       (value.startsWith('639') && value.length === 12) ||
+                       (value.startsWith('63') && value.length === 12);
+        
+        if(isValid){
+            icon.className = "fa fa-check";
+            showContactBadge("✅ Valid Philippine mobile number!", "valid");
+        } else {
+            icon.className = "fa fa-times";
+            showContactBadge("❌ Invalid number. Use 09XX-XXX-XXXX or +63-9XX-XXX-XXXX format.", "invalid");
+        }
+    }, 1000);
+}
+
+function updateContactBadge(){
+    const input = document.getElementById("contact");
+    const value = input.value.replace(/\D/g, '');
+    
+    if(value.length === 0){
+        showContactBadge("Enter a valid Philippine mobile number", "");
+    } else if(value.startsWith('09') && value.length === 11){
+        showContactBadge("Valid format detected", "valid");
+    } else if(value.startsWith('63') && value.length === 12){
+        showContactBadge("Valid international format detected", "valid");
+    } else if(value.length > 0){
+        showContactBadge("Please enter a valid Philippine mobile number", "invalid");
+    }
+}
+
+function showContactBadge(text, status){
+    const badge = document.getElementById("contactBadge");
+    const textSpan = document.getElementById("contactBadgeText");
+    
+    if(!badge || !textSpan) return;
+    
+    badge.className = "contact-badge " + status;
+    textSpan.textContent = text;
+}
+
+/* ──────────────────────── */
+
+function showPaymentMethod(){
+
+    let payment = document.getElementById("payment").value;
+    
+    // Hide all payment boxes
+    document.getElementById("gcashBox").style.display = "none";
+
+    // Show the selected payment box
+    if(payment === "GCash"){
+        document.getElementById("gcashBox").style.display = "block";
+    }
+}
+
+function getPaymentReference(){
+    const paymentMethod = document.getElementById("payment").value;
+    
+    if(paymentMethod === "Cash") return "Cash on Delivery";
+    if(paymentMethod === "GCash") return document.getElementById("reference").value;
+    
+    return "";
+}
+
+/* SAVE */
+
+function saveOrder(){
+
+    // Validation
+    if (!document.getElementById("address").value.trim()) {
+        notify("❌ Please enter a delivery address.");
+        return;
+    }
+
+    if (!document.getElementById("gallon").value.trim()) {
+        notify("❌ Please enter the number of gallons.");
+        return;
+    }
+
+    if (!document.getElementById("gallonType").value) {
+        notify("❌ Please select gallon availability.");
+        return;
+    }
+
+    // Validate contact number
+    const contactValue = document.getElementById("contact").value.replace(/\D/g, '');
+    if (!contactValue || !(contactValue.startsWith('09') && contactValue.length === 11) && 
+        !(contactValue.startsWith('63') && contactValue.length === 12)) {
+        notify("❌ Please enter a valid Philippine mobile number.");
+        return;
+    }
+
+    if (!document.getElementById("recipient").value) {
+        notify("❌ Please specify who will receive the order.");
+        return;
+    }
+
+    // Validate payment reference based on method
+    const paymentMethod = document.getElementById("payment").value;
+    const paymentReference = getPaymentReference();
+    if (paymentMethod === "GCash" && !paymentReference.trim()) {
+        notify("❌ Please enter the GCash reference number.");
+        return;
+    }
+
+    let paymentStatus = "";
+    let paymentStatusDetail = "";
+    if (paymentMethod === "GCash") {
+        if (!/^[0-9]{8,16}$/.test(paymentReference.trim())) {
+            paymentStatus = "Rejected";
+            paymentStatusDetail = "Invalid GCash reference number.";
+        } else {
+            paymentStatus = "Pending Verification";
+            paymentStatusDetail = "Awaiting confirmation from GCash payment.";
+        }
+    } else {
+        paymentStatus = "Pay on Delivery";
+        paymentStatusDetail = "Cash payment to be collected on delivery.";
+    }
+
+    let orders =
+    getOrders();
+
+    let order = {
+
+        orderNumber:
+        String(
+        orders.length+1
+        ).padStart(3,"0"),
+
+        user:getUser(),
+
+        gallon:
+        document.getElementById(
+        "gallon"
+        ).value,
+
+        gallonType:
+        document.getElementById(
+        "gallonType"
+        ).value,
+
+        address:
+        document.getElementById(
+        "address"
+        ).value,
+
+        altAddress:
+        document.getElementById(
+        "altAddress"
+        ).value,
+
+        specificLocation:
+        document.getElementById(
+        "specificLocation"
+        ).value,
+
+        contact:
+        document.getElementById(
+        "contact"
+        ).value,
+
+        recipient:
+        document.getElementById(
+        "recipient"
+        ).value,
+
+        deliveryNotes:
+        document.getElementById(
+        "deliveryNotes"
+        ).value,
+
+        payment:
+        document.getElementById(
+        "payment"
+        ).value,
+
+        paymentReference: paymentReference,
+
+        paymentStatus: paymentStatus,
+
+        paymentStatusDetail: paymentStatusDetail,
+
+        status:"Go to Pickup",
+
+        total:150
+    };
+
+    orders.push(order);
+
+    saveOrders(orders);
+
+    notify(
+    "✅ Order Placed"
+    );
+
+    home();
+}
+
+/* TRACK */
+
+function trackOrder(){
+
+    let user =
+    getUser();
+
+    let orders =
+    getOrders().filter(
+    o=>o.user===user
+    );
+
+    let html = `
+
+    <div class="card">
+
+        <h2>
+        📦 Tracking Orders
+        </h2>
+
+    </div>
+    `;
+
+    orders.forEach(o=>{
+
+        html += `
+
+        <div class="card"
+        onclick="viewTrack(
+        '${o.orderNumber}'
+        )">
+
+            <b>
+            #${o.orderNumber}
+            </b>
+
+            <br>
+
+            ${o.status}
+
+        </div>
+        `;
+    });
+
+    document.getElementById(
+    "content"
+    ).innerHTML = html;
+}
+
+/* ETA */
+
+function getETA(status){
+
+    if(status==="Go to Pickup")
+    return "20 mins";
+
+    if(status==="Collecting Gallon")
+    return "15 mins";
+
+    if(status==="Cleaning")
+    return "10 mins";
+
+    if(status==="Refilling")
+    return "8 mins";
+
+    if(status==="Out for Delivery")
+    return "5 mins";
+
+    if(status==="Delivered")
+    return "Delivered";
+
+    return "Pending";
+}
+
+/* VIEW TRACK */
+
+function viewTrack(id){
+
+    let orders =
+    getOrders();
+
+    let o =
+    orders.find(
+    x=>x.orderNumber==id
+    );
+
+    let current =
+    steps.findIndex(
+    s=>s.label===o.status
+    );
+
+    if(current < 0)
+    current = 0;
+
+    let html = `
+
+    <div class="card">
+
+        <h2>
+        📍 Tracking
+        </h2>
+
+        <p class="sub">
+
+        Rider:
+        <b>
+
+        ${o.rider || "Waiting Rider"}
+
+        </b>
+
+        </p>
+
+        <p class="sub">
+            Order:
+            <b>${o.gallon} ${o.gallon === "1" ? "gallon" : "gallons"} of ${o.gallonType}</b>
+        </p>
+
+        <p class="sub">
+            Delivered to:
+            <b>${o.recipient || "Recipient"}</b>
+        </p>
+
+        <div class="eta-box">
+
+        🚚 ETA:
+        ${getETA(o.status)}
+
+        </div>
+
+        <div class="track-wrapper">
+
+        <div class="track-line"></div>
+
+        <div class="track-progress">
+    `;
+
+    steps.forEach((s,index)=>{
+
+        let className="";
+
+        if(index < current)
+        className="active";
+
+        if(index===current)
+        className="current";
+
+        if(o.status==="Delivered")
+        className="active";
+
+        html += `
+
+        <div class="track-step">
+
+            <div class="circle ${className}">
+
+            ${index+1}
+
+            </div>
+
+            <div class="track-label">
+
+            ${s.label}
+
+            </div>
+
+        </div>
+        `;
+    });
+
+    html += `
+
+        </div>
+        </div>
+    `;
+
+    if(o.status==="Delivered"){
+
+        html += `
+
+        <div style="margin-top:20px;">
+
+            <h3>
+            ⭐ Rate Rider
+            </h3>
+
+            <div class="stars">
+
+            <i class="fa-solid fa-star"
+            onclick="rateOrder(1)">
+            </i>
+
+            <i class="fa-solid fa-star"
+            onclick="rateOrder(2)">
+            </i>
+
+            <i class="fa-solid fa-star"
+            onclick="rateOrder(3)">
+            </i>
+
+            <i class="fa-solid fa-star"
+            onclick="rateOrder(4)">
+            </i>
+
+            <i class="fa-solid fa-star"
+            onclick="rateOrder(5)">
+            </i>
+
+            </div>
+
+            <textarea
+            id="review"
+            placeholder="Write review...">
+            </textarea>
+
+            <button
+            class="primary-btn"
+            onclick="submitReview(
+            '${o.orderNumber}'
+            )">
+
+            Submit Review
+
+            </button>
+
+        </div>
+        `;
+    }
+
+    html += `</div>`;
+
+    document.getElementById(
+    "content"
+    ).innerHTML = html;
+}
+
+/* RATE */
+
+let selectedRate = 0;
+
+function rateOrder(rate){
+
+    selectedRate = rate;
+
+    let stars =
+    document.querySelectorAll(
+    ".stars i"
+    );
+
+    stars.forEach((s,index)=>{
+
+        if(index < rate){
+
+            s.classList.add("active");
+
+        }else{
+
+            s.classList.remove("active");
+        }
+    });
+}
+
+/* SAVE REVIEW */
+
+function submitReview(id){
+
+    let orders =
+    getOrders();
+
+    let order =
+    orders.find(
+    x=>x.orderNumber==id
+    );
+
+    order.rating =
+    selectedRate;
+
+    order.review =
+    document.getElementById(
+    "review"
+    ).value;
+
+    saveOrders(orders);
+
+    notify(
+    "⭐ Review Submitted"
+    );
+
+    trackOrder();
+}
+
+/* PAYMENTS */
+
+function paymentHistory(){
+
+    let user =
+    getUser();
+
+    let orders =
+    getOrders().filter(
+    o=>o.user===user
+    );
+
+    let html = `
+
+    <div class="card">
+
+        <h2>
+        💳 Payment History
+        </h2>
+
+    </div>
+    `;
+
+    orders.reverse()
+    .forEach(o=>{
+
+        html += `
+
+        <div class="card">
+
+            <b>
+            #${o.orderNumber}
+            </b>
+
+            <br>
+
+            💧 ${o.gallon} ${o.gallonType || 'Gallon'}
+
+            <br>
+
+            💵 ${o.payment || 'Not selected'}${o.payment === 'GCash' && o.paymentReference ? ` · Ref: ${String(o.paymentReference).replace(/.(?=.{4})/g, '*')}` : ''}
+
+            <br>
+
+            🟢 Payment Status: ${o.paymentStatus || 'Unknown'}
+
+            <br>
+
+            ⚠️ Reason: ${o.paymentStatusDetail || 'No issues reported.'}
+
+            <br>
+
+            🧾 Total: ₱${o.total || 0}
+
+            <br>
+
+             👥 Customer: ${o.user || 'Mauiii'}
+
+            <br>
+
+            👥 Recipient: ${o.recipient || 'Not set'}
+
+            <br>
+
+            🚴 Rider: ${o.rider || 'Unassigned'}
+
+            <br>
+
+            📍 ${o.address}${o.altAddress ? ` (Alt: ${o.altAddress})` : ''}${o.specificLocation ? `, ${o.specificLocation}` : ''}
+
+            <br>
+
+            🚚 Status: ${o.status || 'Pending'}
+
+        </div>
+        `;
+    });
+
+    document.getElementById(
+    "content"
+    ).innerHTML = html;
+}
+
+/* PROFILE */
+
+function profile(){
+
+    let username = getUser();
+
+    let orders = getOrders()
+    .filter(o => o.user === username);
+
+    let completed =
+    orders.filter(
+    o => o.status === "Delivered"
+    ).length;
+
+    let totalSpent =
+    orders.reduce(
+    (s,o)=>s + Number(o.total || 0),
+    0
+    );
+
+    let latest =
+    orders[orders.length - 1];
+
+    let address =
+    latest ? latest.address : "No Address";
+
+    let contact =
+    latest ? latest.contact : "No Contact";
+
+    document.getElementById("content").innerHTML = `
+
+    <div class="profile-card">
+
+        <!-- TOP -->
+
+        <div style="
+            text-align:center;
+            margin-bottom:20px;
+        ">
+
+            <div style="
+                width:120px;
+                height:120px;
+                border-radius:50%;
+                margin:auto;
+
+                background:
+                linear-gradient(
+                    135deg,
+                    #0ea5e9,
+                    #38bdf8
+                );
+
+                display:flex;
+                align-items:center;
+                justify-content:center;
+
+                color:white;
+                font-size:42px;
+                font-weight:800;
+
+                box-shadow:
+                0 15px 35px rgba(14,165,233,0.35);
+
+                margin-bottom:18px;
+            ">
+
+                ${username.charAt(0).toUpperCase()}
+
+            </div>
+
+            <h2 style="
+                font-size:32px;
+                margin-bottom:6px;
+            ">
+                ${username}
+            </h2>
+
+            <p style="
+                color:#64748b;
+                font-size:15px;
+            ">
+                💧 Premium Water Customer
+            </p>
+
+        </div>  
+
+        <div style="text-align:center;margin-bottom:18px;">
+            <button class="primary-btn" style="max-width:260px;margin:auto;" onclick="openProfileGallonGenerator()">
+                <i class="fa fa-qrcode" style="margin-right:8px"></i>Generate Gallon QR for  Rider to identify if that is your gallon
+            </button>
+        </div>
+
+        <!-- STATS -->
+
+        <div style="
+            display:grid;
+            grid-template-columns:
+            repeat(auto-fit,minmax(220px,1fr));
+            gap:12px;
+            margin-bottom:20px;
+        ">
+
+            <div class="card" style="
+                margin:0;
+                padding:22px;
+            ">
+
+                <div style="
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                ">
+
+                    <div>
+
+                        <p style="
+                            color:#64748b;
+                            font-size:13px;
+                            margin-bottom:8px;
+                        ">
+                            Total Orders
+                        </p>
+
+                        <h1 style="
+                            color:#0f172a;
+                            font-size:34px;
+                        ">
+                            ${orders.length}
+                        </h1>
+
+                    </div>
+
+                    <div style="
+                        width:60px;
+                        height:60px;
+                        border-radius:18px;
+
+                        background:
+                        linear-gradient(
+                            135deg,
+                            #38bdf8,
+                            #0ea5e9
+                        );
+
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+
+                        color:white;
+                        font-size:24px;
+                    ">
+
+                        <i class="fa fa-box"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="card" style="
+                margin:0;
+                padding:15px;
+            ">
+
+                <div style="
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                ">
+
+                    <div>
+
+                        <p style="
+                            color:#64748b;
+                            font-size:13px;
+                            margin-bottom:8px;
+                        ">
+                            Completed
+                        </p>
+
+                        <h1 style="
+                            color:#22c55e;
+                            font-size:34px;
+                        ">
+                            ${completed}
+                        </h1>
+
+                    </div>
+
+                    <div style="
+                        width:60px;
+                        height:60px;
+                        border-radius:18px;
+
+                        background:
+                        linear-gradient(
+                            135deg,
+                            #22c55e,
+                            #16a34a
+                        );
+
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+
+                        color:white;
+                        font-size:24px;
+                    ">
+
+                        <i class="fa fa-check"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="card" style="
+                margin:0;
+                padding:22px;
+            ">
+
+                <div style="
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                ">
+
+                    <div>
+
+                        <p style="
+                            color:#64748b;
+                            font-size:13px;
+                            margin-bottom:8px;
+                        ">
+                            Total Spent
+                        </p>
+
+                        <h1 style="
+                            color:#2563eb;
+                            font-size:34px;
+                        ">
+                            ₱${totalSpent}
+                        </h1>
+
+                    </div>
+
+                    <div style="
+                        width:60px;
+                        height:60px;
+                        border-radius:18px;
+
+                        background:
+                        linear-gradient(
+                            135deg,
+                            #2563eb,
+                            #1d4ed8
+                        );
+
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+
+                        color:white;
+                        font-size:24px;
+                    ">
+
+                        <i class="fa fa-wallet"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- INFO -->
+
+        <div class="card" style="
+            margin:0;
+        ">
+
+            <h3 style="
+                margin-bottom:20px;
+                color:#0f172a;
+            ">
+                📋 Customer Information
+            </h3>
+
+            <div style="
+                display:grid;
+                grid-template-columns:
+                repeat(auto-fit,minmax(240px,1fr));
+                gap:18px;
+            ">
+
+                <div style="
+                    background:#f8fafc;
+                    padding:18px;
+                    border-radius:18px;
+                ">
+
+                    <p style="
+                        color:#64748b;
+                        margin-bottom:8px;
+                    ">
+                        📞 Contact Number
+                    </p>
+
+                    <h4>
+                        ${contact}
+                    </h4>
+
+                </div>
+
+                <div style="
+                    background:#f8fafc;
+                    padding:18px;
+                    border-radius:18px;
+                ">
+
+                    <p style="
+                        color:#64748b;
+                        margin-bottom:8px;
+                    ">
+                        📍 Address
+                    </p>
+
+                    <h4>
+                        ${address}
+                    </h4>
+
+                </div>
+
+                <div style="
+                    background:#f8fafc;
+                    padding:18px;
+                    border-radius:18px;
+                ">
+
+                    <p style="
+                        color:#64748b;
+                        margin-bottom:8px;
+                    ">
+                        ⭐ Membership
+                    </p>
+
+                    <h4>
+                        Loyalty Customer
+                    </h4>
+
+                </div>
+
+                <div style="
+                    background:#f8fafc;
+                    padding:18px;
+                    border-radius:18px;
+                ">
+
+                    <p style="
+                        color:#64748b;
+                        margin-bottom:8px;
+                    ">
+                        🚚 Favorite Service
+                    </p>
+
+                    <h4>
+                        Water Delivery
+                    </h4>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    `;
+}
+
+
+/* NOTIFY */
+
+function notify(text){
+
+    let div =
+    document.createElement("div");
+
+    div.className =
+    "notify";
+
+    div.innerHTML =
+    text;
+
+    document.body.appendChild(div);
+
+    setTimeout(()=>{
+
+        div.remove();
+
+    },3000);
+}
+
+function getDateTimeNow(){
+    return new Date().toLocaleString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true
+    });
+}
+
+function showCustomerLogoutModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.id = 'customerLogoutModal';
+
+    modal.innerHTML = `
+    <div class="modal-box">
+      <div class="modal-title">
+        <i class="fa fa-right-from-bracket" style="color:#f59e0b;"></i>
+        Confirm Logout
+      </div>
+
+      <div class="modal-row">
+        <span class="modal-label">Logout Time</span>
+        <span class="modal-value">${getDateTimeNow()}</span>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeCustomerLogoutModal()">
+          Cancel
+        </button>
+        <button class="btn btn-primary" onclick="customerLogoutNow()">
+          Logout
+        </button>
+      </div>
+    </div>
+    `;
+
+    document.body.appendChild(modal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeCustomerLogoutModal();
+        }
+    });
+}
+
+function closeCustomerLogoutModal() {
+    const m = document.getElementById('customerLogoutModal');
+    if (m) m.remove();
+}
+
+function customerLogoutNow(){
+    localStorage.removeItem("username");
+    window.location.href = "index.html";
+}
+
+/* REALTIME */
+
+setInterval(()=>{
+
+    let orders =
+    getOrders();
+
+    orders.forEach(o=>{
+
+        if(o.user===getUser()){
+
+            if(localStorage.getItem(
+            "last-"+o.orderNumber
+            ) !== o.status){
+
+                localStorage.setItem(
+                "last-"+o.orderNumber,
+                o.status
+                );
+
+                notify(
+                `🚚 Order #${o.orderNumber}
+                is now ${o.status}`
+                );
+            }
+        }
+    });
+
+},2000);
+
+/* CHAT */
+
+function toggleFAQ(){
+
+    let box = document.getElementById("faqBox");
+
+    box.style.display =
+    box.style.display === "flex"
+    ? "none"
+    : "flex";
+}
+
+/* =========================================
+   AI RAG PROTOTYPE SYSTEM
+========================================= */
+
+/* KNOWLEDGE BASE */
+
+/* =========================================
+   ADVANCED AI RAG KNOWLEDGE BASE
+========================================= */
+
+const knowledgeBase = [
+
+{
+    id:1,
+    topic:"delivery",
+    keywords:[
+        "delivery",
+        "eta",
+        "arrive",
+        "rider",
+        "minutes",
+        "where"
+    ],
+    response:
+    "🚚 Your water delivery usually arrives within 3-5 minutes depending on rider availability and traffic."
+},
+
+{
+    id:2,
+    topic:"payment",
+    keywords:[
+        "payment",
+        "gcash",
+        "cash",
+        "pay",
+        "money"
+    ],
+    response:
+    "💳 We support Cash on Delivery and GCash payments."
+},
+
+{
+    id:3,
+    topic:"tracking",
+    keywords:[
+        "track",
+        "status",
+        "order",
+        "tracking"
+    ],
+    response:
+    "📦 You may track your order in the Tracking section for real-time updates."
+},
+
+{
+    id:4,
+    topic:"price",
+    keywords:[
+        "price",
+        "cost",
+        "how much",
+        "bayad"
+    ],
+    response:
+    "💧 Water refill service starts at ₱150."
+},
+
+{
+    id:5,
+    topic:"location",
+    keywords:[
+        "address",
+        "gps",
+        "location",
+        "map"
+    ],
+    response:
+    "📍 You can use GPS autofill for faster delivery processing."
+},
+
+{
+    id:6,
+    topic:"support",
+    keywords:[
+        "help",
+        "support",
+        "problem",
+        "issue"
+    ],
+    response:
+    "🤖 Alka-Jozen AI Support is ready to assist you anytime."
+}
+
+];
+
+/* =========================================
+   AI MEMORY
+========================================= */
+
+let aiMemory = [];
+
+function rememberMessage(role, content){
+
+    aiMemory.push({
+        role,
+        content,
+        time:new Date().toLocaleTimeString()
+    });
+
+    /* limit memory */
+
+    if(aiMemory.length > 10){
+        aiMemory.shift();
+    }
+}
+
+/* =========================================
+   SEND MESSAGE
+========================================= */
+
+function sendFAQ(){
+
+    let input =
+    document.getElementById("faqInput");
+
+    let msg =
+    input.value.trim();
+
+    if(!msg) return;
+
+    appendMessage("You", msg);
+
+    input.value = "";
+
+    /* typing animation */
+
+    appendTyping();
+
+    setTimeout(()=>{
+
+        removeTyping();
+
+        let aiReply =
+        generateRAGResponse(msg);
+
+        appendMessage("AI", aiReply);
+
+    },Math.random()*1000 + 800);
+}
+
+
+/* =========================================
+   GENERATE RAG RESPONSE
+========================================= */
+
+function generateRAGResponse(message){
+
+    let msg =
+    message.toLowerCase();
+
+    rememberMessage("user", message);
+
+    let orders =
+    getOrders().filter(
+        o=>o.user===getUser()
+    );
+
+    /* =========================================
+       SMART ORDER RETRIEVAL
+    ========================================= */
+
+    if(
+        msg.includes("my order") ||
+        msg.includes("latest order") ||
+        msg.includes("track")
+    ){
+
+        if(orders.length === 0){
+            return "❌ No active orders found.";
+        }
+
+        let latest =
+        orders[orders.length - 1];
+
+        return `
+🤖 AI Order Assistant
+
+📦 Order #${latest.orderNumber}
+
+💧 Gallons:
+${latest.gallon}
+
+🚚 Status:
+${latest.status}
+
+💳 Payment:
+${latest.payment}
+
+⏱️ ETA:
+${getETA(latest.status)}
+
+📍 Address:
+${latest.address}
+        `;
+    }
+
+    /* =========================================
+       PAYMENT RETRIEVAL
+    ========================================= */
+
+    if(
+        msg.includes("payment status")
+    ){
+
+        if(orders.length === 0){
+            return "❌ No payment records found.";
+        }
+
+        let latest =
+        orders[orders.length - 1];
+
+        return `
+💳 Payment Information
+
+Method:
+${latest.payment}
+
+Status:
+${latest.paymentStatus}
+
+Details:
+${latest.paymentStatusDetail}
+        `;
+    }
+
+    /* =========================================
+       MEMORY AWARENESS
+    ========================================= */
+
+    if(
+        msg.includes("what did i ask") ||
+        msg.includes("memory")
+    ){
+
+        let lastQuestions =
+        aiMemory
+        .filter(x=>x.role==="user")
+        .slice(-3);
+
+        if(lastQuestions.length===0){
+            return "🤖 I currently have no conversation memory.";
+        }
+
+        return `
+🧠 Recent Conversation Memory
+
+${lastQuestions
+.map(x=>"• "+x.content)
+.join("\n")}
+        `;
+    }
+
+    /* =========================================
+       SIMULATED SEMANTIC SEARCH
+    ========================================= */
+
+    let bestMatch = null;
+    let highestScore = 0;
+
+    knowledgeBase.forEach(item=>{
+
+        let score = 0;
+
+        item.keywords.forEach(keyword=>{
+
+            if(msg.includes(keyword)){
+                score += 2;
+            }
+
+            /* semantic similarity simulation */
+
+            if(
+                keyword.startsWith(msg.slice(0,3))
+            ){
+                score += 1;
+            }
+
+        });
+
+        if(score > highestScore){
+
+            highestScore = score;
+            bestMatch = item;
+        }
+
+    });
+
+    /* =========================================
+       AI RECOMMENDATIONS
+    ========================================= */
+
+    if(
+        msg.includes("recommend")
+    ){
+
+        return `
+🤖 AI Recommendation
+
+💧 Recommended:
+• Weekly water refill subscription
+• GCash for faster checkout
+• GPS autofill for faster rider delivery
+        `;
+    }
+
+    /* =========================================
+       BEST MATCH
+    ========================================= */
+
+    if(bestMatch){
+
+        rememberMessage(
+            "assistant",
+            bestMatch.response
+        );
+
+        return `
+🤖 Alka-Jozen AI
+
+${bestMatch.response}
+        `;
+    }
+
+    /* =========================================
+       FALLBACK AI
+    ========================================= */
+
+    return `
+🤖 AI Assistant
+
+I couldn't fully understand your request.
+
+Try asking:
+• where is my order
+• payment status
+• delivery time
+• recommend service
+• tracking
+• price
+• address
+    `;
+}
+
+
+/* =========================================
+   CHAT UI HELPERS
+========================================= */
+
+function appendMessage(sender,text){
+
+    let body =
+    document.getElementById("faqBody");
+
+    let bubbleClass =
+    sender === "AI"
+    ? "ai-msg"
+    : "user-msg";
+
+    body.innerHTML += `
+
+    <div class="${bubbleClass}"
+    style="
+        margin-bottom:12px;
+        padding:12px 15px;
+        border-radius:18px;
+        max-width:85%;
+        white-space:pre-line;
+        animation:fadeIn .3s ease;
+
+        ${
+            sender==="AI"
+            ?
+            `
+            background:#e0f2fe;
+            color:#0f172a;
+            `
+            :
+            `
+            background:#0ea5e9;
+            color:white;
+            margin-left:auto;
+            `
+        }
+    ">
+
+    <b>${sender}:</b><br>
+    ${text}
+
+    </div>
+    `;
+
+    body.scrollTop =
+    body.scrollHeight;
+}
+
+
+/* =========================================
+   TYPING EFFECT
+========================================= */
+
+function appendTyping(){
+
+    let body =
+    document.getElementById("faqBody");
+
+    body.innerHTML += `
+
+    <div id="typingBubble"
+    style="
+        background:#e2e8f0;
+        padding:10px 15px;
+        border-radius:18px;
+        width:80px;
+        margin-bottom:12px;
+    ">
+
+    🤖 typing...
+
+    </div>
+    `;
+
+    body.scrollTop =
+    body.scrollHeight;
+}
+
+function removeTyping(){
+
+    let bubble =
+    document.getElementById("typingBubble");
+
+    if(bubble){
+        bubble.remove();
+    }
+}
+
+/* START */
+
+home();
+
+</script>
+
+<script>
+/* GALLON QR GENERATOR (Customer) */
+
+function openGallonGenerator(){
+        const modal = document.createElement('div');
+        modal.className = 'modal';
+        modal.id = 'gallonModal';
+
+        modal.innerHTML = `
+        <div class="modal-box">
+            <div class="modal-title"><i class="fa-solid fa-qrcode" style="color:#0ea5e9"></i> Generate Gallon QR</div>
+
+            <div style="margin-top:10px">
+                <label style="font-weight:700;color:#0f172a">Gallons</label>
+                <input id="gallonCount" type="number" placeholder="e.g. 5" />
+            </div>
+
+            <div style="margin-top:12px;text-align:center;">
+                <div id="gallonQrHolder"></div>
+                <a id="gallonDownload" style="display:none;margin-top:10px;" class="btn btn-primary">Download QR</a>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeGallonModal()">Close</button>
+                <button class="btn btn-primary" onclick="generateGallonQR()">Generate QR</button>
+            </div>
+        </div>
+        `;
+
+        document.body.appendChild(modal);
+}
+
+function closeGallonModal(){
+        const m = document.getElementById('gallonModal'); if(m) m.remove();
+}
+
+async function generateGallonQR(){
+        const count = Number(document.getElementById('gallonCount').value) || 0;
+        if(count <= 0) return alert('Enter a valid gallon amount');
+
+        const payload = JSON.stringify({
+                type: 'gallon',
+                user: getUser(),
+                gallons: count,
+                time: new Date().toISOString()
+        });
+
+        // use QRCode library (qrcode.min.js)
+        try{
+                const dataUrl = await QRCode.toDataURL(payload, { width: 240 });
+
+                const holder = document.getElementById('gallonQrHolder');
+                holder.innerHTML = `<img src="${dataUrl}" alt="Gallon QR" style="width:240px;height:240px;"/>`;
+
+                const dl = document.getElementById('gallonDownload');
+                dl.href = dataUrl;
+                dl.download = `gallon-${Date.now()}.png`;
+                dl.style.display = 'inline-block';
+
+                // save record locally
+                const list = JSON.parse(localStorage.getItem('gallonQRs')||'[]');
+                list.push({ user:getUser(), gallons:count, time:new Date().toISOString(), dataUrl });
+                localStorage.setItem('gallonQRs', JSON.stringify(list));
+
+        }catch(e){
+                console.error(e);
+                alert('Failed to generate QR');
+        }
+}
+
+// Floating button
+const genBtn = document.createElement('button');
+genBtn.className = 'chat-btn';
+genBtn.style.right = '100px';
+genBtn.style.bottom = '90px';
+genBtn.title = 'Generate Gallon QR';
+genBtn.innerHTML = '<i class="fa fa-qrcode"></i>';
+genBtn.onclick = openGallonGenerator;
+document.body.appendChild(genBtn);
+
+/* PROFILE: Gallon QR from profile */
+
+function openProfileGallonGenerator(){
+        // prefill from latest order if available
+        let user = getUser();
+        let orders = getOrders().filter(o=>o.user===user);
+        let latest = orders[orders.length-1] || {};
+        const defaultCount = latest.gallon || latest.gallons || 1;
+
+        const modal = document.createElement('div');
+        modal.className = 'modal';
+        modal.id = 'profileGallonModal';
+
+        modal.innerHTML = `
+        <div class="modal-box">
+            <div class="modal-title"><i class="fa-solid fa-qrcode" style="color:#0ea5e9"></i> Gallon QR for Rider</div>
+
+            <div style="margin-top:12px">
+                <label style="font-weight:700;color:#0f172a">Gallons</label>
+                <input id="profileGallonCount" type="number" value="${defaultCount}" style="margin-top:8px;padding:12px;border-radius:10px;width:100%;" />
+            </div>
+
+            <div style="margin-top:12px;text-align:center;" id="profileGallonPreview"></div>
+
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeProfileGallonModal()">Close</button>
+                <button class="btn btn-primary" onclick="generateProfileGallonQR()">Generate QR</button>
+            </div>
+        </div>
+        `;
+
+        document.body.appendChild(modal);
+}
+
+function closeProfileGallonModal(){
+        const m = document.getElementById('profileGallonModal'); if(m) m.remove();
+}
+
+async function generateProfileGallonQR(){
+        const count = Number(document.getElementById('profileGallonCount').value) || 0;
+        if(count <= 0) return alert('Enter a valid gallon count');
+
+        const payload = JSON.stringify({
+                type: 'gallon',
+                user: getUser(),
+                gallons: count,
+                time: new Date().toISOString()
+        });
+
+        try{
+                const dataUrl = await QRCode.toDataURL(payload, { width: 260 });
+                const holder = document.getElementById('profileGallonPreview');
+                holder.innerHTML = `<img src="${dataUrl}" alt="Gallon QR" style="width:260px;height:260px;"/><br><a href="${dataUrl}" download="gallon-${Date.now()}.png" class="primary-btn" style="display:inline-block;margin-top:8px;">Download QR</a>`;
+
+                const list = JSON.parse(localStorage.getItem('gallonQRs')||'[]');
+                list.push({ user:getUser(), gallons:count, time:new Date().toISOString(), dataUrl });
+                localStorage.setItem('gallonQRs', JSON.stringify(list));
+
+        }catch(e){ console.error(e); alert('Failed to generate QR'); }
+}
+
+</script>
+
+<!-- QR libraries -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
+</body>
+</html>
