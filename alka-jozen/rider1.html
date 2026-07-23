@@ -522,8 +522,10 @@ body {
     <button class="nav-btn" id="nav-delivered" onclick="setNav('delivered'); delivered()">
       <i class="fa-solid fa-circle-check"></i> Delivered
     </button>
+    <button class="nav-btn" id="nav-leave" onclick="setNav('leave'); showLeaveRequestForm()">
+      <i class="fa-solid fa-calendar-xmark"></i> Request Leave
+    </button>
 
-    <!-- 🔴 ADD THIS -->
   <button class="nav-btn" onclick="showLogoutModal()">
     <i class="fa-solid fa-right-from-bracket"></i> Logout
   </button>
@@ -609,40 +611,200 @@ function showAttendanceModal() {
   document.body.appendChild(modal);
 }
 
-function markPresent() {
-
+function showLeaveRequestForm() {
   const riderName = getRiderName();
-
-  // REQUEST DATA
-  const request = {
-    rider: riderName,
-    date: new Date().toLocaleDateString(),
-    time: new Date().toLocaleTimeString(),
-    status: "pending"
-  };
-
-  // SAVE REQUEST
-  localStorage.setItem(
-    "attendanceRequest",
-    JSON.stringify(request)
-  );
-
-  // WAITING STATUS
-  localStorage.setItem(
-    "attendance",
-    "waiting"
-  );
-
-  // REMOVE MODAL
-  const m = document.getElementById('attendanceModal');
-  if (m) m.remove();
-
-  // SHOW WAITING SCREEN
-  showWaitingApproval();
+  setNav('leave');
+  document.getElementById('pageTitle').textContent = 'Request Leave';
+  document.getElementById('content').innerHTML = `
+    <div class="card">
+      <h2>📩 Request Leave</h2>
+      <p>Submit your leave request and wait for manager approval.</p>
+      <div class="modal-row" style="display:flex;flex-direction:column;gap:14px;margin-top:18px;">
+        <div>
+          <span class="modal-label">Leave Date</span>
+          <input id="leaveDate" type="date" style="width:100%;padding:12px;border-radius:14px;border:1px solid rgba(13,52,96,0.15);font-family:'Nunito',sans-serif;" />
+        </div>
+        <div>
+          <span class="modal-label">Reason for Leave</span>
+          <textarea id="leaveReason" rows="5" style="width:100%;padding:12px;border-radius:14px;border:1px solid rgba(13,52,96,0.15);font-family:'Nunito',sans-serif;"></textarea>
+        </div>
+      </div>
+      <div class="action-row" style="margin-top:16px;">
+        <button class="btn btn-primary" onclick="submitLeaveRequest()">
+          <i class="fa-solid fa-paper-plane"></i> Submit Leave Request
+        </button>
+      </div>
+    </div>
+  `;
 }
 
-function showWaitingApproval(){
+function submitLeaveRequest() {
+  const leaveDate = document.getElementById('leaveDate').value;
+  const leaveReason = document.getElementById('leaveReason').value.trim();
 
+  if (!leaveDate || leaveReason === '') {
+    alert('Please choose a leave date and provide a reason.');
+    return;
+  }
+
+  const requestId = `leave-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+  const request = {
+    id: requestId,
+    type: 'leave-request',
+    riderId: getRiderName(),
+    riderName: getRiderName(),
+    leaveDate,
+    reason: leaveReason,
+    date: new Date().toLocaleDateString(),
+    time: new Date().toLocaleTimeString(),
+    status: 'Pending',
+    timestamp: Date.now()
+  };
+
+  const notifications = JSON.parse(localStorage.getItem('notifications')) || [];
+  notifications.push(request);
+  localStorage.setItem('notifications', JSON.stringify(notifications));
+  localStorage.setItem('currentLeaveRequestId', requestId);
+  localStorage.setItem('leaveState', 'waiting');
+
+  showLeaveRequestPending();
+}
+
+function getCurrentLeaveRequest() {
+  const requestId = localStorage.getItem('currentLeaveRequestId');
+  const notifications = JSON.parse(localStorage.getItem('notifications')) || [];
+  return notifications.find(n => n.id === requestId) || null;
+}
+
+function showLeaveRequestPending() {
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.id = 'leavePendingModal';
+
+  const request = getCurrentLeaveRequest() || {};
+
+  modal.innerHTML = `
+    <div class="modal-box">
+      <div class="modal-title">
+        <i class="fa-solid fa-hourglass-half" style="color:#f59e0b;"></i>
+        Leave Request Pending
+      </div>
+      <div class="modal-row">
+        <span class="modal-label">Rider Name</span>
+        <span class="modal-value">${request.riderName || getRiderName()}</span>
+      </div>
+      <div class="modal-row">
+        <span class="modal-label">Leave Date</span>
+        <span class="modal-value">${request.leaveDate || '--'}</span>
+      </div>
+      <div class="modal-row">
+        <span class="modal-label">Reason</span>
+        <span class="modal-value">${request.reason || '--'}</span>
+      </div>
+      <div class="modal-row">
+        <span class="modal-label">Submitted Time</span>
+        <span class="modal-value">${request.time || '--'}</span>
+      </div>
+      <div class="modal-row">
+        <span class="modal-label">Status</span>
+        <span class="modal-value" style="color:#f59e0b;font-weight:800;">
+          ${request.status || 'Pending'}
+        </span>
+      </div>
+      <div style="margin-top:18px;text-align:center;">
+        <div style="font-size:55px;animation: pulse 1.5s infinite;">⏳</div>
+        <p style="margin-top:10px;color:#1e4976;font-size:13px;">
+          Waiting for manager confirmation of your leave request.
+        </p>
+      </div>
+      <div class="action-row" style="justify-content:center;margin-top:18px;">
+        <button class="btn btn-secondary" onclick="checkLeaveRequestStatus()">Refresh Status</button>
+      </div>
+    </div>
+  `;
+
+  const existing = document.getElementById('leavePendingModal');
+  if (existing) existing.remove();
+  const existingAttendance = document.getElementById('attendanceModal');
+  if (existingAttendance) existingAttendance.remove();
+  const existingWaiting = document.getElementById('waitingModal');
+  if (existingWaiting) existingWaiting.remove();
+
+  document.body.appendChild(modal);
+  clearLeaveStatusInterval();
+  window.leaveStatusInterval = setInterval(checkLeaveRequestStatus, 5000);
+  checkLeaveRequestStatus();
+}
+
+function clearLeaveStatusInterval() {
+  if (window.leaveStatusInterval) {
+    clearInterval(window.leaveStatusInterval);
+    window.leaveStatusInterval = null;
+  }
+}
+
+function checkLeaveRequestStatus() {
+  const request = getCurrentLeaveRequest();
+  if (!request) return;
+
+  if (request.status === 'Approved') {
+    clearLeaveStatusInterval();
+    localStorage.setItem('leaveState', 'approved');
+    const pending = document.getElementById('leavePendingModal');
+    if (pending) pending.remove();
+    showLeaveApprovalResult('approved');
+    return;
+  }
+
+  if (request.status === 'Rejected') {
+    clearLeaveStatusInterval();
+    localStorage.setItem('leaveState', 'rejected');
+    const pending = document.getElementById('leavePendingModal');
+    if (pending) pending.remove();
+    showLeaveApprovalResult('rejected');
+    return;
+  }
+}
+
+function showLeaveApprovalResult(status) {
+  const approved = status === 'approved';
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.id = 'leaveResultModal';
+
+  modal.innerHTML = `
+    <div class="modal-box">
+      <div class="modal-title">
+        <i class="fa-solid ${approved ? 'fa-circle-check' : 'fa-circle-xmark'}" style="color:${approved ? '#22c55e' : '#ef4444'};"></i>
+        ${approved ? 'Leave Approved' : 'Leave Rejected'}
+      </div>
+      <div class="modal-row">
+        <span class="modal-label">Rider Name</span>
+        <span class="modal-value">${getRiderName()}</span>
+      </div>
+      <div class="modal-row">
+        <span class="modal-label">Status</span>
+        <span class="modal-value" style="color:${approved ? '#22c55e' : '#ef4444'};font-weight:800;">
+          ${approved ? 'Approved' : 'Rejected'}
+        </span>
+      </div>
+      <div style="margin-top:18px;color:#1e4976;font-size:13px;">
+        ${approved ? 'Your leave request has been approved by the manager.' : 'Your leave request was rejected. Please contact your manager for details.'}
+      </div>
+      <div class="action-row" style="justify-content:center;margin-top:18px;">
+        <button class="btn btn-secondary" onclick="document.getElementById('leaveResultModal').remove()">
+          Close
+        </button>
+      </div>
+    </div>
+  `;
+
+  const existing = document.getElementById('leaveResultModal');
+  if (existing) existing.remove();
+  document.body.appendChild(modal);
+}
+
+function showWaitingApproval() {
   const modal = document.createElement('div');
   modal.className = 'modal';
   modal.id = 'waitingModal';
@@ -729,6 +891,18 @@ function initRiderBadge() {
   document.getElementById('riderAvatar').textContent = name.charAt(0).toUpperCase();
 }
 initRiderBadge();
+restoreLeaveState();
+
+function restoreLeaveState() {
+  const leaveState = localStorage.getItem('leaveState') || 'none';
+  if (leaveState === 'waiting') {
+    showLeaveRequestPending();
+  } else if (leaveState === 'approved') {
+    showLeaveApprovalResult('approved');
+  } else if (leaveState === 'rejected') {
+    showLeaveApprovalResult('rejected');
+  }
+}
 
 /* STORAGE */
 function getOrders() { return JSON.parse(localStorage.getItem("history")) || []; }
@@ -740,7 +914,7 @@ function setNav(id) {
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   const el = document.getElementById('nav-' + id);
   if (el) el.classList.add('active');
-  const titles = { incoming: 'Incoming Orders', active: 'Active Deliveries', earnings: 'Earnings', delivered: 'Delivered Orders' };
+  const titles = { incoming: 'Incoming Orders', active: 'Active Deliveries', earnings: 'Earnings', delivered: 'Delivered Orders', leave: 'Request Leave' };
   document.getElementById('pageTitle').textContent = titles[id] || '';
 }
 

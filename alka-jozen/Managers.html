@@ -405,6 +405,124 @@ input, select, textarea{
 .bar-text{margin-top:10px;font-size:14px;opacity:0.9;}
 
 html{ -webkit-text-size-adjust:100%; }
+
+.chat-btn{
+
+    position:fixed;
+
+    right:25px;
+    bottom:90px;
+
+    width:65px;
+    height:65px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:
+    linear-gradient(
+        90deg,
+        #0ea5e9,
+        #38bdf8
+    );
+
+    color:white;
+
+    font-size:24px;
+
+    cursor:pointer;
+
+    z-index:9999;
+}
+
+.chat-box{
+
+    position:fixed;
+
+    right:25px;
+    bottom:165px;
+
+    width:340px;
+    height:420px;
+
+    background:white;
+
+    border-radius:28px;
+
+    overflow:hidden;
+
+    display:none;
+    flex-direction:column;
+
+    box-shadow:
+    0 10px 40px rgba(0,0,0,0.18);
+
+    z-index:9999;
+}
+
+.chat-header{
+
+    padding:18px;
+
+    background:
+    linear-gradient(
+        90deg,
+        #0ea5e9,
+        #38bdf8
+    );
+
+    color:white;
+    font-weight:700;
+}
+
+.chat-body{
+
+    flex:1;
+
+    padding:15px;
+
+    overflow-y:auto;
+
+    background:#f8fafc;
+}
+
+.chat-input{
+    display:flex;
+}
+
+.chat-input input{
+
+    margin:0;
+    border-radius:0;
+}
+
+.chat-input button{
+
+    width:90px;
+
+    border:none;
+
+    background:#0ea5e9;
+
+    color:white;
+}
+
+.ai-msg{
+    box-shadow:
+    0 4px 15px rgba(14,165,233,0.15);
+}
+
+.user-msg{
+    box-shadow:
+    0 4px 15px rgba(0,0,0,0.08);
+}
+
+@media(max-width:768px){
+  .chat-box{ right:5%; bottom:130px; width:90%; height:60vh; }
+  .chat-btn{ right:15px; bottom:90px; }
+}
+
 button, input, select, textarea{ font-size:16px; }
 
 </style>
@@ -534,6 +652,7 @@ function showAttendanceLogs(){
 <button onclick="inventory()">📦 Inventory</button>
 <button onclick="riderPerformance()">🚚 Rider Performance</button>
 <button onclick="showNotifications()">🔔 Notifications</button>
+<button onclick="showCustomerAccounts()">👤 Customer Accounts</button>
 <button onclick="openAttendanceGenerator()">🟩 Attendance QR</button>
 <button onclick="reports()">📋 Reports</button>
 <button onclick="showLogoutPopup()">🚪 Log Out</button>
@@ -560,6 +679,21 @@ function showAttendanceLogs(){
 <br><br>
 <button class="btn orange" onclick="closeReportForm()">❌ Close</button>
 </div>
+</div>
+
+<button class="chat-btn" onclick="toggleManagerFAQ()">
+  <i class="fa fa-robot"></i>
+</button>
+
+<div class="chat-box" id="managerFaqBox">
+  <div class="chat-header">Manager AI Assistant</div>
+  <div class="chat-body" id="managerFaqBody">
+    <p><b>AI:</b> Ask me about inventory, attendance, notifications, reports, or rider performance.</p>
+  </div>
+  <div class="chat-input">
+    <input id="managerFaqInput" placeholder="Ask AI anything..." onkeypress="if(event.key==='Enter') sendManagerFAQ()">
+    <button class="btn blue" onclick="sendManagerFAQ()">Send</button>
+  </div>
 </div>
 
 <script>
@@ -603,6 +737,41 @@ function getAttendance(){
 
 function saveAttendance(data){
   localStorage.setItem("attendance", JSON.stringify(data));
+}
+
+function showCustomerAccounts(){
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+  document.getElementById("content").innerHTML = `
+    <div class="card">
+      <h2>👥 Registered Customer Accounts</h2>
+      <p>${users.length} account${users.length === 1 ? "" : "s"} found</p>
+      <br>
+      ${users.length === 0 ? '<div class="notify">No registered customers found.</div>' : `
+        <table>
+          <tr>
+            <th>#</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Secondary Email</th>
+            <th>Role</th>
+          </tr>
+          ${users.map((user, index) => `
+            <tr>
+              <td>${index + 1}</td>
+              <td>${user.fname || "-"}</td>
+              <td>${user.lname || "-"}</td>
+              <td>${user.username || "-"}</td>
+              <td>${user.email || "-"}</td>
+              <td>${user.email2 || "-"}</td>
+              <td>${user.role || "customer"}</td>
+            </tr>
+          `).join("")}
+        </table>
+      `}
+    </div>
+  `;
 }
 
 let ridersList = [
@@ -1244,7 +1413,9 @@ function showNotifications(){
           <b>👤 ${n.riderName || 'System'}</b><br><br>
           ${n.type === 'edit-request' || n.type === 'inventory-add'
             ? `<b>Inventory Approval Request</b><br>${n.message || 'Stock approval requested'}<br><br>`
-            : `📅 ${n.date}<br>⏰ ${n.time}<br>🧾 Check-In: ${n.method || 'Manual'}<br><br>`}
+            : n.type === 'leave-request'
+              ? `<b>Leave Request</b><br>Leave Date: ${n.leaveDate || '--'}<br>Reason: ${n.reason || '--'}<br><br>`
+              : `📅 ${n.date}<br>⏰ ${n.time}<br>🧾 Check-In: ${n.method || 'Manual'}<br><br>`}
           📌 Status: <b>${n.status}</b>
           <br><br>
           ${
@@ -1300,6 +1471,8 @@ function approveNotification(id){
       }
     }
     notify("Stock request approved ✅");
+  } else if (notif.type === "leave-request") {
+    notify("Leave request approved ✅");
   } else {
     notify("Attendance Approved ✅");
   }
@@ -1323,6 +1496,8 @@ function rejectNotification(id){
       localStorage.setItem("inventoryLogs", JSON.stringify(inventoryLogs));
     }
     notify("Stock request rejected ❌");
+  } else if (notif.type === "leave-request") {
+    notify("Leave request rejected ❌");
   } else {
     notify("Attendance Rejected ❌");
   }
@@ -1467,6 +1642,123 @@ function renderAnalytics(){
 }
 
 dashboard();
+
+function toggleManagerFAQ(){
+  const box = document.getElementById('managerFaqBox');
+  box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
+}
+
+function sendManagerFAQ(){
+  const input = document.getElementById('managerFaqInput');
+  const msg = input.value.trim();
+  if(!msg) return;
+
+  appendManagerMessage('You', msg);
+  input.value = '';
+  appendManagerTyping();
+
+  setTimeout(() => {
+    removeManagerTyping();
+    const reply = generateManagerRAGResponse(msg);
+    appendManagerMessage('AI', reply);
+  }, Math.random() * 1000 + 800);
+}
+
+const managerKnowledgeBase = [
+  {
+    topic:'inventory',
+    keywords:['inventory','stock','gallons','refill','filter','supply'],
+    response:'Inventory is being tracked in real time. Open the Inventory section to review gallons, filter life, and pending stock requests.'
+  },
+  {
+    topic:'attendance',
+    keywords:['attendance','present','check in','login','logout'],
+    response:'Use the Attendance QR generator to create staff check-ins and review attendance from Rider Performance.'
+  },
+  {
+    topic:'notifications',
+    keywords:['notification','notifications','approve','reject','status'],
+    response:'Notifications show pending inventory and attendance approvals. Approve or reject requests from the manager view.'
+  },
+  {
+    topic:'reports',
+    keywords:['report','reports','sales','unsold','refilled'],
+    response:'Create daily reports in the Reports section for gallons refilled, sold, unsold, and the reason.'
+  },
+  {
+    topic:'rider',
+    keywords:['rider','performance','delivery','order','driver'],
+    response:'Rider Performance shows counts, delivery details, and quick rider overviews.'
+  }
+];
+
+function generateManagerRAGResponse(message){
+  const msg = message.toLowerCase();
+
+  if(msg.includes('inventory') || msg.includes('stock') || msg.includes('gallon')){
+    return `📦 Inventory Assistant\n\nCurrent stock: ${gallons} gallons available. Filter life is at ${filterLife.toFixed(2)}%. Use Inventory for new stock entries and reports.`;
+  }
+
+  if(msg.includes('attendance') || msg.includes('present') || msg.includes('login')){
+    return '🧾 Attendance Assistant\n\nUse the Attendance QR generator or Rider Performance to review staff attendance records.';
+  }
+
+  if(msg.includes('notification') || msg.includes('approve') || msg.includes('reject')){
+    return '🔔 Notification Assistant\n\nOpen Notifications to review approval requests and manage inventory/attendance actions.';
+  }
+
+  if(msg.includes('report') || msg.includes('reports')){
+    return '📋 Reports Assistant\n\nUse the Create Report button to log refilled, sold, and unsold gallons along with a reason.';
+  }
+
+  if(msg.includes('rider') || msg.includes('delivery') || msg.includes('performance')){
+    return '🚚 Rider Assistant\n\nGo to Rider Performance to see rider order counts, delivered status, and performance details.';
+  }
+
+  if(msg.includes('help') || msg.includes('hi') || msg.includes('hello')){
+    return '🤖 Manager AI\n\nAsk me about inventory, attendance, notifications, reports, or rider performance.';
+  }
+
+  let bestMatch = null;
+  let highestScore = 0;
+
+  managerKnowledgeBase.forEach(item => {
+    let score = 0;
+    item.keywords.forEach(keyword => {
+      if(msg.includes(keyword)) score += 2;
+      if(keyword.startsWith(msg.slice(0,3))) score += 1;
+    });
+    if(score > highestScore){
+      highestScore = score;
+      bestMatch = item;
+    }
+  });
+
+  if(bestMatch){
+    return `🤖 Manager AI\n\n${bestMatch.response}`;
+  }
+
+  return '🤖 Manager AI\n\nI didn\'t quite catch that. Try asking about inventory, attendance, notifications, reports, or rider performance.';
+}
+
+function appendManagerMessage(sender, text){
+  const body = document.getElementById('managerFaqBody');
+  const bubbleClass = sender === 'AI' ? 'ai-msg' : 'user-msg';
+
+  body.innerHTML += `\n    <div class="${bubbleClass}" style="animation:fadeIn .3s ease;">\n      <b>${sender}:</b><br>${text}\n    </div>\n`;
+  body.scrollTop = body.scrollHeight;
+}
+
+function appendManagerTyping(){
+  const body = document.getElementById('managerFaqBody');
+  body.innerHTML += `\n    <div id="managerTypingBubble" style="background:#e2e8f0;padding:10px 15px;border-radius:18px;width:90px;">\n      🤖 typing...\n    </div>\n`;
+  body.scrollTop = body.scrollHeight;
+}
+
+function removeManagerTyping(){
+  const bubble = document.getElementById('managerTypingBubble');
+  if(bubble) bubble.remove();
+}
 
 </script>
 

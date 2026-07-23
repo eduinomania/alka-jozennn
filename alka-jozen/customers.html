@@ -1981,7 +1981,7 @@ function saveOrder(){
 
         paymentStatusDetail: paymentStatusDetail,
 
-        status:"Go to Pickup",
+        status:"Order Received",
 
         total:150
     };
@@ -2376,6 +2376,7 @@ function paymentHistory(){
 function profile(){
 
     let username = getUser();
+    let currentUser = JSON.parse(localStorage.getItem('currentUser')) || {};
 
     let orders = getOrders()
     .filter(o => o.user === username);
@@ -2395,10 +2396,22 @@ function profile(){
     orders[orders.length - 1];
 
     let address =
-    latest ? latest.address : "No Address";
+    currentUser.address || latest?.address || "No Address";
 
     let contact =
-    latest ? latest.contact : "No Contact";
+    currentUser.phone || latest?.contact || "No Contact";
+
+    let fullName =
+    `${currentUser.fname || ""} ${currentUser.lname || ""}`.trim() || username;
+
+    let email =
+    currentUser.email || "No Email";
+
+    let secondaryEmail =
+    currentUser.email2 || "N/A";
+
+    let registeredRole =
+    currentUser.role || "Customer";
 
     document.getElementById("content").innerHTML = `
 
@@ -2445,22 +2458,34 @@ function profile(){
             <h2 style="
                 font-size:32px;
                 margin-bottom:6px;
+                color:#0f172a;
             ">
-                ${username}
+                ${fullName}
             </h2>
 
             <p style="
-                color:#64748b;
+                color:#0ea5e9;
                 font-size:15px;
+                font-weight:600;
+                text-transform:capitalize;
             ">
-                💧 Premium Water Customer
+                💧 ${registeredRole.charAt(0).toUpperCase() + registeredRole.slice(1).toLowerCase()} Account
+            </p>
+
+            <p style="
+                color:#334155;
+                font-size:14px;
+                margin-top:6px;
+                letter-spacing:0.02em;
+            ">
+                ${email}
             </p>
 
         </div>  
 
         <div style="text-align:center;margin-bottom:18px;">
             <button class="primary-btn" style="max-width:260px;margin:auto;" onclick="openProfileGallonGenerator()">
-                <i class="fa fa-qrcode" style="margin-right:8px"></i>Generate Gallon QR for  Rider to identify if that is your gallon
+                <i class="fa fa-qrcode" style="margin-right:8px"></i>Generate Gallon QR for Rider
             </button>
         </div>
 
@@ -2680,11 +2705,49 @@ function profile(){
                         color:#64748b;
                         margin-bottom:8px;
                     ">
-                        📞 Contact Number
+                        👤 Full Name
                     </p>
 
                     <h4>
-                        ${contact}
+                        ${fullName}
+                    </h4>
+
+                </div>
+
+                <div style="
+                    background:#f8fafc;
+                    padding:18px;
+                    border-radius:18px;
+                ">
+
+                    <p style="
+                        color:#64748b;
+                        margin-bottom:8px;
+                    ">
+                        ✉ Primary Email
+                    </p>
+
+                    <h4>
+                        ${email}
+                    </h4>
+
+                </div>
+
+                <div style="
+                    background:#f8fafc;
+                    padding:18px;
+                    border-radius:18px;
+                ">
+
+                    <p style="
+                        color:#64748b;
+                        margin-bottom:8px;
+                    ">
+                        📧 Secondary Email
+                    </p>
+
+                    <h4>
+                        ${secondaryEmail}
                     </h4>
 
                 </div>
@@ -2704,6 +2767,25 @@ function profile(){
 
                     <h4>
                         ${address}
+                    </h4>
+
+                </div>
+
+                <div style="
+                    background:#f8fafc;
+                    padding:18px;
+                    border-radius:18px;
+                ">
+
+                    <p style="
+                        color:#64748b;
+                        margin-bottom:8px;
+                    ">
+                        📞 Contact Number
+                    </p>
+
+                    <h4>
+                        ${contact}
                     </h4>
 
                 </div>
