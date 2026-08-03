@@ -1,6 +1,7 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <title>Alka-Jozen Rider Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -29,7 +30,7 @@ body {
 .blob3 { width: 180px; height: 180px; background: rgba(125,211,252,0.12); top: 45%; left: 60%; animation-delay: -9s; }
 @keyframes blobFloat { 0%,100%{transform:translateY(0) scale(1);} 50%{transform:translateY(-22px) scale(1.05);} }
 
-/* ── SIDEBAR ── */
+/* â”€â”€ SIDEBAR â”€â”€ */
 .sidebar {
   width: 220px; height: 100vh;
   position: fixed; left: 0; top: 0;
@@ -102,7 +103,7 @@ body {
 .rider-name { font-size: 12px; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .rider-role { font-size: 10px; color: rgba(255,255,255,0.5); font-weight: 600; }
 
-/* ── MAIN ── */
+/* â”€â”€ MAIN â”€â”€ */
 .main {
   margin-left: 220px;
   min-height: 100vh;
@@ -290,14 +291,14 @@ body {
 /* DIVIDER */
 .divider { height: 1px; background: rgba(255,255,255,0.35); margin: 4px 0 16px; }
 
-/* ───────────────── MOBILE OPTIMIZED ───────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ MOBILE OPTIMIZED â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (max-width: 768px) {
 
   body{
     padding-bottom:90px;
   }
 
-  /* SIDEBAR → bottom nav */
+  /* SIDEBAR â†’ bottom nav */
   .sidebar{
     position:fixed;
     bottom:0;
@@ -617,8 +618,8 @@ function showLeaveRequestForm() {
   document.getElementById('pageTitle').textContent = 'Request Leave';
   document.getElementById('content').innerHTML = `
     <div class="card">
-      <h2>📩 Request Leave</h2>
-      <p>Submit your leave request and wait for manager approval.</p>
+      <h2 style="font-size: 18px; font-weight: 800; color: #0d3460; margin-bottom: 8px;">📩 Request Leave</h2>
+      <p style="font-size: 13px; font-weight: 700; color: #1e4976;">Submit your leave request and wait for manager approval.</p>
       <div class="modal-row" style="display:flex;flex-direction:column;gap:14px;margin-top:18px;">
         <div>
           <span class="modal-label">Leave Date</span>
@@ -685,7 +686,7 @@ function showLeaveRequestPending() {
 
   modal.innerHTML = `
     <div class="modal-box">
-      <div class="modal-title">
+      <div class="modal-title" style="letter-spacing:0.1px;">
         <i class="fa-solid fa-hourglass-half" style="color:#f59e0b;"></i>
         Leave Request Pending
       </div>
@@ -713,7 +714,7 @@ function showLeaveRequestPending() {
       </div>
       <div style="margin-top:18px;text-align:center;">
         <div style="font-size:55px;animation: pulse 1.5s infinite;">⏳</div>
-        <p style="margin-top:10px;color:#1e4976;font-size:13px;">
+        <p style="margin-top:10px;color:#1e4976;font-size:13px;font-weight:700;line-height:1.5;">
           Waiting for manager confirmation of your leave request.
         </p>
       </div>
@@ -847,7 +848,7 @@ function showWaitingApproval() {
           animation: pulse 1.5s infinite;
         ">⏳</div>
 
-        <p style="margin-top:10px;color:#1e4976;font-size:13px;">
+        <p style="margin-top:10px;color:#1e4976;font-size:13px;font-weight:700;line-height:1.5;">
           Please wait while the manager reviews your attendance.
         </p>
       </div>
@@ -918,7 +919,7 @@ function setNav(id) {
   document.getElementById('pageTitle').textContent = titles[id] || '';
 }
 
-/* ── INCOMING ── */
+/* â”€â”€ INCOMING â”€â”€ */
 loadOrders();
 function loadOrders() {
   const o = getOrders();
@@ -968,7 +969,7 @@ function loadOrders() {
   document.getElementById('content').innerHTML = html;
 }
 
-/* ── ACCEPT ── */
+/* â”€â”€ ACCEPT â”€â”€ */
 function accept(i) {
   const o = getOrders();
   o[i].status = "Go to Pickup";
@@ -977,7 +978,7 @@ function accept(i) {
   setNav('active'); active();
 }
 
-/* ── ACTIVE ── */
+/* â”€â”€ ACTIVE â”€â”€ */
 const stepFlow = ["Go to Pickup","Collecting Gallon","Cleaning","Refilling","Out for Delivery","Delivered"];
 const stepIcons = ["fa-route","fa-bucket","fa-soap","fa-fill-drip","fa-truck-fast","fa-circle-check"];
 
@@ -1043,7 +1044,7 @@ function setStatus(i, status) {
   active();
 }
 
-/* ── DETAILS MODAL ── */
+/* â”€â”€ DETAILS MODAL â”€â”€ */
 function showDetails(i) {
   const o = getOrders(); const x = o[i];
   const modal = document.createElement('div');
@@ -1067,7 +1068,7 @@ function showDetails(i) {
 }
 function closeModal() { const m = document.getElementById('modal'); if (m) m.remove(); }
 
-/* ── EARNINGS ── */
+/* â”€â”€ EARNINGS â”€â”€ */
 
 let earningsChart;
 let currentRange = "today";
@@ -1307,7 +1308,7 @@ function renderChart(labels, data) {
 
 
 
-/* ── DELIVERED ── */
+/* â”€â”€ DELIVERED â”€â”€ */
 function delivered() {
   const rider = getRiderName();
   const o = getOrders().filter(x => x.status === "Delivered");
@@ -1508,7 +1509,7 @@ function logoutNow() {
   localStorage.removeItem("currentAttendanceRequestId");
   localStorage.removeItem("attendanceRequest");
   localStorage.removeItem("loginTime");
-  window.location.href = "login.html"; // or your login page
+  window.location.href = "index.html";
 }
 
 function simulateManagerApprove() {
@@ -1591,7 +1592,7 @@ function showApprovalPopup(status){
   const modal = document.createElement("div");
   modal.className = "modal";
 
-  let icon = status === "approved" ? "🎉" : "❌";
+  let icon = status === "approved" ? "✅" : "❌";
   let title = status === "approved" ? "Approved!" : "Rejected";
   let color = status === "approved" ? "#22c55e" : "#ef4444";
   let msg = status === "approved"

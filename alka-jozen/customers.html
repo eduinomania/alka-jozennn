@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -1441,7 +1441,7 @@ function home(){
 
             <br>
 
-            🧾 Total: ₱${o.total || '0'}
+            💰 Total: ₱${o.total || '0'}
 
             <br>
 
@@ -1529,7 +1529,7 @@ function newOrder(){
 
         <input id="altAddress" placeholder="📍 Add Another Address (If you put wrong address) ">
 
-        <input id="specificLocation" placeholder="🏠 Specific Location (e.g., Apartment, Floor, Landmark)">
+        <input id="specificLocation" placeholder="📍 Specific Location (e.g., Apartment, Floor, Landmark)">
 
         <!-- CONTACT WITH VALIDATION -->
         <div class="contact-wrapper">
@@ -1617,7 +1617,7 @@ function newOrder(){
     `;
 }
 
-/* ── GEOLOCATION FEATURE ── */
+/* â”€â”€ GEOLOCATION FEATURE â”€â”€ */
 
 let detectedLat = null;
 let detectedLon = null;
@@ -1838,7 +1838,7 @@ function showContactBadge(text, status){
     textSpan.textContent = text;
 }
 
-/* ──────────────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 function showPaymentMethod(){
 
@@ -1868,17 +1868,17 @@ function saveOrder(){
 
     // Validation
     if (!document.getElementById("address").value.trim()) {
-        notify("❌ Please enter a delivery address.");
+        notify("âŒ Please enter a delivery address.");
         return;
     }
 
     if (!document.getElementById("gallon").value.trim()) {
-        notify("❌ Please enter the number of gallons.");
+        notify("âŒ Please enter the number of gallons.");
         return;
     }
 
     if (!document.getElementById("gallonType").value) {
-        notify("❌ Please select gallon availability.");
+        notify("âŒ Please select gallon availability.");
         return;
     }
 
@@ -1886,12 +1886,12 @@ function saveOrder(){
     const contactValue = document.getElementById("contact").value.replace(/\D/g, '');
     if (!contactValue || !(contactValue.startsWith('09') && contactValue.length === 11) && 
         !(contactValue.startsWith('63') && contactValue.length === 12)) {
-        notify("❌ Please enter a valid Philippine mobile number.");
+        notify("âŒ Please enter a valid Philippine mobile number.");
         return;
     }
 
     if (!document.getElementById("recipient").value) {
-        notify("❌ Please specify who will receive the order.");
+        notify("âŒ Please specify who will receive the order.");
         return;
     }
 
@@ -1899,7 +1899,7 @@ function saveOrder(){
     const paymentMethod = document.getElementById("payment").value;
     const paymentReference = getPaymentReference();
     if (paymentMethod === "GCash" && !paymentReference.trim()) {
-        notify("❌ Please enter the GCash reference number.");
+        notify("âŒ Please enter the GCash reference number.");
         return;
     }
 
@@ -2340,7 +2340,7 @@ function paymentHistory(){
 
             <br>
 
-            🧾 Total: ₱${o.total || 0}
+            💰 Total: ₱${o.total || 0}
 
             <br>
 
@@ -2352,7 +2352,7 @@ function paymentHistory(){
 
             <br>
 
-            🚴 Rider: ${o.rider || 'Unassigned'}
+            🏍️ Rider: ${o.rider || 'Unassigned'}
 
             <br>
 
@@ -2685,7 +2685,7 @@ function profile(){
                 margin-bottom:20px;
                 color:#0f172a;
             ">
-                📋 Customer Information
+                📄 Customer Information
             </h3>
 
             <div style="
@@ -2743,7 +2743,7 @@ function profile(){
                         color:#64748b;
                         margin-bottom:8px;
                     ">
-                        📧 Secondary Email
+                        ✉ Secondary Email
                     </p>
 
                     <h4>
@@ -3385,7 +3385,7 @@ function appendTyping(){
         margin-bottom:12px;
     ">
 
-    🤖 typing...
+🤖 typing...
 
     </div>
     `;

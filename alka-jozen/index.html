@@ -1,7 +1,7 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
-
+<meta charset="UTF-8">
 <title>Alka-Jozen Login</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -754,7 +754,7 @@ function captureLocation() {
 
 /* REGISTER */
 function register() {
-  let users = JSON.parse(localStorage.getItem("users"));
+  let users = JSON.parse(localStorage.getItem("users") || "[]");
   let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   if (
@@ -806,7 +806,7 @@ function register() {
       }));
       showMessage("Success", "Registered Successfully!", () => {
         fname.value = lname.value = rusername.value = remail.value = remail2.value = rphone.value = raddress.value = rpass.value = confirmPass.value = "";
-        window.location.href = "customer.html";
+        window.location.href = "customers.html";
       });
     }
   );
@@ -814,7 +814,7 @@ function register() {
 
 /* LOGIN */
 function login() {
-  let users = JSON.parse(localStorage.getItem("users"));
+  let users = JSON.parse(localStorage.getItem("users") || "[]");
   let user = users.find(u =>
     u.username === loginUsername.value &&
     u.password === loginPass.value
@@ -825,13 +825,13 @@ function login() {
   localStorage.setItem("username", user.username);
   localStorage.setItem("currentUser", JSON.stringify(user));
   showMessage("Welcome", "Welcome " + user.fname, () => {
-    window.location.href = "customer.html";
+    window.location.href = "customers.html";
   });
 }
 
 /* SEND OTP */
 function sendOTP() {
-  let users = JSON.parse(localStorage.getItem("users"));
+  let users = JSON.parse(localStorage.getItem("users") || "[]");
   let user = users.find(u => u.email === femail.value);
   if (!user) { showMessage("Email Not Found", "Email not found!"); return; }
   generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
@@ -841,7 +841,7 @@ function sendOTP() {
 /* VERIFY OTP */
 function verifyOTP() {
   if (otpInput.value !== generatedOTP) { showMessage("Invalid OTP", "Invalid OTP!"); return; }
-  let users = JSON.parse(localStorage.getItem("users"));
+  let users = JSON.parse(localStorage.getItem("users") || "[]");
   let user = users.find(u => u.email === femail.value);
   if (!user) { showMessage("User Not Found", "User not found!"); return; }
   user.password = newpass.value;

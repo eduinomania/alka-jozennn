@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -553,7 +553,7 @@ function openAttendanceGenerator(){
 
   modal.innerHTML = `
     <div class="popup-card">
-      <h2>🟩 Generate Attendance QR</h2>
+      <h2>📷 Generate Attendance QR</h2>
       <br>
       <select id="attendanceRider">${riderOptions}</select>
       <br><br>
@@ -620,7 +620,7 @@ function showAttendanceLogs(){
 
 <div id="attendancePopup" class="popup-overlay">
 <div class="popup-card">
-<h2>📅 Attendance Confirmation</h2>
+<h2>🗓️ Attendance Confirmation</h2>
 <br>
 <p id="attendanceDate"></p>
 <p id="attendanceTime"></p>
@@ -639,22 +639,22 @@ function showAttendanceLogs(){
 <p id="logoutTime"></p>
 <br>
 <button class="btn orange" onclick="confirmLogout()">
-📌 Confirm Log Out
+📁 Confirm Log Out
 </button>
 </div>
 </div>
 
 <div class="sidebar">
 <div class="brand">
-💧 MANAGER
+🏢 MANAGER
 </div>
-<button onclick="dashboard()">📊 Dashboard</button>
+<button onclick="dashboard()">🏠 Dashboard</button>
 <button onclick="inventory()">📦 Inventory</button>
-<button onclick="riderPerformance()">🚚 Rider Performance</button>
+<button onclick="riderPerformance()">🏍️ Rider Performance</button>
 <button onclick="showNotifications()">🔔 Notifications</button>
 <button onclick="showCustomerAccounts()">👤 Customer Accounts</button>
-<button onclick="openAttendanceGenerator()">🟩 Attendance QR</button>
-<button onclick="reports()">📋 Reports</button>
+<button onclick="openAttendanceGenerator()">🧾 Attendance QR</button>
+<button onclick="reports()">📄 Reports</button>
 <button onclick="showLogoutPopup()">🚪 Log Out</button>
 </div>
 
@@ -668,7 +668,7 @@ function showAttendanceLogs(){
 
 <div id="reportPopup" class="popup-overlay">
 <div class="popup-card">
-<h2>📋 Create Report</h2>
+<h2>📄 Create Report</h2>
 <br>
 <input id="repRefilled" type="number" placeholder="Total Gallons Refilled">
 <input id="repSold" type="number" placeholder="Total Gallons Sold">
@@ -677,7 +677,7 @@ function showAttendanceLogs(){
 <br><br>
 <button class="btn green" onclick="saveReport()">💾 Save Report</button>
 <br><br>
-<button class="btn orange" onclick="closeReportForm()">❌ Close</button>
+<button class="btn orange" onclick="closeReportForm()">✖ Close</button>
 </div>
 </div>
 
@@ -803,7 +803,7 @@ function riderPerformance(){
     </div>
 
     <div class="card">
-      <h2>🚚 Rider Performance</h2>
+      <h2>🏍️ Rider Performance</h2>
       <p>Select a rider to view full performance</p>
       <br>
       ${ridersList.map(r=>`
@@ -925,9 +925,9 @@ function renderAttendanceCalendar(rider){
 
   <div class="card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-      <button class="btn blue" onclick="changeMonth(-1, '${rider.name}')">⬅</button>
+      <button class="btn blue" onclick="changeMonth(-1, '${rider.name}')">◀</button>
       <h2>📅 ${monthNames[currentMonth]} ${currentYear}</h2>
-      <button class="btn blue" onclick="changeMonth(1, '${rider.name}')">➡</button>
+      <button class="btn blue" onclick="changeMonth(1, '${rider.name}')">▶</button>
     </div>
 
     <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;text-align:center;margin-bottom:10px;font-weight:bold;">
@@ -1046,6 +1046,11 @@ let inventoryLogs = [
   { date:"5/10/2026", refill:2200, sold:2000 }
 ];
 
+inventoryLogs = inventoryLogs.map((log, index) => ({
+  id: log.id || Date.now() + index,
+  ...log
+}));
+
 let reportsList = JSON.parse(localStorage.getItem("reportsList")) || [];
 
 let customerOrders = [
@@ -1059,7 +1064,7 @@ let customerOrders = [
 function updateAttendancePopup(){
 const now = new Date();
 document.getElementById("attendanceDate").innerHTML = "📅 Date: " + now.toDateString();
-document.getElementById("attendanceTime").innerHTML = "⏰ Time In: " + now.toLocaleTimeString();
+document.getElementById("attendanceTime").innerHTML = "🕒 Time In: " + now.toLocaleTimeString();
 }
 
 updateAttendancePopup();
@@ -1093,7 +1098,7 @@ document.getElementById("content").innerHTML = `
 </div>
 
 <div class="card">
-<h2>📊 Sales Analytics</h2>
+<h2>📈 Sales Analytics</h2>
 <br>
 <select id="analyticsFilter" onchange="renderAnalytics()" style="padding:12px;border:none;border-radius:12px;margin-bottom:20px;font-size:16px;">
 <option value="today">Today</option>
@@ -1163,9 +1168,9 @@ function renderManagerAttendanceCalendar(){
 
   <div class="card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-      <button class="btn blue">⬅</button>
+      <button class="btn blue">◀</button>
       <h2>📅 Manager Attendance - ${monthNames[month]} ${year}</h2>
-      <button class="btn blue">➡</button>
+      <button class="btn blue">▶</button>
     </div>
 
     <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;text-align:center;margin-bottom:10px;font-weight:bold;">
@@ -1191,7 +1196,7 @@ function renderManagerAttendanceCalendar(){
       if(record.status === "present"){ bg = "#22c55e"; }
       if(record.status === "late"){ bg = "#f59e0b"; }
       if(record.status === "absent"){ bg = "#ef4444"; }
-      tooltip = `${record.status.toUpperCase()}\n\n⏰ Time In: ${record.timeIn}\n\n🕔 Time Out: ${record.timeOut}`;
+      tooltip = `${record.status.toUpperCase()}\n\n🕒 Time In: ${record.timeIn}\n\n⏱️ Time Out: ${record.timeOut}`;
     }
 
     html += `
@@ -1243,9 +1248,9 @@ document.getElementById("content").innerHTML = `
 <p>Enter gallons refilled today:</p>
 <input type="number" id="gallonInput" placeholder="e.g. 100">
 <br><br>
-<button class="btn blue" onclick="addSoldGallons()">➕ Submit</button>
+<button class="btn blue" onclick="addSoldGallons()">➤ Submit</button>
 <br><br>
-<div class="notify">💧 Every gallon reduces filter life by 0.005%</div>
+<div class="notify">🧪 Every gallon reduces filter life by 0.005%</div>
 <br>
 ${
 filterLife <= 10
@@ -1282,16 +1287,15 @@ ${log.status || "Unedited"}
 </td>
 <td>
 ${
-  log.status === "Pending Approval"
-  ? `<span class="status pending">Pending Approval</span>`
-  : log.editRequested
-  ? `<span class="status pending">Pending Approval</span>`
-  : log.status === "Rejected"
+  log.status === "Rejected"
   ? `<span class="status rejected">Rejected</span>`
   : log.status === "Approved"
   ? `<span class="status delivered">Approved</span>`
-  : `<button class="btn orange" onclick="requestEdit(${log.id})">Request Edit</button>`
+  : `<span class="status ${log.status === "Edited" ? "prepare" : log.status === "Pending" ? "pending" : "delivered"}">${log.status || "Unedited"}</span>`
 }
+</td>
+<td>
+  <button class="btn orange" onclick="editInventoryLog(${log.id})">Edit</button>
 </td>
 </tr>
 `).join("")
@@ -1302,29 +1306,29 @@ ${
 `;
 }
 
-function requestEdit(id){
+function editInventoryLog(id){
+  let log = inventoryLogs.find(l => l.id === id);
+  if(!log) return;
 
-let log = inventoryLogs.find(l => l.id === id);
-if(!log) return;
+  const currentValue = log.totalInput ?? log.sold ?? 0;
+  const userInput = prompt("Enter new total gallons for this record:", currentValue);
+  if(userInput === null) return;
 
-log.editRequested = true;
-log.status = "Pending Approval";
+  const sold = parseFloat(userInput);
+  if(isNaN(sold) || sold <= 0){
+    alert("Invalid input");
+    return;
+  }
 
-notifications.push({
-  id: "edit_" + id,
-  type: "edit-request",
-  logId: id,
-  riderName: "System",
-  message: "Edit request for daily sales input",
-  status: "Pending",
-  date: new Date().toLocaleDateString(),
-  time: new Date().toLocaleTimeString()
-});
+  log.totalInput = sold;
+  if(log.sold !== undefined) log.sold = sold;
+  log.impact = Number((-(sold * 0.005)).toFixed(2));
+  log.status = "Edited";
+  log.editRequested = false;
+  log.approved = true;
 
-localStorage.setItem("inventoryLogs", JSON.stringify(inventoryLogs));
-localStorage.setItem("notifications", JSON.stringify(notifications));
-
-inventory();
+  localStorage.setItem("inventoryLogs", JSON.stringify(inventoryLogs));
+  inventory();
 }
 
 function addSoldGallons(){
@@ -1344,26 +1348,21 @@ inventoryLogs.push({
   date: new Date().toLocaleDateString(),
   fullDate: new Date().toLocaleString(),
   totalInput: sold,
-  impact: -(sold * 0.005).toFixed(2),
-  status: "Pending Approval",
-  editRequested: true,
-  approved: false,
-  type: "add-request"
+  impact: Number((-(sold * 0.005)).toFixed(2)),
+  status: "Approved",
+  editRequested: false,
+  approved: true,
+  type: "inventory"
 });
 
-notifications.push({
-  id: `invadd_${logId}`,
-  type: "inventory-add",
-  logId,
-  riderName: "System",
-  message: `Add stock request for ${sold} gallons`,
-  status: "Pending",
-  date: new Date().toLocaleDateString(),
-  time: new Date().toLocaleTimeString()
-});
+gallons += sold;
+totalGallonsSold += sold;
+filterLife = Math.max(0, filterLife - sold * 0.005);
 
 localStorage.setItem("inventoryLogs", JSON.stringify(inventoryLogs));
-localStorage.setItem("notifications", JSON.stringify(notifications));
+localStorage.setItem("gallons", gallons);
+localStorage.setItem("totalGallonsSold", totalGallonsSold);
+localStorage.setItem("filterLife", filterLife);
 
 document.getElementById("gallonInput").value = "";
 
@@ -1376,7 +1375,7 @@ function riderMonitoring(){
 document.getElementById("content").innerHTML = `
 
 <div class="card">
-<h2>🚚 Rider Monitoring</h2>
+<h2>🏍️ Rider Monitoring</h2>
 <br>
 <table>
 <tr>
@@ -1415,8 +1414,8 @@ function showNotifications(){
             ? `<b>Inventory Approval Request</b><br>${n.message || 'Stock approval requested'}<br><br>`
             : n.type === 'leave-request'
               ? `<b>Leave Request</b><br>Leave Date: ${n.leaveDate || '--'}<br>Reason: ${n.reason || '--'}<br><br>`
-              : `📅 ${n.date}<br>⏰ ${n.time}<br>🧾 Check-In: ${n.method || 'Manual'}<br><br>`}
-          📌 Status: <b>${n.status}</b>
+              : `📅 ${n.date}<br>🕒 ${n.time}<br>🧾 Check-In: ${n.method || 'Manual'}<br><br>`}
+          📝 Status: <b>${n.status}</b>
           <br><br>
           ${
             n.status === "Pending"
@@ -1511,18 +1510,18 @@ function reports(){
 document.getElementById("content").innerHTML = `
 
 <div class="card">
-<h2>📋 Reports</h2>
+<h2>📄 Reports</h2>
 <br>
-<button class="btn blue" onclick="openReportForm()">➕ Create Report</button>
+<button class="btn blue" onclick="openReportForm()">➤ Create Report</button>
 <br><br>
-<h3>📄 Generated Reports</h3>
+<h3>📝 Generated Reports</h3>
 ${
 reportsList.length === 0
 ? `<div class="notify">No reports yet</div>`
 : reportsList.map(r=>`
 <div class="notify">
 <b>${r.date}</b><br><br>
-💧 Refilled: ${r.refilled} gallons<br>
+🧪 Refilled: ${r.refilled} gallons<br>
 📦 Sold: ${r.sold} gallons<br>
 📉 Unsold: ${r.unsold} gallons<br>
 📝 Reason: ${r.reason}
@@ -1537,7 +1536,7 @@ reportsList.length === 0
 function showLogoutPopup(){
 const now = new Date();
 document.getElementById("logoutDate").innerHTML = "📅 Date: " + now.toDateString();
-document.getElementById("logoutTime").innerHTML = "⏰ Time Out: " + now.toLocaleTimeString();
+document.getElementById("logoutTime").innerHTML = "🕒 Time Out: " + now.toLocaleTimeString();
 document.getElementById("logoutPopup").style.display = "flex";
 }
 
@@ -1546,7 +1545,7 @@ const now = new Date();
 localStorage.setItem("managerLogoutDate", now.toDateString());
 localStorage.setItem("managerLogoutTime", now.toLocaleTimeString());
 alert("Logged Out Successfully ✅");
-window.location.href = "login.html";
+window.location.href = "index.html";
 }
 
 document.getElementById("attendancePopup").style.display = "flex";
@@ -1558,7 +1557,8 @@ filterLife = parseFloat(localStorage.getItem("filterLife")) || 80;
 const savedLogs = JSON.parse(localStorage.getItem("inventoryLogs"));
 
 if(savedLogs && savedLogs.length > 0){
-  inventoryLogs = savedLogs.map(log => ({
+  inventoryLogs = savedLogs.map((log, index) => ({
+    id: log.id || Date.now() + index,
     ...log,
     refill: Number(log.refill || log.totalInput || Math.floor(Math.random()*5000)+1000),
     sold: Number(log.sold || log.totalInput || Math.floor(Math.random()*4000)+800)
@@ -1708,11 +1708,11 @@ function generateManagerRAGResponse(message){
   }
 
   if(msg.includes('report') || msg.includes('reports')){
-    return '📋 Reports Assistant\n\nUse the Create Report button to log refilled, sold, and unsold gallons along with a reason.';
+    return '📄 Reports Assistant\n\nUse the Create Report button to log refilled, sold, and unsold gallons along with a reason.';
   }
 
   if(msg.includes('rider') || msg.includes('delivery') || msg.includes('performance')){
-    return '🚚 Rider Assistant\n\nGo to Rider Performance to see rider order counts, delivered status, and performance details.';
+    return '🏍️ Rider Assistant\n\nGo to Rider Performance to see rider order counts, delivered status, and performance details.';
   }
 
   if(msg.includes('help') || msg.includes('hi') || msg.includes('hello')){

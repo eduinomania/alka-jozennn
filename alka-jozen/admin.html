@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -504,11 +504,11 @@ background:rgba(255,255,255,0.15);
 💧 OWNER DASHBOARD
 </div>
 
-<button onclick="salesReport()">💰 Sales Report</button>
+<button onclick="salesReport()">📊 Sales Report</button>
 
 <button onclick="managerPerformance()">👨‍💼 Manager Performance</button>
 
-<button onclick="riderPerformance()">🚴 Rider Performance</button>
+<button onclick="riderPerformance()">🏍️ Rider Performance</button>
 
 <button onclick="inventoryFilter()">🧪 Inventory & Filter</button>
 
@@ -629,7 +629,7 @@ onchange="updateSalesChart()">
 
 <div class="card">
 
-<h3>💰 Total Sales Summary</h3>
+<h3>📊 Total Sales Summary</h3>
 
 <br>
 
@@ -861,7 +861,7 @@ document.getElementById("content").innerHTML = `
 <div class="calendar-controls">
 
 <button class="calendar-btn" onclick="prevMonth()">
-⬅
+◀
 </button>
 
 <h2 id="monthTitle">
@@ -869,7 +869,7 @@ document.getElementById("content").innerHTML = `
 </h2>
 
 <button class="calendar-btn" onclick="nextMonth()">
-➡
+▶
 </button>
 
 </div>
@@ -896,12 +896,12 @@ document.getElementById("content").innerHTML = `
 
 <div class="card">
 
-<h3>📋 Submitted Report</h3>
+<h3>📄 Submitted Report</h3>
 
 <br>
 
 <div class="notify">
-🧾 Refilled Gallons:
+🧪 Refilled Gallons:
 ${refilled}
 </div>
 
@@ -1076,7 +1076,7 @@ ${day}
 
 ${data.in ? `🕘 ${data.in}<br>` : ""}
 
-${data.out ? `🕔 ${data.out}` : "No Attendance"}
+${data.out ? `🕕 ${data.out}` : "No Attendance"}
 
 </div>
 
@@ -1098,7 +1098,7 @@ ${day}
 
 <div class="time">
 🕘 8:00 AM<br>
-🕔 5:00 PM
+🕕 5:00 PM
 </div>
 
 <div class="status-label">
@@ -1162,7 +1162,7 @@ document.getElementById("content").innerHTML = `
 <div class="card rider-card"
 onclick="openRider('Juan Rider')">
 
-<h2>🚴 Juan Rider</h2>
+<h2>🏍️ Juan Rider</h2>
 
 <br>
 
@@ -1174,7 +1174,7 @@ onclick="openRider('Juan Rider')">
 <div class="card rider-card"
 onclick="openRider('Mark Rider')">
 
-<h2>🚴 Mark Rider</h2>
+<h2>🏍️ Mark Rider</h2>
 
 <br>
 
@@ -1328,7 +1328,7 @@ document.getElementById("content").innerHTML = `
 <button class="btn"
 onclick="riderPerformance()"
 style="margin-bottom:20px;">
-⬅ Back to Riders
+◀ Back to Riders
 </button>
 
 <div class="grid">
@@ -1362,7 +1362,7 @@ flex-wrap:wrap;
 gap:10px;
 ">
 
-<h2>💰 ${name} Income Tracker</h2>
+<h2>📊 ${name} Income Tracker</h2>
 
 <select id="riderIncomeFilter"
 style="
@@ -1405,7 +1405,7 @@ Monthly
 
 <button class="calendar-btn"
 onclick="prevRiderMonth()">
-⬅
+◀
 </button>
 
 <h2 id="riderMonthTitle">
@@ -1414,7 +1414,7 @@ onclick="prevRiderMonth()">
 
 <button class="calendar-btn"
 onclick="nextRiderMonth()">
-➡
+▶
 </button>
 
 </div>
@@ -1605,7 +1605,7 @@ ${data.in ?
 `🕘 ${data.in}<br>` : ""}
 
 ${data.out ?
-`🕔 ${data.out}` :
+`🕕 ${data.out}` :
 "No Attendance"}
 
 </div>
@@ -1630,7 +1630,7 @@ ${day}
 
 <div class="time">
 🕘 8:00 AM<br>
-🕔 5:00 PM
+🕕 5:00 PM
 </div>
 
 <div class="status-label">
@@ -1773,7 +1773,7 @@ Edited
 <br>
 
 <div class="notify">
-💧 Every gallon input reduces filter lifespan by 0.005%
+🧪 Every gallon input reduces filter lifespan by 0.005%
 </div>
 
 <div class="notify">
