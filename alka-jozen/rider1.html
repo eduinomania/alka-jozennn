@@ -30,7 +30,7 @@ body {
 .blob3 { width: 180px; height: 180px; background: rgba(125,211,252,0.12); top: 45%; left: 60%; animation-delay: -9s; }
 @keyframes blobFloat { 0%,100%{transform:translateY(0) scale(1);} 50%{transform:translateY(-22px) scale(1.05);} }
 
-/* â”€â”€ SIDEBAR â”€â”€ */
+/* SIDEBAR */
 .sidebar {
   width: 220px; height: 100vh;
   position: fixed; left: 0; top: 0;
@@ -103,7 +103,7 @@ body {
 .rider-name { font-size: 12px; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .rider-role { font-size: 10px; color: rgba(255,255,255,0.5); font-weight: 600; }
 
-/* â”€â”€ MAIN â”€â”€ */
+/* MAIN */
 .main {
   margin-left: 220px;
   min-height: 100vh;
@@ -291,14 +291,13 @@ body {
 /* DIVIDER */
 .divider { height: 1px; background: rgba(255,255,255,0.35); margin: 4px 0 16px; }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ MOBILE OPTIMIZED â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* MOBILE OPTIMIZED */
 @media (max-width: 768px) {
 
   body{
     padding-bottom:90px;
   }
 
-  /* SIDEBAR â†’ bottom nav */
   .sidebar{
     position:fixed;
     bottom:0;
@@ -361,13 +360,11 @@ body {
     background:rgba(255,255,255,0.15);
   }
 
-  /* MAIN */
   .main{
     margin-left:0;
     width:100%;
   }
 
-  /* TOPBAR */
   .topbar{
     padding:14px;
     flex-direction:column;
@@ -393,12 +390,10 @@ body {
     font-size:11px;
   }
 
-  /* CONTENT */
   .content{
     padding:14px;
   }
 
-  /* CARD */
   .card{
     padding:18px;
     border-radius:18px;
@@ -419,7 +414,6 @@ body {
     line-height:1.5;
   }
 
-  /* BUTTONS */
   .action-row{
     flex-direction:column;
   }
@@ -431,7 +425,6 @@ body {
     font-size:13px;
   }
 
-  /* STEPS */
   .steps-grid{
     grid-template-columns:1fr;
   }
@@ -443,7 +436,6 @@ body {
     font-size:12px;
   }
 
-  /* STATS */
   .stats-grid{
     grid-template-columns:1fr;
   }
@@ -456,7 +448,6 @@ body {
     font-size:24px;
   }
 
-  /* CHART */
   .chart-card{
     padding:18px;
     overflow-x:auto;
@@ -467,7 +458,6 @@ body {
     max-height:220px;
   }
 
-  /* MODAL */
   .modal{
     padding:16px;
   }
@@ -495,8 +485,59 @@ body {
 
 }
 
+
+/* ---- MANAGER QR VERIFICATION (pre-login) ---- */
+.qr-auth-overlay {
+  position: fixed; inset: 0;
+  background: rgba(10,40,80,0.55);
+  display: flex; justify-content: center; align-items: center;
+  z-index: 99999; backdrop-filter: blur(8px);
+}
+.qr-auth-box {
+  width: 90%; max-width: 430px;
+  background: rgba(236,246,255,0.98);
+  backdrop-filter: blur(22px);
+  border: 1px solid rgba(255,255,255,0.7);
+  border-radius: 32px; padding: 30px 28px;
+  box-shadow: 0 28px 70px rgba(16,80,139,0.18);
+  animation: popIn 0.28s cubic-bezier(0.34,1.56,0.64,1);
+  text-align: center;
+}
+.qr-auth-step {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 1px; color: rgba(13,52,96,0.55);
+  background: rgba(56,189,248,0.14); border: 1px solid rgba(56,189,248,0.3);
+  padding: 4px 12px; border-radius: 20px; margin-bottom: 12px;
+}
+.qr-auth-subtitle {
+  font-size: 13px; font-weight: 600; color: #1e4976;
+  line-height: 1.6; margin-bottom: 16px;
+}
+.qr-auth-camera {
+  width: 320px; max-width: 100%; height: 260px;
+  margin: 0 auto; border-radius: 18px; overflow: hidden;
+  background: rgba(13,52,96,0.05);
+}
+.qr-auth-result {
+  margin-top: 12px; font-weight: 800; color: #0d3460; min-height: 18px;
+}
+.qr-auth-tip {
+  margin-top: 12px; padding: 12px 14px; border-radius: 14px;
+  background: rgba(56,189,248,0.12); color: #0d3460;
+  font-size: 12px; font-weight: 700; line-height: 1.5;
+}
+.qr-auth-fail { color: #ef4444 !important; }
+.qr-auth-pass { color: #16a34a !important; }
+@media (max-width: 768px) {
+  .qr-auth-box { padding: 22px 18px; border-radius: 22px; }
+  .qr-auth-camera { width: 100%; height: 240px; }
+}
+
 </style>
 </head>
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+
 <body>
 
 <div class="bg-dots"></div>
@@ -523,10 +564,6 @@ body {
     <button class="nav-btn" id="nav-delivered" onclick="setNav('delivered'); delivered()">
       <i class="fa-solid fa-circle-check"></i> Delivered
     </button>
-    <button class="nav-btn" id="nav-leave" onclick="setNav('leave'); showLeaveRequestForm()">
-      <i class="fa-solid fa-calendar-xmark"></i> Request Leave
-    </button>
-
   <button class="nav-btn" onclick="showLogoutModal()">
     <i class="fa-solid fa-right-from-bracket"></i> Logout
   </button>
@@ -544,8 +581,36 @@ body {
   </div>
 </div>
 
+
+<!-- MANAGER QR VERIFICATION OVERLAY -->
+<div class="qr-auth-overlay" id="managerQrOverlay" style="display:none;">
+  <div class="qr-auth-box">
+    <div class="qr-auth-step"><i class="fa-solid fa-shield-halved"></i> Manager Verification</div>
+    <div style="font-size:20px;font-weight:800;color:#0f172a;margin-bottom:6px;">
+      <i class="fa-solid fa-qrcode" style="color:#38bdf8;"></i> Scan Manager QR Code
+    </div>
+    <div class="qr-auth-subtitle">
+      To log in, scan the QR code provided by your manager.
+    </div>
+    <div class="qr-auth-camera" id="managerQrReader"></div>
+    <div class="qr-auth-result" id="managerQrResult"></div>
+    <div class="qr-auth-tip">
+      <i class="fa-solid fa-circle-info"></i> After scanning, you will be
+      signed in to your rider dashboard automatically.
+    </div>
+    <div class="action-row" style="margin-top:18px;justify-content:center;gap:12px;flex-wrap:wrap;">
+      <button class="btn btn-primary" id="managerStartScanBtn" onclick="startManagerQrScan()">
+        <i class="fa-solid fa-camera"></i> Start Scanning
+      </button>
+      <button class="btn btn-secondary" onclick="manualManagerKey()">
+        <i class="fa-solid fa-key"></i> Enter Key Manually
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- MAIN -->
-<div class="main">
+<div class="main" style="display:none;">
   <div class="topbar">
     <div class="page-title" id="pageTitle">Incoming Orders</div>
     <div class="topbar-right">
@@ -558,7 +623,38 @@ body {
 
 <script>
 
-  function getDateTimeNow() {
+  function riderLogin() {
+    // QR gate: login is locked until the manager's QR is scanned
+    if (localStorage.getItem("managerQrVerified") !== "true") {
+      alert("Please scan your manager's QR code first before signing in.");
+      const qrOverlay = document.getElementById("managerQrOverlay");
+      if (qrOverlay) qrOverlay.style.display = "flex";
+      document.querySelector('.main').style.display = 'none';
+      return;
+    }
+    // QR verified → sign the rider in directly
+    if (typeof completeRiderLogin === "function") completeRiderLogin();
+  }
+
+function ensureRiderLogin() {
+  const riderLoggedIn = localStorage.getItem("riderLoggedIn") === "true";
+  const overlay = document.getElementById("riderLoginOverlay");
+  const main = document.querySelector('.main');
+
+  if (!riderLoggedIn) {
+    // No username/password overlay — the manager QR is the login
+    const qrOverlay = document.getElementById("managerQrOverlay");
+    if (qrOverlay) qrOverlay.style.display = 'flex';
+    if (main) main.style.display = 'none';
+    return false;
+  }
+
+  if (overlay) overlay.style.display = 'none';
+  if (main) main.style.display = 'block';
+  return true;
+}
+
+function getDateTimeNow() {
   const now = new Date();
   return now.toLocaleString('en-PH', {
     year: 'numeric',
@@ -609,199 +705,6 @@ function showAttendanceModal() {
     </div>
   `;
 
-  document.body.appendChild(modal);
-}
-
-function showLeaveRequestForm() {
-  const riderName = getRiderName();
-  setNav('leave');
-  document.getElementById('pageTitle').textContent = 'Request Leave';
-  document.getElementById('content').innerHTML = `
-    <div class="card">
-      <h2 style="font-size: 18px; font-weight: 800; color: #0d3460; margin-bottom: 8px;">📩 Request Leave</h2>
-      <p style="font-size: 13px; font-weight: 700; color: #1e4976;">Submit your leave request and wait for manager approval.</p>
-      <div class="modal-row" style="display:flex;flex-direction:column;gap:14px;margin-top:18px;">
-        <div>
-          <span class="modal-label">Leave Date</span>
-          <input id="leaveDate" type="date" style="width:100%;padding:12px;border-radius:14px;border:1px solid rgba(13,52,96,0.15);font-family:'Nunito',sans-serif;" />
-        </div>
-        <div>
-          <span class="modal-label">Reason for Leave</span>
-          <textarea id="leaveReason" rows="5" style="width:100%;padding:12px;border-radius:14px;border:1px solid rgba(13,52,96,0.15);font-family:'Nunito',sans-serif;"></textarea>
-        </div>
-      </div>
-      <div class="action-row" style="margin-top:16px;">
-        <button class="btn btn-primary" onclick="submitLeaveRequest()">
-          <i class="fa-solid fa-paper-plane"></i> Submit Leave Request
-        </button>
-      </div>
-    </div>
-  `;
-}
-
-function submitLeaveRequest() {
-  const leaveDate = document.getElementById('leaveDate').value;
-  const leaveReason = document.getElementById('leaveReason').value.trim();
-
-  if (!leaveDate || leaveReason === '') {
-    alert('Please choose a leave date and provide a reason.');
-    return;
-  }
-
-  const requestId = `leave-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-  const request = {
-    id: requestId,
-    type: 'leave-request',
-    riderId: getRiderName(),
-    riderName: getRiderName(),
-    leaveDate,
-    reason: leaveReason,
-    date: new Date().toLocaleDateString(),
-    time: new Date().toLocaleTimeString(),
-    status: 'Pending',
-    timestamp: Date.now()
-  };
-
-  const notifications = JSON.parse(localStorage.getItem('notifications')) || [];
-  notifications.push(request);
-  localStorage.setItem('notifications', JSON.stringify(notifications));
-  localStorage.setItem('currentLeaveRequestId', requestId);
-  localStorage.setItem('leaveState', 'waiting');
-
-  showLeaveRequestPending();
-}
-
-function getCurrentLeaveRequest() {
-  const requestId = localStorage.getItem('currentLeaveRequestId');
-  const notifications = JSON.parse(localStorage.getItem('notifications')) || [];
-  return notifications.find(n => n.id === requestId) || null;
-}
-
-function showLeaveRequestPending() {
-  const modal = document.createElement('div');
-  modal.className = 'modal';
-  modal.id = 'leavePendingModal';
-
-  const request = getCurrentLeaveRequest() || {};
-
-  modal.innerHTML = `
-    <div class="modal-box">
-      <div class="modal-title" style="letter-spacing:0.1px;">
-        <i class="fa-solid fa-hourglass-half" style="color:#f59e0b;"></i>
-        Leave Request Pending
-      </div>
-      <div class="modal-row">
-        <span class="modal-label">Rider Name</span>
-        <span class="modal-value">${request.riderName || getRiderName()}</span>
-      </div>
-      <div class="modal-row">
-        <span class="modal-label">Leave Date</span>
-        <span class="modal-value">${request.leaveDate || '--'}</span>
-      </div>
-      <div class="modal-row">
-        <span class="modal-label">Reason</span>
-        <span class="modal-value">${request.reason || '--'}</span>
-      </div>
-      <div class="modal-row">
-        <span class="modal-label">Submitted Time</span>
-        <span class="modal-value">${request.time || '--'}</span>
-      </div>
-      <div class="modal-row">
-        <span class="modal-label">Status</span>
-        <span class="modal-value" style="color:#f59e0b;font-weight:800;">
-          ${request.status || 'Pending'}
-        </span>
-      </div>
-      <div style="margin-top:18px;text-align:center;">
-        <div style="font-size:55px;animation: pulse 1.5s infinite;">⏳</div>
-        <p style="margin-top:10px;color:#1e4976;font-size:13px;font-weight:700;line-height:1.5;">
-          Waiting for manager confirmation of your leave request.
-        </p>
-      </div>
-      <div class="action-row" style="justify-content:center;margin-top:18px;">
-        <button class="btn btn-secondary" onclick="checkLeaveRequestStatus()">Refresh Status</button>
-      </div>
-    </div>
-  `;
-
-  const existing = document.getElementById('leavePendingModal');
-  if (existing) existing.remove();
-  const existingAttendance = document.getElementById('attendanceModal');
-  if (existingAttendance) existingAttendance.remove();
-  const existingWaiting = document.getElementById('waitingModal');
-  if (existingWaiting) existingWaiting.remove();
-
-  document.body.appendChild(modal);
-  clearLeaveStatusInterval();
-  window.leaveStatusInterval = setInterval(checkLeaveRequestStatus, 5000);
-  checkLeaveRequestStatus();
-}
-
-function clearLeaveStatusInterval() {
-  if (window.leaveStatusInterval) {
-    clearInterval(window.leaveStatusInterval);
-    window.leaveStatusInterval = null;
-  }
-}
-
-function checkLeaveRequestStatus() {
-  const request = getCurrentLeaveRequest();
-  if (!request) return;
-
-  if (request.status === 'Approved') {
-    clearLeaveStatusInterval();
-    localStorage.setItem('leaveState', 'approved');
-    const pending = document.getElementById('leavePendingModal');
-    if (pending) pending.remove();
-    showLeaveApprovalResult('approved');
-    return;
-  }
-
-  if (request.status === 'Rejected') {
-    clearLeaveStatusInterval();
-    localStorage.setItem('leaveState', 'rejected');
-    const pending = document.getElementById('leavePendingModal');
-    if (pending) pending.remove();
-    showLeaveApprovalResult('rejected');
-    return;
-  }
-}
-
-function showLeaveApprovalResult(status) {
-  const approved = status === 'approved';
-  const modal = document.createElement('div');
-  modal.className = 'modal';
-  modal.id = 'leaveResultModal';
-
-  modal.innerHTML = `
-    <div class="modal-box">
-      <div class="modal-title">
-        <i class="fa-solid ${approved ? 'fa-circle-check' : 'fa-circle-xmark'}" style="color:${approved ? '#22c55e' : '#ef4444'};"></i>
-        ${approved ? 'Leave Approved' : 'Leave Rejected'}
-      </div>
-      <div class="modal-row">
-        <span class="modal-label">Rider Name</span>
-        <span class="modal-value">${getRiderName()}</span>
-      </div>
-      <div class="modal-row">
-        <span class="modal-label">Status</span>
-        <span class="modal-value" style="color:${approved ? '#22c55e' : '#ef4444'};font-weight:800;">
-          ${approved ? 'Approved' : 'Rejected'}
-        </span>
-      </div>
-      <div style="margin-top:18px;color:#1e4976;font-size:13px;">
-        ${approved ? 'Your leave request has been approved by the manager.' : 'Your leave request was rejected. Please contact your manager for details.'}
-      </div>
-      <div class="action-row" style="justify-content:center;margin-top:18px;">
-        <button class="btn btn-secondary" onclick="document.getElementById('leaveResultModal').remove()">
-          Close
-        </button>
-      </div>
-    </div>
-  `;
-
-  const existing = document.getElementById('leaveResultModal');
-  if (existing) existing.remove();
   document.body.appendChild(modal);
 }
 
@@ -892,42 +795,167 @@ function initRiderBadge() {
   document.getElementById('riderAvatar').textContent = name.charAt(0).toUpperCase();
 }
 initRiderBadge();
-restoreLeaveState();
-
-function restoreLeaveState() {
-  const leaveState = localStorage.getItem('leaveState') || 'none';
-  if (leaveState === 'waiting') {
-    showLeaveRequestPending();
-  } else if (leaveState === 'approved') {
-    showLeaveApprovalResult('approved');
-  } else if (leaveState === 'rejected') {
-    showLeaveApprovalResult('rejected');
-  }
-}
 
 /* STORAGE */
 function getOrders() { return JSON.parse(localStorage.getItem("history")) || []; }
 function save(data) { localStorage.setItem("history", JSON.stringify(data)); }
 function getName(o) { return o.name || o.user || "Unknown"; }
 
+const riderLocationWatches = {};
+
+function startRiderLocationTracking(orderIdx){
+  if(!navigator.geolocation){
+    showRiderToast('Live location is not supported by this browser.');
+    return;
+  }
+
+  const oldWatch = riderLocationWatches[orderIdx];
+  if(oldWatch !== undefined) navigator.geolocation.clearWatch(oldWatch);
+
+  const watchId = navigator.geolocation.watchPosition(position => {
+    const orders = getOrders();
+    const order = orders[orderIdx];
+    if(!order) return;
+
+    order.liveLocation = {
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude,
+      accuracy: Math.round(position.coords.accuracy || 0),
+      rider: getRiderName(),
+      updatedAt: new Date().toISOString()
+    };
+    save(orders);
+  }, error => {
+    console.warn('Live location error:', error.message);
+    showRiderToast('Allow location access to share live delivery location.');
+  }, { enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 });
+
+  riderLocationWatches[orderIdx] = watchId;
+}
+
+function stopRiderLocationTracking(orderIdx){
+  const watchId = riderLocationWatches[orderIdx];
+  if(watchId !== undefined){
+    navigator.geolocation.clearWatch(watchId);
+    delete riderLocationWatches[orderIdx];
+  }
+}
+
+function openCustomerRoute(orderIdx){
+  const order = getOrders()[orderIdx];
+  if(!order) return;
+
+  const location = order.liveLocation;
+  const origin = location ? `${location.latitude},${location.longitude}` : '';
+  const destination = encodeURIComponent(order.address || 'Urduja, Caloocan City');
+  const routeUrl = origin
+    ? `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&travelmode=driving`
+    : `https://www.google.com/maps/search/?api=1&query=${destination}`;
+  window.open(routeUrl, '_blank', 'noopener');
+}
+function isAssignedToCurrentRider(order) {
+  if (getRiderName() === "rider") {
+    return Boolean(order.assignedRiderId || order.assignedRiderName);
+  }
+  return order.assignedRiderId === getRiderName() ||
+    order.assignedRiderName === getRiderName();
+}
+
+function canReceiveIncomingOrder(order) {
+  const isUnassigned = !order.assignedRiderId && !order.assignedRiderName;
+  return isUnassigned || isAssignedToCurrentRider(order);
+}
+
+function notifyOrderUpdate(order, status) {
+  const notifications = JSON.parse(localStorage.getItem("notifications") || "[]");
+  notifications.push({
+    id: `order-update-${order.orderNumber || Date.now()}-${Date.now()}`,
+    type: "order-update",
+    orderNumber: order.orderNumber,
+    riderName: getRiderName(),
+    customerName: order.name || order.user || "Customer",
+    status,
+    message: `Order #${order.orderNumber || "N/A"} is now ${status}.`,
+    date: new Date().toLocaleDateString(),
+    time: new Date().toLocaleTimeString(),
+    timestamp: Date.now()
+  });
+  localStorage.setItem("notifications", JSON.stringify(notifications));
+}
+function showRiderToast(message) {
+  const toast = document.createElement("div");
+  toast.textContent = message;
+  toast.style.cssText = "position:fixed;top:20px;right:20px;z-index:100000;max-width:320px;padding:14px 18px;border-radius:14px;background:#0ea5e9;color:#fff;font-weight:800;box-shadow:0 10px 30px rgba(10,55,105,0.25);";
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 4000);
+}
+
+function checkAssignedOrderNotifications() {
+  const seen = JSON.parse(localStorage.getItem("seenOrderAssignmentNotifications") || "[]");
+  const notifications = JSON.parse(localStorage.getItem("notifications") || "[]");
+  const riderName = getRiderName();
+  const newAssignments = notifications.filter(notification =>
+    notification.type === "order-assigned" &&
+    (riderName === "rider" || notification.riderId === riderName || notification.riderName === riderName) &&
+    !seen.includes(notification.id)
+  );
+
+  newAssignments.forEach(notification => {
+    showRiderToast(`📦 ${notification.message}`);
+    seen.push(notification.id);
+  });
+
+  if(newAssignments.length > 0){
+    localStorage.setItem("seenOrderAssignmentNotifications", JSON.stringify(seen));
+    loadOrders();
+  }
+}
+
+function checkNewOrderNotifications() {
+  const seen = JSON.parse(localStorage.getItem("seenNewOrderNotifications") || "[]");
+  const notifications = JSON.parse(localStorage.getItem("notifications") || "[]");
+  const newOrders = notifications.filter(notification =>
+    notification.type === "order-created" && !seen.includes(notification.id)
+  );
+
+  newOrders.forEach(notification => {
+    showRiderToast(`🆕 ${notification.message}`);
+    seen.push(notification.id);
+  });
+
+  if(newOrders.length > 0){
+    localStorage.setItem("seenNewOrderNotifications", JSON.stringify(seen));
+    loadOrders();
+  }
+}
+
+checkAssignedOrderNotifications();
+checkNewOrderNotifications();
+setInterval(checkAssignedOrderNotifications, 2000);
+setInterval(checkNewOrderNotifications, 2000);
+
 /* NAV */
 function setNav(id) {
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   const el = document.getElementById('nav-' + id);
   if (el) el.classList.add('active');
-  const titles = { incoming: 'Incoming Orders', active: 'Active Deliveries', earnings: 'Earnings', delivered: 'Delivered Orders', leave: 'Request Leave' };
+  const titles = { incoming: 'Incoming Orders', active: 'Active Deliveries', earnings: 'Earnings', delivered: 'Delivered Orders' };
   document.getElementById('pageTitle').textContent = titles[id] || '';
 }
 
-/* â”€â”€ INCOMING â”€â”€ */
+/* INCOMING */
 loadOrders();
 function loadOrders() {
   const o = getOrders();
   let html = '';
-  const pending = o.filter(x => x.status === 'Order Received');
+  const pending = o
+    .map((order, index) => ({ order, index }))
+    .filter(item =>
+      (item.order.status === 'Order Received' || item.order.status === 'Accepted') &&
+      canReceiveIncomingOrder(item.order)
+    );
 
   if (pending.length === 0) {
-    // Sample card
     html += `
     <div class="card" style="animation-delay:0s">
       <div class="card-header">
@@ -947,7 +975,8 @@ function loadOrders() {
       </div>
     </div>`;
   } else {
-    pending.forEach((x, i) => {
+    pending.forEach((item, i) => {
+      const x = item.order;
       html += `
       <div class="card" style="animation-delay:${i*0.06}s">
         <div class="card-header">
@@ -960,8 +989,8 @@ function loadOrders() {
         <div class="info-row"><i class="fa-solid fa-location-dot"></i> ${x.address || 'N/A'}</div>
         <div class="info-row"><i class="fa-solid fa-peso-sign"></i> ₱${x.total || 0}</div>
         <div class="action-row">
-          <button class="btn btn-primary" onclick="accept(${i})"><i class="fa-solid fa-check"></i> Accept</button>
-          <button class="btn btn-secondary" onclick="showDetails(${i})"><i class="fa-solid fa-eye"></i> Details</button>
+          <button class="btn btn-primary" onclick="accept(${item.index})"><i class="fa-solid fa-check"></i> Accept</button>
+          <button class="btn btn-secondary" onclick="showDetails(${item.index})"><i class="fa-solid fa-eye"></i> Details</button>
         </div>
       </div>`;
     });
@@ -969,26 +998,32 @@ function loadOrders() {
   document.getElementById('content').innerHTML = html;
 }
 
-/* â”€â”€ ACCEPT â”€â”€ */
+/* ACCEPT */
 function accept(i) {
   const o = getOrders();
   o[i].status = "Go to Pickup";
   o[i].rider = getRiderName();
   save(o);
+  notifyOrderUpdate(o[i], o[i].status);
   setNav('active'); active();
 }
 
-/* â”€â”€ ACTIVE â”€â”€ */
+/* ACTIVE */
 const stepFlow = ["Go to Pickup","Collecting Gallon","Cleaning","Refilling","Out for Delivery","Delivered"];
 const stepIcons = ["fa-route","fa-bucket","fa-soap","fa-fill-drip","fa-truck-fast","fa-circle-check"];
 
 function active() {
   const o = getOrders();
-  const activeOrders = o.filter(x => x.status && x.status !== "Order Received" && x.status !== "Delivered");
+  const activeOrders = o.filter(x =>
+    x.status &&
+    x.status !== "Order Received" &&
+    x.status !== "Accepted" &&
+    x.status !== "Delivered" &&
+    isAssignedToCurrentRider(x)
+  );
   let html = '';
 
   if (activeOrders.length === 0) {
-    // Sample
     html += buildActiveCard(-1, {
       orderNumber: '#001', name: 'Juan Dela Cruz', address: 'Urduja, Caloocan City',
       total: 150, status: 'Go to Pickup', contact: '09xx-xxx-xxxx'
@@ -1030,6 +1065,7 @@ function buildActiveCard(idx, x, isSample) {
     <div class="steps-grid">${steps}</div>
     <div class="action-row">
       <button class="btn btn-secondary" onclick="${detailFn}"><i class="fa-solid fa-eye"></i> View Details</button>
+      <button class="btn btn-secondary" onclick="${ isSample ? "alert('Sample order only')" : `openCustomerRoute(${idx})` }"><i class="fa-solid fa-route"></i> Customer Route</button>
       <button class="btn btn-primary" onclick="${ isSample ? "alert('Sample order only')" : `openGallonScannerModal(${idx})` }"><i class="fa-solid fa-qrcode"></i> Scan Gallon</button>
       <button class="btn btn-success" onclick="${ isSample ? "alert('Sample order only')" : `openAttendanceScannerModal(${idx})` }"><i class="fa-solid fa-camera"></i> Scan Attendance</button>
     </div>
@@ -1038,13 +1074,16 @@ function buildActiveCard(idx, x, isSample) {
 
 function setStatus(i, status) {
   const o = getOrders();
+  if (!o[i] || o[i].status === status) return;
   o[i].status = status;
   if (status === "Delivered") o[i].deliveredAt = new Date().toLocaleString();
+  if (status === "Delivered") stopRiderLocationTracking(i);
   save(o);
+  notifyOrderUpdate(o[i], status);
   active();
 }
 
-/* â”€â”€ DETAILS MODAL â”€â”€ */
+/* DETAILS MODAL */
 function showDetails(i) {
   const o = getOrders(); const x = o[i];
   const modal = document.createElement('div');
@@ -1068,7 +1107,7 @@ function showDetails(i) {
 }
 function closeModal() { const m = document.getElementById('modal'); if (m) m.remove(); }
 
-/* â”€â”€ EARNINGS â”€â”€ */
+/* EARNINGS */
 
 let earningsChart;
 let currentRange = "today";
@@ -1083,13 +1122,11 @@ function earnings(range = "today") {
     x => x.status === "Delivered" && x.rider === rider
   );
 
-  // SAMPLE VALUES
   let total = 1200;
   let weekly = 5400;
   let monthly = 18500;
   let deliveries = orders.length || 8;
 
-  // DATA
   const chartData = {
     today: {
       labels: ['8AM','10AM','12PM','2PM','4PM','6PM','8PM'],
@@ -1129,7 +1166,6 @@ function earnings(range = "today") {
 
   document.getElementById('content').innerHTML = `
 
-  <!-- FILTER BUTTONS -->
   <div style="
     display:flex;
     gap:10px;
@@ -1157,7 +1193,6 @@ function earnings(range = "today") {
 
   </div>
 
-  <!-- STATS -->
   <div class="stats-grid">
 
     <div class="stat-card">
@@ -1206,7 +1241,6 @@ function earnings(range = "today") {
 
   </div>
 
-  <!-- CHART -->
   <div class="chart-card">
 
     <div style="
@@ -1238,7 +1272,6 @@ function renderChart(labels, data) {
 
   if (!ctx) return;
 
-  // DESTROY OLD CHART
   if (earningsChart) {
     earningsChart.destroy();
   }
@@ -1308,10 +1341,10 @@ function renderChart(labels, data) {
 
 
 
-/* â”€â”€ DELIVERED â”€â”€ */
+/* DELIVERED */
 function delivered() {
   const rider = getRiderName();
-  const o = getOrders().filter(x => x.status === "Delivered");
+  const o = getOrders().filter(x => x.status === "Delivered" && isAssignedToCurrentRider(x));
   let html = '';
 
   if (o.length === 0) {
@@ -1353,6 +1386,9 @@ function delivered() {
 }
 
 window.onload = function () {
+  if (!ensureRiderLogin()) {
+    return;
+  }
 
   const attendanceState = localStorage.getItem("attendanceState") || "none";
 
@@ -1509,7 +1545,9 @@ function logoutNow() {
   localStorage.removeItem("currentAttendanceRequestId");
   localStorage.removeItem("attendanceRequest");
   localStorage.removeItem("loginTime");
-  window.location.href = "index.html";
+  localStorage.removeItem("riderLoggedIn");
+  localStorage.removeItem("currentUser");
+  window.location.href = "rider1.html";
 }
 
 function simulateManagerApprove() {
@@ -1567,26 +1605,6 @@ function closeApproval(){
   if (approval) approval.remove();
 }
 
-function simulateApprove() {
-  const result = updateCurrentAttendanceRequestStatus("Approved");
-  if (result) {
-    closeApproval();
-    showApprovalPopup("approved");
-  } else {
-    alert('No pending attendance request to approve.');
-  }
-}
-
-function simulateReject() {
-  const result = updateCurrentAttendanceRequestStatus("Rejected");
-  if (result) {
-    closeApproval();
-    showApprovalPopup("rejected");
-  } else {
-    alert('No pending attendance request to reject.');
-  }
-}
-
 function showApprovalPopup(status){
 
   const modal = document.createElement("div");
@@ -1633,44 +1651,9 @@ function closePopup(){
 }
 
 </script>
-<div style="
-position:fixed;
-bottom:20px;
-right:20px;
-z-index:9999;
-display:flex;
-flex-direction:column;
-gap:8px;
-">
-
-<button onclick="simulateApprove()" style="
-padding:10px;
-background:#22c55e;
-color:white;
-border:none;
-border-radius:10px;
-font-weight:bold;
-">
-Approve (Test)
-</button>
-
-<button onclick="simulateReject()" style="
-padding:10px;
-background:#ef4444;
-color:white;
-border:none;
-border-radius:10px;
-font-weight:bold;
-">
-Reject (Test)
-</button>
-
-</div>
-
 <!-- HTML5 QR Code library -->
-<script src="https://unpkg.com/html5-qrcode@2.3.7/dist/html5-qrcode.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <script>
-// Create Scan Attendance floating button
 const scanBtn = document.createElement('button');
 scanBtn.className = 'chat-btn';
 scanBtn.style.right = '20px';
@@ -1708,13 +1691,11 @@ function openScannerModal(){
       cameraId,
       { fps: 10, qrbox: 250 },
       qrCodeMessage => {
-        // on success
         document.getElementById('qrresult').textContent = 'Scanned: ' + qrCodeMessage;
         try{
           if(qrCodeMessage.startsWith('attendance|')){
             const parts = qrCodeMessage.split('|');
             const riderId = parts[1];
-            // mark attendance
             markAttendance(riderId || getRiderName());
             alert('Attendance recorded for: ' + (riderId || getRiderName()));
           } else {
@@ -1725,7 +1706,6 @@ function openScannerModal(){
         closeScanner();
       },
       errorMessage => {
-        // ignore
       }
     ).catch(err => {
       console.error(err);
@@ -1741,7 +1721,6 @@ function closeScanner(){
   const m = document.getElementById('scannerModal'); if(m) m.remove();
 }
 
-/* Gallon QR scanner for Active Deliveries */
 function openGallonScannerModal(idx){
   const modal = document.createElement('div');
   modal.className = 'modal';
@@ -1773,25 +1752,32 @@ function openGallonScannerModal(idx){
         document.getElementById('gallonQrResult').textContent = 'Scanned: ' + qrCodeMessage;
         try{
           const payload = JSON.parse(qrCodeMessage);
-          if(payload.type === 'gallon'){
+          if(payload.type === 'gallon' || payload.type === 'permanent-gallon-customer'){
             const o = getOrders();
             let orderIdx = idx;
+            const scannedUser = payload.username || payload.user;
             if(orderIdx == null || orderIdx < 0){
-              orderIdx = o.findIndex(item => (item.user && item.user === payload.user) || (item.name && item.name === payload.user));
+              orderIdx = o.findIndex(item =>
+                (item.user && item.user === scannedUser) ||
+                (item.name && item.name === scannedUser) ||
+                (item.customerId && item.customerId === payload.customerId)
+              );
             }
 
             if(orderIdx >= 0){
               o[orderIdx].gallonScanned = true;
-              o[orderIdx].gallonOwner = payload.user;
-              o[orderIdx].gallonCount = payload.gallons;
+              o[orderIdx].gallonOwner = scannedUser || o[orderIdx].user;
+              o[orderIdx].customerId = payload.customerId || o[orderIdx].customerId;
+              o[orderIdx].gallonCount = payload.gallons || o[orderIdx].gallon;
               save(o);
-              alert('Gallon matched to order: ' + payload.user + ' ('+payload.gallons+' gallons)');
+              startRiderLocationTracking(orderIdx);
+              alert('Gallon matched. Live location sharing started for ' + (o[orderIdx].address || 'the customer address') + '.');
             } else {
-              alert('Gallon belongs to: ' + payload.user + ' ('+payload.gallons+' gallons)');
+              alert('No matching order found for: ' + (scannedUser || payload.customerId || 'this customer'));
             }
 
             const scans = JSON.parse(localStorage.getItem('gallonScans')||'[]');
-            scans.push({ user: payload.user, gallons: payload.gallons, time: new Date().toISOString(), orderIndex: orderIdx });
+            scans.push({ user: scannedUser, customerId: payload.customerId, gallons: payload.gallons, time: new Date().toISOString(), orderIndex: orderIdx });
             localStorage.setItem('gallonScans', JSON.stringify(scans));
 
           } else {
@@ -1802,7 +1788,6 @@ function openGallonScannerModal(idx){
         closeGallonScanner();
       },
       errorMessage => {
-        // ignore
       }
     ).catch(err => { console.error(err); alert('Unable to start camera for scanning'); });
   }).catch(err => { console.error(err); alert('No camera found'); });
@@ -1810,7 +1795,6 @@ function openGallonScannerModal(idx){
 
 function closeGallonScanner(){ const m = document.getElementById('gallonScannerModal'); if(m) m.remove(); }
 
-/* Attendance scanner callable from Active Deliveries */
 function openAttendanceScannerModal(idx){
   const modal = document.createElement('div');
   modal.className = 'modal';
@@ -1855,7 +1839,6 @@ function openAttendanceScannerModal(idx){
         closeAttendanceScanner();
       },
       errorMessage => {
-        // ignore
       }
     ).catch(err => { console.error(err); alert('Unable to start camera for scanning'); });
   }).catch(err => { console.error(err); alert('No camera found'); });
@@ -1864,6 +1847,223 @@ function openAttendanceScannerModal(idx){
 function closeAttendanceScanner(){ const m = document.getElementById('attendanceScannerModal'); if(m) m.remove(); }
 
 </script>
+<script>
+
+/* =========================================================
+   MANAGER QR VERIFICATION — required before login
+   QR payload format: manager_auth|<managerUsername>|<code>
+   The code is generated live by the Manager Dashboard while
+   the manager is logged in, so this QR is tied to the
+   manager's actual login session (shared via localStorage).
+   ========================================================= */
+let managerQrScanner = null;
+
+function getManagerQrSession() {
+  try { return JSON.parse(localStorage.getItem("managerQrSession") || "null"); }
+  catch (e) { return null; }
+}
+
+function isManagerLoggedIn() {
+  return localStorage.getItem("managerLoggedIn") === "true";
+}
+
+function verifyManagerQrCode(scannedUsername, scannedCode) {
+  const session = getManagerQrSession();
+  if (!session) return false;
+  if (!isManagerLoggedIn()) return false;               // manager must be signed in
+  if (Date.now() > (session.expiresAt || 0)) return false; // QR expired
+  return scannedUsername === session.username &&
+         scannedCode === session.code;                  // code must match session
+}
+
+/* QR provided by the manager = rider login.
+   Scanning a valid manager QR signs the rider in directly —
+   no separate username/password step. */
+function completeRiderLogin() {
+  localStorage.setItem("riderLoggedIn", "true");
+  localStorage.setItem("username", "rider");
+  localStorage.setItem("currentUser", JSON.stringify({
+    username: "rider",
+    role: "rider",
+    fname: "Rider"
+  }));
+  const overlay = document.getElementById("managerQrOverlay");
+  if (overlay) overlay.style.display = "none";
+  document.querySelector('.main').style.display = 'block';
+  loadOrders();
+}
+
+function showManagerQrOverlay() {
+  const overlay = document.getElementById("managerQrOverlay");
+  overlay.style.display = "flex";
+  document.querySelector('.main').style.display = 'none';
+}
+
+function startManagerQrScan() {
+  const btn = document.getElementById("managerStartScanBtn");
+  if (btn) btn.disabled = true;
+  const resultEl = document.getElementById("managerQrResult");
+  if (resultEl) resultEl.textContent = "Starting camera…";
+
+  managerQrScanner = new Html5Qrcode("managerQrReader");
+
+  Html5Qrcode.getCameras().then(cameras => {
+    const cameraId = cameras && cameras.length ? cameras[0].id : null;
+    managerQrScanner.start(
+      cameraId,
+      { fps: 10, qrbox: 250 },
+      qrCodeMessage => {
+        verifyManagerQr(qrCodeMessage);
+      },
+      errorMessage => { }
+    ).catch(err => {
+      console.error(err);
+      if (resultEl) {
+        resultEl.textContent = "Unable to start camera. Use 'Enter Key Manually' or make sure camera permission is allowed.";
+        resultEl.className = "qr-auth-result qr-auth-fail";
+      }
+      if (btn) btn.disabled = false;
+    });
+  }).catch(err => {
+    console.error(err);
+    if (resultEl) {
+      resultEl.textContent = "No camera found on this device. Use 'Enter Key Manually' instead.";
+      resultEl.className = "qr-auth-result qr-auth-fail";
+    }
+    if (btn) btn.disabled = false;
+  });
+}
+
+function verifyManagerQr(qrCodeMessage) {
+  const resultEl = document.getElementById("managerQrResult");
+  try {
+    if (qrCodeMessage && qrCodeMessage.startsWith("manager_auth|")) {
+      const parts = qrCodeMessage.split("|");
+      const scannedUsername = parts[1];
+      const scannedCode = parts[2];
+      if (verifyManagerQrCode(scannedUsername, scannedCode)) {
+        if (managerQrScanner) { managerQrScanner.stop().catch(e => console.error(e)); }
+        localStorage.setItem("managerQrVerified", "true");
+        localStorage.setItem("managerQrVerifiedAt", new Date().toISOString());
+        if (resultEl) {
+          resultEl.textContent = "Manager verified! Signing you in…";
+          resultEl.className = "qr-auth-result qr-auth-pass";
+        }
+        setTimeout(() => {
+          completeRiderLogin();
+        }, 900);
+        return;
+      }
+    }
+    if (resultEl) {
+      resultEl.textContent = "QR not recognized. Make sure the manager is signed in and this QR was just generated.";
+      resultEl.className = "qr-auth-result qr-auth-fail";
+    }
+  } catch (e) {
+    console.error(e);
+    if (resultEl) {
+      resultEl.textContent = "QR not recognized. Make sure the manager is signed in and this QR was just generated.";
+      resultEl.className = "qr-auth-result qr-auth-fail";
+    }
+  }
+}
+
+function manualManagerKey() {
+  const existing = document.getElementById("manualManagerKeyModal");
+  if (existing) existing.remove();
+
+  const modal = document.createElement("div");
+  modal.className = "modal";
+  modal.id = "manualManagerKeyModal";
+  modal.style.zIndex = "100000";
+  modal.innerHTML = `
+    <div class="modal-box">
+      <div class="modal-title">
+        <i class="fa-solid fa-key" style="color:#38bdf8;"></i>
+        Enter Rider Attendance QR Code
+      </div>
+      <p style="color:#1e4976;font-size:13px;font-weight:700;line-height:1.5;">
+        Enter the authorization code shown on the manager's Rider Attendance QR screen.
+      </p>
+      <input id="manualManagerKeyInput" type="text" maxlength="6" autocomplete="off"
+        placeholder="Enter 6-character code"
+        style="width:100%;margin-top:16px;padding:12px;border-radius:12px;border:1px solid rgba(13,52,96,0.2);font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;letter-spacing:2px;text-transform:uppercase;">
+      <div id="manualManagerKeyMessage" style="min-height:20px;margin-top:10px;font-size:12px;font-weight:800;"></div>
+      <div class="action-row" style="margin-top:16px;">
+        <button class="btn btn-primary" onclick="submitManualManagerKey()">
+          <i class="fa-solid fa-check"></i> Verify Code
+        </button>
+        <button class="btn btn-secondary" onclick="document.getElementById('manualManagerKeyModal').remove()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  const input = document.getElementById("manualManagerKeyInput");
+  input.focus();
+  input.addEventListener("keydown", event => {
+    if (event.key === "Enter") submitManualManagerKey();
+  });
+}
+
+function submitManualManagerKey() {
+  const input = document.getElementById("manualManagerKeyInput");
+  const message = document.getElementById("manualManagerKeyMessage");
+  if (!input || !message) return;
+
+  const trimmed = input.value.trim().toUpperCase();
+  const session = getManagerQrSession();
+  if (session && isManagerLoggedIn() &&
+      Date.now() <= (session.expiresAt || 0) &&
+      trimmed === session.code) {
+    localStorage.setItem("managerQrVerified", "true");
+    localStorage.setItem("managerQrVerifiedAt", new Date().toISOString());
+    const resultEl = document.getElementById("managerQrResult");
+    const modal = document.getElementById("manualManagerKeyModal");
+    if (modal) modal.remove();
+    if (resultEl) {
+      resultEl.textContent = "Code accepted! Signing you in…";
+      resultEl.className = "qr-auth-result qr-auth-pass";
+    }
+    setTimeout(() => {
+      completeRiderLogin();
+    }, 800);
+  } else {
+    message.textContent = "Incorrect or expired code. Ask your manager for a fresh code.";
+    message.style.color = "#ef4444";
+    input.select();
+  }
+}
+
+/* ---- Rider login: the manager-provided QR IS the login ---- */
+function riderLogin() {
+  // QR gate: login is locked until the manager's QR is scanned
+  if (localStorage.getItem("managerQrVerified") !== "true") {
+    alert("Please scan your manager's QR code first before signing in.");
+    const overlay = document.getElementById("managerQrOverlay");
+    if (overlay) overlay.style.display = "flex";
+    document.querySelector('.main').style.display = 'none';
+    return;
+  }
+
+  // QR verified → sign the rider in directly
+  completeRiderLogin();
+}
+
+function showRiderLoginOverlay() {
+  // No username/password overlay — the manager QR is the login.
+  completeRiderLogin();
+}
+
+/* On startup: enforce manager QR scan BEFORE login */
+window.addEventListener("DOMContentLoaded", function () {
+  const main = document.querySelector('.main');
+  if (main) main.style.display = 'none';
+  showManagerQrOverlay();
+});
+
+</script>
 </body>
 </html>
- 

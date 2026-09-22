@@ -114,6 +114,16 @@ background:rgba(255,255,255,0.18);
 transform:translateX(5px);
 }
 
+.sidebar button.logout-btn{
+margin-top:auto;
+background:rgba(239,68,68,0.3);
+border:1px solid rgba(239,68,68,0.5);
+}
+
+.sidebar button.logout-btn:hover{
+background:rgba(239,68,68,0.5);
+}
+
 /* MAIN */
 
 .main{
@@ -491,14 +501,379 @@ transform:translateY(-5px) scale(1.02);
 background:rgba(255,255,255,0.15);
 }
 
+/* ================= LOGIN OVERLAYS ================= */
+
+.login-overlay {
+position: fixed;
+inset: 0;
+background: linear-gradient(135deg, #0f4c75 0%, #3282b8 25%, #bbe1fa 50%, #3282b8 75%, #0f4c75 100%);
+background-size: 400% 400%;
+animation: waterFlow 20s ease infinite;
+display: flex;
+align-items: center;
+justify-content: center;
+z-index: 2000;
+}
+
+/* ================= ADMIN LOGIN ================= */
+
+.admin-login-overlay {
+position: fixed;
+inset: 0;
+background: rgba(8, 47, 73, 0.72);
+backdrop-filter: blur(12px);
+display: flex;
+align-items: center;
+justify-content: center;
+z-index: 2000;
+}
+
+.admin-login-box {
+width: min(420px, calc(100% - 40px));
+background: rgba(255,255,255,0.96);
+border-radius: 24px;
+padding: 28px;
+box-shadow: 0 24px 60px rgba(2, 44, 71, 0.25);
+text-align: center;
+}
+
+.admin-login-box h2 {
+color: #0f172a;
+margin-bottom: 8px;
+}
+
+.admin-login-box p {
+color: #475569;
+margin-bottom: 20px;
+}
+
+.admin-login-box input {
+width: 100%;
+margin-bottom: 12px;
+padding: 12px 14px;
+border-radius: 12px;
+border: 1px solid #bae6fd;
+font-size: 15px;
+}
+
+.admin-login-box button {
+width: 100%;
+margin-top: 4px;
+}
+
+/* ================= CUSTOMER LOGIN ================= */
+
+.customer-login-container {
+display: none;
+}
+
+.customer-login-container.active {
+display: flex;
+}
+
+.login-wrapper {
+display: flex;
+width: 100%;
+height: 100vh;
+}
+
+.login-left {
+width: 45%;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding: 40px;
+background: rgba(15, 76, 117, 0.95);
+backdrop-filter: blur(25px);
+}
+
+.login-brand {
+text-align: center;
+margin-bottom: 60px;
+}
+
+.water-icon {
+width: 80px;
+height: 80px;
+background: rgba(187, 225, 250, 0.3);
+border-radius: 20px;
+display: flex;
+align-items: center;
+justify-content: center;
+margin: 0 auto 20px;
+font-size: 50px;
+}
+
+.login-brand h1 {
+font-size: 32px;
+color: #bbe1fa;
+margin: 0;
+font-weight: bold;
+}
+
+.login-brand p {
+font-size: 14px;
+color: #a0d8ff;
+margin-top: 5px;
+}
+
+.nav-buttons {
+display: flex;
+flex-direction: column;
+gap: 12px;
+width: 100%;
+max-width: 300px;
+margin-top: 40px;
+}
+
+.nav-btn {
+padding: 14px 20px;
+border: none;
+border-radius: 12px;
+background: rgba(255, 255, 255, 0.08);
+color: white;
+cursor: pointer;
+font-size: 15px;
+font-weight: 500;
+transition: 0.3s;
+text-align: center;
+}
+
+.nav-btn:hover {
+background: rgba(255, 255, 255, 0.18);
+}
+
+.nav-btn.active {
+background: rgba(187, 225, 250, 0.2);
+border: 1px solid rgba(187, 225, 250, 0.4);
+}
+
+.nav-arrow {
+position: absolute;
+bottom: 40px;
+right: 40px;
+width: 50px;
+height: 50px;
+background: rgba(255, 255, 255, 0.1);
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+font-size: 20px;
+transition: 0.3s;
+}
+
+.nav-arrow:hover {
+background: rgba(255, 255, 255, 0.2);
+transform: translateX(5px);
+}
+
+.login-right {
+width: 55%;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 40px;
+}
+
+.login-form-container {
+background: rgba(255, 255, 255, 0.95);
+border-radius: 24px;
+padding: 40px;
+box-shadow: 0 24px 60px rgba(2, 44, 71, 0.25);
+width: 100%;
+max-width: 400px;
+}
+
+.login-form-container h2 {
+color: #0f172a;
+font-size: 24px;
+margin-bottom: 8px;
+}
+
+.login-form-container p {
+color: #64748b;
+font-size: 14px;
+margin-bottom: 28px;
+}
+
+.form-group {
+margin-bottom: 16px;
+}
+
+.form-group label {
+display: flex;
+align-items: center;
+color: #475569;
+font-size: 13px;
+margin-bottom: 6px;
+}
+
+.form-group label i {
+margin-right: 6px;
+font-size: 16px;
+}
+
+.form-group input {
+width: 100%;
+padding: 12px 14px;
+border: 1px solid #bae6fd;
+border-radius: 10px;
+font-size: 15px;
+transition: 0.3s;
+}
+
+.form-group input:focus {
+outline: none;
+border-color: #3b82f6;
+box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.login-btn {
+width: 100%;
+padding: 12px;
+background: #3b82f6;
+color: white;
+border: none;
+border-radius: 10px;
+font-size: 15px;
+font-weight: 600;
+cursor: pointer;
+margin-top: 10px;
+transition: 0.3s;
+}
+
+.login-btn:hover {
+background: #2563eb;
+transform: translateY(-2px);
+}
+
+.login-links {
+text-align: center;
+margin-top: 20px;
+font-size: 13px;
+}
+
+.login-links a {
+color: #3b82f6;
+text-decoration: none;
+margin: 0 5px;
+}
+
+.login-links a:hover {
+text-decoration: underline;
+}
+
+.close-login-btn {
+position: absolute;
+top: 20px;
+right: 20px;
+background: rgba(255, 255, 255, 0.1);
+border: none;
+color: white;
+width: 40px;
+height: 40px;
+border-radius: 50%;
+cursor: pointer;
+font-size: 24px;
+z-index: 2001;
+}
+
+.close-login-btn:hover {
+background: rgba(255, 255, 255, 0.2);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1024px){
+
+.login-wrapper {
+flex-direction: column;
+height: auto;
+}
+
+.login-left {
+width: 100%;
+padding: 30px 20px;
+}
+
+.login-right {
+width: 100%;
+padding: 20px;
+}
+
+.login-form-container {
+max-width: 100%;
+}
+
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
+<!-- ADMIN LOGIN OVERLAY -->
+<div id="adminLoginOverlay" class="admin-login-overlay">
+  <div class="admin-login-box">
+    <h2>Admin Access Portal</h2>
+    <p>Use your admin credentials to enter the dashboard.</p>
+    <input id="adminLoginUsername" type="text" placeholder="Admin Username">
+    <input id="adminLoginPassword" type="password" placeholder="Password">
+    <button class="btn" onclick="adminLogin()">Enter Dashboard</button>
+  </div>
+</div>
 
-<div class="sidebar">
+<!-- CUSTOMER LOGIN OVERLAY -->
+<div id="customerLoginOverlay" class="login-overlay customer-login-container">
+  <button class="close-login-btn" onclick="closeCustomerLogin()">✕</button>
+  
+  <div class="login-wrapper">
+    <div class="login-left">
+      <div class="login-brand">
+        <div class="water-icon">💧</div>
+        <h1>Alka-Jozen</h1>
+        <p>Pure Water Delivery</p>
+      </div>
+      
+      <div class="nav-buttons">
+        <button class="nav-btn active" onclick="switchLoginTab('login')">🔐 Login</button>
+        <button class="nav-btn" onclick="switchLoginTab('register')">📝 Register</button>
+        <button class="nav-btn" onclick="switchLoginTab('reset')">🔑 Reset</button>
+      </div>
+      
+      <div class="nav-arrow" onclick="toggleLoginPanel()">›</div>
+    </div>
+    
+    <div class="login-right">
+      <div class="login-form-container">
+        <h2>Hello Customer!</h2>
+        <p>Login to continue</p>
+        
+        <div class="form-group">
+          <label><i>👤</i> Username</label>
+          <input id="customerUsername" type="text" placeholder="Enter your username">
+        </div>
+        
+        <div class="form-group">
+          <label><i>🔒</i> Password</label>
+          <input id="customerPassword" type="password" placeholder="Enter your password">
+        </div>
+        
+        <button class="login-btn" onclick="customerLogin()">Login</button>
+        
+        <div class="login-links">
+          <a href="#">Forgot Password?</a> | <a href="#">Register</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar" style="display:none;">
 
 <div class="brand">
 💧 OWNER DASHBOARD
@@ -512,11 +887,13 @@ background:rgba(255,255,255,0.15);
 
 <button onclick="inventoryFilter()">🧪 Inventory & Filter</button>
 
+<button class="logout-btn" onclick="logout()" style="margin-top:auto;">🚪 Logout</button>
+
 </div>
 
 <!-- MAIN -->
 
-<div class="main">
+<div class="main" id="main" style="display:none;">
 
 <div class="topbar">
 
@@ -532,13 +909,140 @@ background:rgba(255,255,255,0.15);
 
 <script>
 
+/* ================= LOGIN MANAGEMENT ================= */
+
+function adminLogin() {
+const enteredUser = document.getElementById("adminLoginUsername").value.trim();
+const enteredPass = document.getElementById("adminLoginPassword").value.trim();
+
+if (!enteredUser || !enteredPass) {
+  alert("Please enter both the username and password.");
+  return;
+}
+
+if (enteredUser === "admin" && enteredPass === "admin123") {
+  localStorage.setItem("adminLoggedIn", "true");
+  localStorage.setItem("userType", "admin");
+  localStorage.setItem("currentUser", JSON.stringify({
+    username: "admin",
+    role: "admin",
+    fname: "Admin"
+  }));
+
+  const overlay = document.getElementById("adminLoginOverlay");
+  const sidebar = document.getElementById("sidebar");
+  const main = document.getElementById("main");
+
+  if (overlay) overlay.style.display = "none";
+  if (sidebar) sidebar.style.display = "block";
+  if (main) main.style.display = "block";
+  
+  salesReport();
+} else {
+  alert("Invalid admin credentials.");
+}
+}
+
+function customerLogin() {
+const username = document.getElementById("customerUsername").value.trim();
+const password = document.getElementById("customerPassword").value.trim();
+
+if (!username || !password) {
+  alert("Please enter both username and password.");
+  return;
+}
+
+// Demo: Accept any non-empty credentials
+localStorage.setItem("customerLoggedIn", "true");
+localStorage.setItem("userType", "customer");
+localStorage.setItem("currentUser", JSON.stringify({
+  username: username,
+  role: "customer",
+  fname: username
+}));
+
+alert("Welcome, " + username + "!");
+// Could redirect to customer page
+document.getElementById("customerLoginOverlay").classList.remove("active");
+}
+
+function logout() {
+localStorage.removeItem("adminLoggedIn");
+localStorage.removeItem("customerLoggedIn");
+localStorage.removeItem("userType");
+localStorage.removeItem("currentUser");
+
+const sidebar = document.getElementById("sidebar");
+const main = document.getElementById("main");
+const overlay = document.getElementById("adminLoginOverlay");
+const customerOverlay = document.getElementById("customerLoginOverlay");
+
+if (sidebar) sidebar.style.display = "none";
+if (main) main.style.display = "none";
+if (overlay) overlay.style.display = "flex";
+if (customerOverlay) customerOverlay.classList.remove("active");
+
+// Clear inputs
+document.getElementById("adminLoginUsername").value = "";
+document.getElementById("adminLoginPassword").value = "";
+}
+
+function closeCustomerLogin() {
+const overlay = document.getElementById("customerLoginOverlay");
+if (overlay) overlay.classList.remove("active");
+}
+
+function switchLoginTab(tab) {
+const buttons = document.querySelectorAll(".nav-btn");
+buttons.forEach(btn => btn.classList.remove("active"));
+event.target.classList.add("active");
+// Can add more logic here for different forms
+}
+
+function toggleLoginPanel() {
+const right = document.querySelector(".login-right");
+right.style.display = right.style.display === "none" ? "flex" : "none";
+}
+
+function ensureAdminLogin() {
+const adminLoggedIn = localStorage.getItem("adminLoggedIn") === "true";
+const overlay = document.getElementById("adminLoginOverlay");
+const sidebar = document.getElementById("sidebar");
+const main = document.getElementById("main");
+
+if (!adminLoggedIn) {
+  if (overlay) overlay.style.display = 'flex';
+  if (sidebar) sidebar.style.display = 'none';
+  if (main) main.style.display = 'none';
+  return false;
+}
+
+if (overlay) overlay.style.display = 'none';
+if (sidebar) sidebar.style.display = 'block';
+if (main) main.style.display = 'block';
+salesReport();
+return true;
+}
+
+window.addEventListener("load", function () {
+  ensureAdminLogin();
+
+  const passwordInput = document.getElementById("adminLoginPassword");
+  if (passwordInput) {
+    passwordInput.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        adminLogin();
+      }
+    });
+  }
+});
+
 /* CLOCK */
 
 setInterval(()=>{
-
 document.getElementById("clock").innerHTML =
 new Date().toLocaleTimeString();
-
 },1000);
 
 /* SAMPLE DATA */
@@ -546,13 +1050,11 @@ new Date().toLocaleTimeString();
 let gallonsInput = parseFloat(localStorage.getItem("gallons")) || 500;
 let filterLife = parseFloat(localStorage.getItem("filterLife")) || 78;
 let inventoryLogs = JSON.parse(localStorage.getItem("inventoryLogs")) || [];
+
 /* ADD GALLONS */
 
 function addGallons(count){
-
 gallonsInput += count;
-
-/* 0.005 deduction */
 filterLife -= (count * 0.005);
 
 if(filterLife < 0){
@@ -560,17 +1062,13 @@ filterLife = 0;
 }
 
 inventoryFilter();
-
 }
 
 /* ================= SALES REPORT ================= */
 
 function salesReport(){
-
 document.getElementById("content").innerHTML = `
-
 <div class="grid">
-
 <div class="card stat">
 <h2>120</h2>
 <p>Daily Delivered Gallons</p>
@@ -590,13 +1088,11 @@ document.getElementById("content").innerHTML = `
 <h2>₱210,000</h2>
 <p>Monthly Sales</p>
 </div>
-
 </div>
 
 <br>
 
 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
-
 <h3>📈 Sales Overview</h3>
 
 <select id="salesFilter"
@@ -610,31 +1106,23 @@ font-weight:bold;
 cursor:pointer;
 "
 onchange="updateSalesChart()">
-
 <option value="today">Today</option>
 <option value="weekly">Weekly</option>
 <option value="monthly">Monthly</option>
-
 </select>
-
 </div>
 
 <br>
 
 <canvas id="salesChart"></canvas>
 
-</div>
-
 <br>
 
 <div class="card">
-
 <h3>📊 Total Sales Summary</h3>
-
 <br>
 
 <table>
-
 <tr>
 <th>Period</th>
 <th>Gallons Sold</th>
@@ -658,15 +1146,11 @@ onchange="updateSalesChart()">
 <td>3,200</td>
 <td>₱210,000</td>
 </tr>
-
 </table>
-
 </div>
-
 `;
 
 setTimeout(loadChart,100);
-
 }
 
 /* CHART */
@@ -674,18 +1158,21 @@ setTimeout(loadChart,100);
 let salesChart;
 
 function loadChart(){
-
 const ctx = document.getElementById("salesChart");
 
-salesChart = new Chart(ctx, {
+if (!ctx) return;
 
+if (salesChart) {
+  salesChart.destroy();
+}
+
+salesChart = new Chart(ctx, {
 type:'line',
 
 data:{
 labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
 
 datasets:[
-
 {
 label:'Refill Gallons',
 data:[80,100,120,90,140,130,160],
@@ -703,9 +1190,7 @@ backgroundColor:'rgba(59,130,246,0.2)',
 fill:true,
 tension:.4
 }
-
 ]
-
 },
 
 options:{
@@ -732,100 +1217,55 @@ color:'white'
 }
 }
 }
-
 }
-
 });
-
 }
 
 function updateSalesChart(){
-
-const filter =
-document.getElementById("salesFilter").value;
+const filter = document.getElementById("salesFilter").value;
 
 if(filter === "today"){
-
-salesChart.data.labels =
-['8AM','10AM','12PM','2PM','4PM','6PM','8PM'];
-
-salesChart.data.datasets[0].data =
-[20,35,40,50,45,60,70];
-
-salesChart.data.datasets[1].data =
-[1200,2500,3000,4500,5000,6200,7200];
-
+salesChart.data.labels = ['8AM','10AM','12PM','2PM','4PM','6PM','8PM'];
+salesChart.data.datasets[0].data = [20,35,40,50,45,60,70];
+salesChart.data.datasets[1].data = [1200,2500,3000,4500,5000,6200,7200];
 }
 
 else if(filter === "weekly"){
-
-salesChart.data.labels =
-['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-
-salesChart.data.datasets[0].data =
-[80,100,120,90,140,130,160];
-
-salesChart.data.datasets[1].data =
-[5000,7000,9000,6000,12000,10000,15000];
-
+salesChart.data.labels = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+salesChart.data.datasets[0].data = [80,100,120,90,140,130,160];
+salesChart.data.datasets[1].data = [5000,7000,9000,6000,12000,10000,15000];
 }
 
 else if(filter === "monthly"){
-
-salesChart.data.labels =
-['Week 1','Week 2','Week 3','Week 4'];
-
-salesChart.data.datasets[0].data =
-[500,700,850,1000];
-
-salesChart.data.datasets[1].data =
-[35000,48000,52000,75000];
-
+salesChart.data.labels = ['Week 1','Week 2','Week 3','Week 4'];
+salesChart.data.datasets[0].data = [500,700,850,1000];
+salesChart.data.datasets[1].data = [35000,48000,52000,75000];
 }
 
 salesChart.update();
-
 }
 
 /* ================= MANAGER PERFORMANCE ================= */
 
 function managerPerformance(){
-
-/* GET DATA FROM MANAGER PAGE */
-
-let loginTime =
-localStorage.getItem("managerLoginTime");
-
-let loginDate =
-localStorage.getItem("managerLoginDate");
-
-let attendanceStatus =
-localStorage.getItem("managerAttendanceStatus");
-
-let logoutTime =
-localStorage.getItem("managerLogoutTime");
-
-/* DEFAULT VALUES */
+let loginTime = localStorage.getItem("managerLoginTime");
+let loginDate = localStorage.getItem("managerLoginDate");
+let attendanceStatus = localStorage.getItem("managerAttendanceStatus");
+let logoutTime = localStorage.getItem("managerLogoutTime");
 
 if(!loginTime){
-
 loginTime = "-";
 loginDate = "-";
 attendanceStatus = "No Record";
 logoutTime = "-";
-
 }
-
-/* SAMPLE REPORT DATA */
 
 let refilled = 150;
 let sold = 120;
 let unsold = 30;
 
 document.getElementById("content").innerHTML = `
-
 <div class="grid">
-
 <div class="card stat">
 <h2>${attendanceStatus}</h2>
 <p>Attendance Status</p>
@@ -845,37 +1285,23 @@ document.getElementById("content").innerHTML = `
 <h2>${unsold}</h2>
 <p>Unsold Gallons</p>
 </div>
-
 </div>
 
 <br>
 
 <div class="card">
-
 <h3>📅 Attendance Calendar</h3>
 
 <br>
 
 <div class="card">
-
 <div class="calendar-controls">
-
-<button class="calendar-btn" onclick="prevMonth()">
-◀
-</button>
-
-<h2 id="monthTitle">
-📅 May 2026
-</h2>
-
-<button class="calendar-btn" onclick="nextMonth()">
-▶
-</button>
-
+<button class="calendar-btn" onclick="prevMonth()">◀</button>
+<h2 id="monthTitle">📅 May 2026</h2>
+<button class="calendar-btn" onclick="nextMonth()">▶</button>
 </div>
 
 <div class="calendar-header">
-
 <div>Sun</div>
 <div>Mon</div>
 <div>Tue</div>
@@ -883,19 +1309,14 @@ document.getElementById("content").innerHTML = `
 <div>Thu</div>
 <div>Fri</div>
 <div>Sat</div>
-
 </div>
 
-<div class="calendar-grid" id="calendarGrid">
-
-</div>
-
+<div class="calendar-grid" id="calendarGrid"></div>
 </div>
 
 <br>
 
 <div class="card">
-
 <h3>📄 Submitted Report</h3>
 
 <br>
@@ -919,11 +1340,10 @@ ${unsold}
 📌 Reason:
 Reserve gallons prepared for next day delivery.
 </div>
-
 </div>
-
 `;
 
+generateCalendar();
 }
 
 /* ================= REAL CALENDAR ================= */
@@ -940,295 +1360,138 @@ const months = [
 /* SAMPLE ATTENDANCE */
 
 const attendance = {
-
-1:{
-status:"Present",
-in:"8:00 AM",
-out:"5:00 PM"
-},
-
-2:{
-status:"Late",
-in:"8:45 AM",
-out:"5:15 PM"
-},
-
-4:{
-status:"Absent"
-},
-
-5:{
-status:"Present",
-in:"7:55 AM",
-out:"5:00 PM"
-},
-
-7:{
-status:"Absent"
-},
-
-8:{
-status:"Late",
-in:"8:30 AM",
-out:"5:05 PM"
-},
-
-11:{
-status:"Absent"
-},
-
-14:{
-status:"Absent"
-},
-
-15:{
-status:"Late",
-in:"8:40 AM",
-out:"5:20 PM"
-},
-
-17:{
-status:"Absent"
-},
-
-21:{
-status:"Late",
-in:"8:50 AM",
-out:"5:15 PM"
-},
-
-23:{
-status:"Absent"
-},
-
-28:{
-status:"Absent"
-},
-
-30:{
-status:"Absent"
-},
-
-31:{
-status:"Absent"
-}
-
+1:{status:"Present", in:"8:00 AM", out:"5:00 PM"},
+2:{status:"Late", in:"8:45 AM", out:"5:15 PM"},
+4:{status:"Absent"},
+5:{status:"Present", in:"7:55 AM", out:"5:00 PM"},
+7:{status:"Absent"},
+8:{status:"Late", in:"8:30 AM", out:"5:05 PM"},
+11:{status:"Absent"},
+14:{status:"Absent"},
+15:{status:"Late", in:"8:40 AM", out:"5:20 PM"},
+17:{status:"Absent"},
+21:{status:"Late", in:"8:50 AM", out:"5:15 PM"},
+23:{status:"Absent"},
+28:{status:"Absent"},
+30:{status:"Absent"},
+31:{status:"Absent"}
 };
 
 function generateCalendar(){
-
-const grid =
-document.getElementById("calendarGrid");
+const grid = document.getElementById("calendarGrid");
 
 if(!grid) return;
 
 grid.innerHTML = "";
 
-document.getElementById("monthTitle").innerHTML =
-`📅 ${months[currentMonth]} ${currentYear}`;
+document.getElementById("monthTitle").innerHTML = `📅 ${months[currentMonth]} ${currentYear}`;
 
-const firstDay =
-new Date(currentYear,currentMonth,1).getDay();
-
-const totalDays =
-new Date(currentYear,currentMonth + 1,0).getDate();
-
-/* EMPTY CELLS */
+const firstDay = new Date(currentYear,currentMonth,1).getDay();
+const totalDays = new Date(currentYear,currentMonth + 1,0).getDate();
 
 for(let i=0;i<firstDay;i++){
-
-grid.innerHTML += `
-<div class="day empty"></div>
-`;
-
+grid.innerHTML += `<div class="day empty"></div>`;
 }
 
-/* DAYS */
-
 for(let day=1; day<=totalDays; day++){
-
 let data = attendance[day];
-
 let className = "presentDay";
 let content = "";
 
 if(data){
-
 if(data.status === "Late"){
-
 className = "lateDay";
-
 }
-
 else if(data.status === "Absent"){
-
 className = "absentDay";
-
 }
 
 content = `
-
-<div class="day-number">
-${day}
-</div>
-
+<div class="day-number">${day}</div>
 <div class="time">
-
 ${data.in ? `🕘 ${data.in}<br>` : ""}
-
 ${data.out ? `🕕 ${data.out}` : "No Attendance"}
-
 </div>
-
-<div class="status-label">
-${data.status}
-</div>
-
+<div class="status-label">${data.status}</div>
 `;
-
 }
-
 else{
-
 content = `
-
-<div class="day-number">
-${day}
-</div>
-
-<div class="time">
-🕘 8:00 AM<br>
-🕕 5:00 PM
-</div>
-
-<div class="status-label">
-Present
-</div>
-
+<div class="day-number">${day}</div>
+<div class="time">🕘 8:00 AM<br>🕕 5:00 PM</div>
+<div class="status-label">Present</div>
 `;
-
 }
 
-grid.innerHTML += `
-<div class="day ${className}">
-${content}
-</div>
-`;
-
+grid.innerHTML += `<div class="day ${className}">${content}</div>`;
 }
-
 }
-
-/* BUTTONS */
 
 function prevMonth(){
-
 currentMonth--;
 
 if(currentMonth < 0){
-
 currentMonth = 11;
 currentYear--;
-
 }
 
 generateCalendar();
-
 }
 
 function nextMonth(){
-
 currentMonth++;
 
 if(currentMonth > 11){
-
 currentMonth = 0;
 currentYear++;
-
 }
 
 generateCalendar();
-
 }
 
 /* ================= RIDER PERFORMANCE ================= */
 
 function riderPerformance(){
-
 document.getElementById("content").innerHTML = `
-
 <div class="grid">
-
-<div class="card rider-card"
-onclick="openRider('Juan Rider')">
-
+<div class="card rider-card" onclick="openRider('Juan Rider')">
 <h2>🏍️ Juan Rider</h2>
-
 <br>
-
 <p>Deliveries: 120</p>
 <p>Status: Active</p>
-
 </div>
 
-<div class="card rider-card"
-onclick="openRider('Mark Rider')">
-
+<div class="card rider-card" onclick="openRider('Mark Rider')">
 <h2>🏍️ Mark Rider</h2>
-
 <br>
-
 <p>Deliveries: 98</p>
 <p>Status: Active</p>
-
 </div>
-
-
 </div>
 
 <div id="riderDetails"></div>
-
 `;
-
 }
 
 let riderChart;
 
 function loadRiderChart(){
-
-const ctx =
-document.getElementById("riderChart");
+const ctx = document.getElementById("riderChart");
 
 riderChart = new Chart(ctx,{
-
 type:'line',
 
 data:{
-
-labels:[
-'Mon','Tue','Wed',
-'Thu','Fri','Sat','Sun'
-],
+labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
 
 datasets:[{
-
 label:'Income',
-
-data:[
-1200,1800,1500,
-2200,2500,2000,3000
-],
-
+data:[1200,1800,1500,2200,2500,2000,3000],
 borderColor:'#22c55e',
-
-backgroundColor:
-'rgba(34,197,94,0.2)',
-
+backgroundColor:'rgba(34,197,94,0.2)',
 fill:true,
 tension:.4
-
 }]
-
 },
 
 options:{
@@ -1254,85 +1517,36 @@ color:'white'
 }
 }
 }
-
 }
-
 });
-
 }
 
 function updateRiderChart(){
-
-const filter =
-document.getElementById(
-"riderIncomeFilter"
-).value;
+const filter = document.getElementById("riderIncomeFilter").value;
 
 if(filter === "today"){
-
-riderChart.data.labels = [
-'8AM','10AM',
-'12PM','2PM',
-'4PM','6PM'
-];
-
-riderChart.data.datasets[0].data = [
-300,500,700,
-900,1200,1500
-];
-
+riderChart.data.labels = ['8AM','10AM','12PM','2PM','4PM','6PM'];
+riderChart.data.datasets[0].data = [300,500,700,900,1200,1500];
 }
 
 else if(filter === "weekly"){
-
-riderChart.data.labels = [
-'Mon','Tue','Wed',
-'Thu','Fri','Sat','Sun'
-];
-
-riderChart.data.datasets[0].data = [
-1200,1800,1500,
-2200,2500,2000,3000
-];
-
+riderChart.data.labels = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+riderChart.data.datasets[0].data = [1200,1800,1500,2200,2500,2000,3000];
 }
 
 else{
-
-riderChart.data.labels = [
-'Week 1',
-'Week 2',
-'Week 3',
-'Week 4'
-];
-
-riderChart.data.datasets[0].data = [
-12000,
-15000,
-18000,
-22000
-];
-
+riderChart.data.labels = ['Week 1','Week 2','Week 3','Week 4'];
+riderChart.data.datasets[0].data = [12000,15000,18000,22000];
 }
 
 riderChart.update();
-
 }
 
-/* ================= OPEN RIDER ================= */
-
 function openRider(name){
-
 document.getElementById("content").innerHTML = `
-
-<button class="btn"
-onclick="riderPerformance()"
-style="margin-bottom:20px;">
-◀ Back to Riders
-</button>
+<button class="btn" onclick="riderPerformance()" style="margin-bottom:20px;">◀ Back to Riders</button>
 
 <div class="grid">
-
 <div class="card stat">
 <h2>₱12,500</h2>
 <p>Total Income</p>
@@ -1347,80 +1561,38 @@ style="margin-bottom:20px;">
 <h2>Present</h2>
 <p>Status</p>
 </div>
-
 </div>
 
 <br>
 
 <div class="card">
-
-<div style="
-display:flex;
-justify-content:space-between;
-align-items:center;
-flex-wrap:wrap;
-gap:10px;
-">
-
+<div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
 <h2>📊 ${name} Income Tracker</h2>
 
 <select id="riderIncomeFilter"
-style="
-padding:10px;
-border:none;
-border-radius:10px;
-background:#0f4c75;
-color:white;
-font-weight:bold;
-"
+style="padding:10px; border:none; border-radius:10px; background:#0f4c75; color:white; font-weight:bold;"
 onchange="updateRiderChart()">
-
-<option value="today">
-Today
-</option>
-
-<option value="weekly">
-Weekly
-</option>
-
-<option value="monthly">
-Monthly
-</option>
-
+<option value="today">Today</option>
+<option value="weekly">Weekly</option>
+<option value="monthly">Monthly</option>
 </select>
-
 </div>
 
 <br>
 
 <canvas id="riderChart"></canvas>
-
 </div>
 
 <br>
 
 <div class="card">
-
 <div class="calendar-controls">
-
-<button class="calendar-btn"
-onclick="prevRiderMonth()">
-◀
-</button>
-
-<h2 id="riderMonthTitle">
-📅 Rider Attendance
-</h2>
-
-<button class="calendar-btn"
-onclick="nextRiderMonth()">
-▶
-</button>
-
+<button class="calendar-btn" onclick="prevRiderMonth()">◀</button>
+<h2 id="riderMonthTitle">📅 Rider Attendance</h2>
+<button class="calendar-btn" onclick="nextRiderMonth()">▶</button>
 </div>
 
 <div class="calendar-header">
-
 <div>Sun</div>
 <div>Mon</div>
 <div>Tue</div>
@@ -1428,25 +1600,16 @@ onclick="nextRiderMonth()">
 <div>Thu</div>
 <div>Fri</div>
 <div>Sat</div>
-
 </div>
 
-<div class="calendar-grid"
-id="riderCalendarGrid">
-
+<div class="calendar-grid" id="riderCalendarGrid"></div>
 </div>
-
-</div>
-
 `;
 
 setTimeout(()=>{
-
 loadRiderChart();
 generateRiderCalendar();
-
 },100);
-
 }
 
 /* ================= RIDER CALENDAR ================= */
@@ -1460,247 +1623,98 @@ const riderMonths = [
 "September","October","November","December"
 ];
 
-/* SAMPLE RIDER ATTENDANCE */
-
 const riderAttendance = {
-
-1:{
-status:"Present",
-in:"8:00 AM",
-out:"5:00 PM"
-},
-
-2:{
-status:"Late",
-in:"8:45 AM",
-out:"5:10 PM"
-},
-
-3:{
-status:"Absent"
-},
-
-5:{
-status:"Present",
-in:"7:55 AM",
-out:"5:00 PM"
-},
-
-8:{
-status:"Late",
-in:"8:30 AM",
-out:"5:20 PM"
-},
-
-10:{
-status:"Absent"
-},
-
-15:{
-status:"Present",
-in:"8:00 AM",
-out:"5:00 PM"
-},
-
-20:{
-status:"Late",
-in:"8:50 AM",
-out:"5:15 PM"
-},
-
-25:{
-status:"Absent"
-}
-
+1:{status:"Present", in:"8:00 AM", out:"5:00 PM"},
+2:{status:"Late", in:"8:45 AM", out:"5:10 PM"},
+3:{status:"Absent"},
+5:{status:"Present", in:"7:55 AM", out:"5:00 PM"},
+8:{status:"Late", in:"8:30 AM", out:"5:20 PM"},
+10:{status:"Absent"},
+15:{status:"Present", in:"8:00 AM", out:"5:00 PM"},
+20:{status:"Late", in:"8:50 AM", out:"5:15 PM"},
+25:{status:"Absent"}
 };
 
 function generateRiderCalendar(){
-
-const grid =
-document.getElementById(
-"riderCalendarGrid"
-);
+const grid = document.getElementById("riderCalendarGrid");
 
 if(!grid) return;
 
 grid.innerHTML = "";
 
-/* MONTH TITLE */
+document.getElementById("riderMonthTitle").innerHTML = `📅 ${riderMonths[riderCurrentMonth]} ${riderCurrentYear}`;
 
-document.getElementById(
-"riderMonthTitle"
-).innerHTML =
-
-`📅 ${
-riderMonths[riderCurrentMonth]
-} ${riderCurrentYear}`;
-
-/* FIRST DAY */
-
-const firstDay =
-new Date(
-riderCurrentYear,
-riderCurrentMonth,
-1
-).getDay();
-
-/* TOTAL DAYS */
-
-const totalDays =
-new Date(
-riderCurrentYear,
-riderCurrentMonth + 1,
-0
-).getDate();
-
-/* EMPTY BOXES */
+const firstDay = new Date(riderCurrentYear, riderCurrentMonth, 1).getDay();
+const totalDays = new Date(riderCurrentYear, riderCurrentMonth + 1, 0).getDate();
 
 for(let i=0;i<firstDay;i++){
-
-grid.innerHTML += `
-<div class="day empty"></div>
-`;
-
+grid.innerHTML += `<div class="day empty"></div>`;
 }
-
-/* DAYS */
 
 for(let day=1; day<=totalDays; day++){
-
-let data =
-riderAttendance[day];
-
-let className =
-"presentDay";
-
+let data = riderAttendance[day];
+let className = "presentDay";
 let content = "";
 
-/* WITH RECORD */
-
 if(data){
-
 if(data.status === "Late"){
-
 className = "lateDay";
-
 }
-
-else if(
-data.status === "Absent"
-){
-
+else if(data.status === "Absent"){
 className = "absentDay";
-
 }
 
 content = `
-
-<div class="day-number">
-${day}
-</div>
-
+<div class="day-number">${day}</div>
 <div class="time">
-
-${data.in ?
-`🕘 ${data.in}<br>` : ""}
-
-${data.out ?
-`🕕 ${data.out}` :
-"No Attendance"}
-
+${data.in ? `🕘 ${data.in}<br>` : ""}
+${data.out ? `🕕 ${data.out}` : "No Attendance"}
 </div>
-
-<div class="status-label">
-${data.status}
-</div>
-
+<div class="status-label">${data.status}</div>
 `;
-
 }
-
-/* DEFAULT PRESENT */
-
 else{
-
 content = `
-
-<div class="day-number">
-${day}
-</div>
-
-<div class="time">
-🕘 8:00 AM<br>
-🕕 5:00 PM
-</div>
-
-<div class="status-label">
-Present
-</div>
-
+<div class="day-number">${day}</div>
+<div class="time">🕘 8:00 AM<br>🕕 5:00 PM</div>
+<div class="status-label">Present</div>
 `;
-
 }
 
-/* APPEND */
-
-grid.innerHTML += `
-
-<div class="day ${className}">
-${content}
-</div>
-
-`;
-
+grid.innerHTML += `<div class="day ${className}">${content}</div>`;
 }
-
 }
-
-/* PREVIOUS MONTH */
 
 function prevRiderMonth(){
-
 riderCurrentMonth--;
 
 if(riderCurrentMonth < 0){
-
 riderCurrentMonth = 11;
 riderCurrentYear--;
-
 }
 
 generateRiderCalendar();
-
 }
 
-/* NEXT MONTH */
-
 function nextRiderMonth(){
-
 riderCurrentMonth++;
 
 if(riderCurrentMonth > 11){
-
 riderCurrentMonth = 0;
 riderCurrentYear++;
-
 }
 
 generateRiderCalendar();
-
 }
 
 /* ================= INVENTORY & FILTER ================= */
 
 function inventoryFilter(){
-
 let latestUpdate = "15 mins ago";
-
 let warning = filterLife <= 10;
 
 document.getElementById("content").innerHTML = `
-
 <div class="grid">
-
 <div class="card stat">
 <h2>${gallonsInput}</h2>
 <p>Total Gallons Input</p>
@@ -1715,19 +1729,16 @@ document.getElementById("content").innerHTML = `
 <h2>${latestUpdate}</h2>
 <p>Latest Update</p>
 </div>
-
 </div>
 
 <br>
 
 <div class="card">
-
 <h3>🧪 Real-Time Inventory</h3>
 
 <br>
 
 <table>
-
 <tr>
 <th>Date</th>
 <th>Gallons Added</th>
@@ -1738,36 +1749,24 @@ document.getElementById("content").innerHTML = `
 <tr>
 <td>May 19, 2026</td>
 <td>25 Gallons</td>
-<td>
-<span class="status delivered">
-Not Edited
-</span>
-</td>
+<td><span class="status delivered">Not Edited</span></td>
 <td>10:45 PM</td>
 </tr>
 
 <tr>
 <td>May 19, 2026</td>
 <td>30 Gallons</td>
-<td>
-<span class="status pending">
-Edited
-</span>
-</td>
+<td><span class="status pending">Edited</span></td>
 <td>11:20 PM</td>
 </tr>
-
 </table>
 
 <br>
-
-
 </div>
 
 <br>
 
 <div class="card">
-
 <h3>⚙ Filter Status</h3>
 
 <br>
@@ -1781,26 +1780,19 @@ Edited
 </div>
 
 ${warning ? `
-
 <div class="notify" style="background:rgba(255,0,0,0.2); border:1px solid red;">
 ⚠ WARNING:
 Filter is below 10%.
 
 Replace within 14 days.
 </div>
-
 ` : `
-
 <div class="notify">
 ✅ Filter condition is stable.
 </div>
-
 `}
-
 </div>
-
 `;
-
 }
 
 /* DEFAULT PAGE */
@@ -1810,9 +1802,7 @@ salesReport();
 /* BUBBLES */
 
 function createBubble(){
-
 const bubble = document.createElement('div');
-
 bubble.className = 'bubble';
 
 const size = Math.random() * 40 + 20;
@@ -1828,15 +1818,12 @@ document.body.appendChild(bubble);
 setTimeout(()=>{
 bubble.remove();
 },15000);
-
 }
 
 setInterval(createBubble,2000);
 
 for(let i=0;i<8;i++){
-
 setTimeout(createBubble,Math.random()*5000);
-
 }
 
 </script>

@@ -525,6 +525,364 @@ html{ -webkit-text-size-adjust:100%; }
 
 button, input, select, textarea{ font-size:16px; }
 
+.manager-login-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 47, 73, 0.72);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.manager-login-box {
+  width: min(420px, calc(100% - 40px));
+  background: rgba(255,255,255,0.96);
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 24px 60px rgba(2, 44, 71, 0.25);
+  text-align: center;
+}
+
+.manager-login-box h2 {
+  color: #0f172a;
+  margin-bottom: 8px;
+}
+
+.manager-login-box p {
+  color: #475569;
+  margin-bottom: 20px;
+}
+
+.manager-login-box input {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #bae6fd;
+  font-size: 15px;
+}
+
+.manager-login-box button {
+  width: 100%;
+  margin-top: 4px;
+}
+
+/* ========== LOGIN PAGE VIEW ========== */
+
+.login-view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+  padding: 20px;
+}
+
+.login-view.hidden {
+  display: none !important;
+}
+
+.login-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 24px;
+  padding: 40px 35px;
+  text-align: center;
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255,255,255,0.05) inset;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 480px;
+}
+
+.login-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: left 0.6s;
+}
+
+.login-card:hover::before { left: 100%; }
+
+.login-card:hover {
+  transform: translateY(-8px) scale(1.01);
+  box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255,255,255,0.1) inset,
+    0 0 30px rgba(56, 189, 248, 0.1);
+}
+
+.login-logo {
+  font-size: 42px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.login-logo i {
+  font-size: 36px;
+  color: #bbe1fa;
+  text-shadow: 0 2px 10px rgba(187, 225, 250, 0.5);
+}
+
+.login-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 8px;
+  text-shadow: 0 2px 10px rgba(187, 225, 250, 0.5);
+}
+
+.login-subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+
+.login-form {
+  text-align: left;
+}
+
+.login-form label {
+  display: block;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  margin-top: 16px;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  margin-top: 0;
+}
+
+.login-form input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.login-form input:focus {
+  border-color: rgba(56, 189, 248, 0.6);
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
+}
+
+.login-btn-main {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 18px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 24px;
+  background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+  color: #fff;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-btn-main::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  transition: left 0.5s;
+}
+
+.login-btn-main:hover::before { left: 100%; }
+
+.login-btn-main:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(14, 165, 233, 0.4);
+}
+
+.login-btn-main:active {
+  transform: translateY(0);
+}
+
+.login-btn-main.loading {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.login-btn-main.loading::after {
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.login-divider {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.login-divider span {
+  padding: 0 12px;
+}
+
+.login-footer {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+  margin-top: 20px;
+}
+
+.login-error {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 13px;
+  margin-bottom: 16px;
+  display: none;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.login-options {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.remember-me input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  padding: 0;
+  accent-color: #38bdf8;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.65);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 8px 10px;
+  transition: color 0.2s ease;
+  width: auto;
+  z-index: 2;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.password-toggle:hover,
+.password-toggle:focus{
+  color: #fff;
+  transform: translateY(-50%);
+  outline: none;
+}
+
+.password-wrapper input {
+  padding-right: 44px;
+  position: relative;
+  z-index: 1;
+}
+
+.input-with-icon {
+  position: relative;
+}
+
+.input-with-icon i {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 14px;
+  pointer-events: none;
+}
+
+.input-with-icon input {
+  padding-left: 44px;
+}
+
+/* Dashboard view */
+
+.dashboard-view {
+  display: none;
+}
+
+.dashboard-view.active {
+  display: block;
+}
+
+@media(max-width: 768px) {
+  .login-card {
+    padding: 30px 24px;
+  }
+}
+
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -543,51 +901,6 @@ function notify(text){
   setTimeout(()=>{ d.remove(); },3000);
 }
 
-function openAttendanceGenerator(){
-  const modal = document.createElement('div');
-  modal.className = 'popup-overlay';
-  modal.id = 'attendanceGen';
-  modal.style.display = 'flex';
-
-  const riderOptions = ridersList.map(r => `<option value="${r.id}">${r.name} (${r.id})</option>`).join('');
-
-  modal.innerHTML = `
-    <div class="popup-card">
-      <h2>📷 Generate Attendance QR</h2>
-      <br>
-      <select id="attendanceRider">${riderOptions}</select>
-      <br><br>
-      <div id="attendanceQrHolder" style="margin-top:12px;text-align:center"></div>
-      <br>
-      <button class="btn green" onclick="generateAttendanceQR()">Generate QR</button>
-      <button class="btn orange" onclick="closeAttendanceGenerator()">Close</button>
-    </div>
-  `;
-
-  document.body.appendChild(modal);
-}
-
-function closeAttendanceGenerator(){
-  const m = document.getElementById('attendanceGen'); if(m) m.remove();
-}
-
-async function generateAttendanceQR(){
-  const riderId = document.getElementById('attendanceRider').value;
-  if(!riderId) return alert('Select a rider');
-
-  const payload = `attendance|${riderId}`;
-
-  try{
-    const dataUrl = await QRCode.toDataURL(payload, { width: 280 });
-    document.getElementById('attendanceQrHolder').innerHTML = `<img src="${dataUrl}" style="width:280px;height:280px;"/>` +
-      `<br><a class="btn blue" href="${dataUrl}" download="attendance-${riderId}-${Date.now()}.png">Download</a>`;
-    const gen = JSON.parse(localStorage.getItem('generatedAttendance')||'[]');
-    gen.push({ riderId, time:new Date().toISOString(), dataUrl });
-    localStorage.setItem('generatedAttendance', JSON.stringify(gen));
-    notify('✅ Attendance QR generated');
-  }catch(e){ console.error(e); alert('Failed to generate QR'); }
-}
-
 function showAttendanceLogs(){
   const attendance = JSON.parse(localStorage.getItem('attendance')||'{}');
   let html = `<div class="card"><h2>📋 Attendance Logs</h2>`;
@@ -603,11 +916,199 @@ function showAttendanceLogs(){
   html += `</div>`;
   document.getElementById('content').innerHTML = html;
 }
+
+/* =========================================================
+  RIDER ATTENDANCE QR — tied to the manager's login
+   The QR payload is: manager_auth|<managerUsername>|<code>
+   rider1.html checks the code AND that the manager is
+   currently logged in (session shared via localStorage),
+   so a QR is only valid while this manager is signed in.
+   ========================================================= */
+const MANAGER_QR_TTL_MS = 10 * 60 * 1000; // QR valid for 10 minutes
+
+function getManagerQrSession(){
+  try { return JSON.parse(localStorage.getItem("managerQrSession") || "null"); }
+  catch(e){ return null; }
+}
+
+function buildManagerQrSession(){
+  if(localStorage.getItem("managerLoggedIn") !== "true") return null;
+
+  const username = localStorage.getItem("managerUsername") || "manager";
+
+  const code = Math.random().toString(36).slice(2, 8).toUpperCase();
+  const session = {
+    username: username,
+    code: code,
+    createdAt: Date.now(),
+    expiresAt: Date.now() + MANAGER_QR_TTL_MS
+  };
+  localStorage.setItem("managerQrSession", JSON.stringify(session));
+  return session;
+}
+
+function openManagerQr(){
+  const existing = document.getElementById('managerQrModal');
+  if(existing) existing.remove();
+
+  // QR is linked to the manager's login session — sign in required first
+  if(localStorage.getItem("managerLoggedIn") !== "true"){
+    alert("Please sign in as manager first — the QR is linked to your manager login.");
+    return;
+  }
+
+  const session = buildManagerQrSession();
+  if(!session) return;
+
+  const modal = document.createElement('div');
+  modal.className = 'popup-overlay';
+  modal.id = 'managerQrModal';
+  modal.style.display = 'flex';
+
+  modal.innerHTML = `
+    <div class="popup-card">
+      <h2>🔐 Rider Attendance QR</h2>
+      <p style="color:#475569;margin:10px 0;">Linked to <b>${session.username}</b> — valid only while you are signed in as manager.</p>
+      <div id="managerQrHolder" style="margin-top:12px;text-align:center;"></div>
+      <div class="notify" style="margin-top:14px;">
+        <b>Manual code</b> (if the rider cannot scan): <code id="managerManualCode">${session.code}</code><br>
+        <span style="opacity:0.75;">Expires 10 minutes after generation — press 🔄 Regenerate to refresh.</span>
+      </div>
+      <br>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+        <button class="btn green" onclick="regenerateManagerQr()">🔄 Regenerate</button>
+        <button class="btn blue" onclick="showManagerQrFullscreen()">📱 Full Screen</button>
+        <button class="btn orange" onclick="closeManagerQr()">✖ Close</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+  generateManagerQr();
+}
+
+function closeManagerQr(){
+  const m = document.getElementById('managerQrModal');
+  if(m) m.remove();
+}
+
+function getManagerQrPayload(){
+  const session = getManagerQrSession();
+  if(!session) return null;
+  return "manager_auth|" + session.username + "|" + session.code;
+}
+
+async function generateManagerQr(){
+  const holder = document.getElementById('managerQrHolder');
+  if(!holder) return;
+
+  const payload = getManagerQrPayload() || (buildManagerQrSession() && getManagerQrPayload());
+  if(!payload) return;
+
+  try{
+    const dataUrl = await QRCode.toDataURL(payload, { width: 280 });
+    holder.innerHTML = `
+      <img src="${dataUrl}" style="width:280px;height:280px;border-radius:14px;background:#fff;padding:10px;"/>
+      <br><br>
+      <a class="btn blue" href="${dataUrl}" download="rider-attendance-qr-${Date.now()}.png">⬇ Download QR</a>
+    `;
+    notify('✅ Rider Attendance QR ready — riders can scan it now');
+  }catch(e){
+    console.error(e);
+    alert('Failed to generate QR');
+  }
+}
+
+function regenerateManagerQr(){
+  const session = buildManagerQrSession();
+  if(!session) return;
+  const codeEl = document.getElementById('managerManualCode');
+  if(codeEl) codeEl.textContent = session.code;
+  generateManagerQr();
+}
+
+function showManagerQrFullscreen(){
+  const payload = getManagerQrPayload() || (buildManagerQrSession() && getManagerQrPayload());
+  if(!payload) return;
+
+  QRCode.toDataURL(payload, { width: 420 }).then(dataUrl => {
+    const fs = document.createElement('div');
+    fs.id = 'managerQrFullscreen';
+    fs.style.cssText = 'position:fixed;inset:0;background:linear-gradient(135deg,#0f4c75,#3282b8);z-index:999999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;';
+    fs.innerHTML = `
+      <div style="font-size:22px;font-weight:800;color:#fff;text-align:center;">
+        <i class="fas fa-shield-halved" style="margin-right:8px;"></i>Alka-Jozen Rider Attendance
+      </div>
+      <img src="${dataUrl}" style="width:min(70vw,420px);height:auto;background:#fff;padding:18px;border-radius:24px;box-shadow:0 20px 60px rgba(0,0,0,0.3);"/>
+      <div style="color:rgba(255,255,255,0.85);font-weight:600;">Scan this QR with the Rider Portal to verify attendance</div>
+      <button class="btn orange" onclick="this.parentElement.remove()">✖ Close</button>
+    `;
+    document.body.appendChild(fs);
+  }).catch(e => {
+    console.error(e);
+    alert('Failed to generate QR');
+  });
+}
 </script>
 
 </head>
 
 <body>
+
+<!-- ===== LOGIN VIEW ===== -->
+<div id="loginView" class="login-view">
+  <div class="login-card">
+    <div class="login-logo">
+      <i class="fas fa-building"></i>
+    </div>
+    <h1 class="login-title">Manager Dashboard</h1>
+    <p class="login-subtitle">Sign in to access your management portal</p>
+
+    <div class="login-error" id="loginError">
+      <i class="fas fa-exclamation-circle"></i>
+      <span id="loginErrorText">Invalid credentials. Please try again.</span>
+    </div>
+
+    <form class="login-form" id="loginForm" onsubmit="return false;">
+      <label for="loginUsername">Username</label>
+      <div class="input-with-icon">
+        <i class="fas fa-user"></i>
+        <input id="loginUsername" type="text" placeholder="Enter your username" autocomplete="username">
+      </div>
+
+      <label for="loginPassword">Password</label>
+      <div class="input-with-icon password-wrapper">
+        <i class="fas fa-lock"></i>
+        <input id="loginPassword" type="password" placeholder="Enter your password" autocomplete="current-password">
+        <button type="button" class="password-toggle" id="passwordToggleBtn" aria-label="Show password" onclick="togglePassword()">
+          <i class="fas fa-eye" id="passwordIcon"></i>
+        </button>
+      </div>
+
+      <div class="login-options">
+        <label class="remember-me">
+          <input type="checkbox" id="rememberMe"> Remember me
+        </label>
+      </div>
+
+      <button type="button" class="login-btn-main" id="loginBtn" onclick="handleLogin()">
+        <i class="fas fa-sign-in-alt" style="margin-right:8px;"></i> Sign In
+      </button>
+    </form>
+
+    <button type="button" class="btn blue" style="width:100%;margin-top:16px;" onclick="openManagerQr()">
+      <i class="fas fa-qrcode" style="margin-right:8px;"></i> Rider Attendance QR (sign in first)
+    </button>
+
+    <div class="login-divider">
+      <span>Manager Access Only</span>
+    </div>
+    <div class="login-footer">&copy; 2026 Alka Jozen Water Refilling Station. All rights reserved.</div>
+  </div>
+</div>
+
+<!-- ===== DASHBOARD VIEW (hidden until login) ===== -->
+<div id="dashboardView" class="dashboard-view">
 
 <div class="blob blob1"></div>
 <div class="blob blob2"></div>
@@ -648,12 +1149,12 @@ function showAttendanceLogs(){
 <div class="brand">
 🏢 MANAGER
 </div>
-<button onclick="dashboard()">🏠 Dashboard</button>
+6<button onclick="dashboard()">🏠 Dashboard</button>
 <button onclick="inventory()">📦 Inventory</button>
 <button onclick="riderPerformance()">🏍️ Rider Performance</button>
 <button onclick="showNotifications()">🔔 Notifications</button>
-<button onclick="showCustomerAccounts()">👤 Customer Accounts</button>
-<button onclick="openAttendanceGenerator()">🧾 Attendance QR</button>
+<button onclick="assignOrders()">📋 Manage Orders</button>
+<button onclick="openManagerQr()">🔐 Rider Attendance QR</button>
 <button onclick="reports()">📄 Reports</button>
 <button onclick="showLogoutPopup()">🚪 Log Out</button>
 </div>
@@ -696,7 +1197,110 @@ function showAttendanceLogs(){
   </div>
 </div>
 
+</div>
+<!-- ===== END DASHBOARD VIEW ===== -->
+
 <script>
+
+function togglePassword() {
+  const pw = document.getElementById('loginPassword');
+  const icon = document.getElementById('passwordIcon');
+  const btn = document.getElementById('passwordToggleBtn');
+  if (pw.type === 'password') {
+    pw.type = 'text';
+    icon.classList.remove('fa-eye');
+    icon.classList.add('fa-eye-slash');
+    if(btn) btn.setAttribute('aria-label', 'Hide password');
+  } else {
+    pw.type = 'password';
+    icon.classList.remove('fa-eye-slash');
+    icon.classList.add('fa-eye');
+    if(btn) btn.setAttribute('aria-label', 'Show password');
+  }
+}
+
+function handleLogin() {
+  const username = document.getElementById('loginUsername').value.trim();
+  const password = document.getElementById('loginPassword').value.trim();
+  const errorBox = document.getElementById('loginError');
+  const loginBtn = document.getElementById('loginBtn');
+
+  // Hide previous error
+  errorBox.style.display = 'none';
+
+  if (!username || !password) {
+    document.getElementById('loginErrorText').textContent = 'Please enter both username and password.';
+    errorBox.style.display = 'block';
+    return;
+  }
+
+  // Show loading
+  loginBtn.classList.add('loading');
+  loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i> Signing in...';
+
+  setTimeout(() => {
+    if (username === "manager" && password === "manager123") {
+      // Save login state
+      localStorage.setItem("managerLoggedIn", "true");
+      localStorage.setItem("managerUsername", username);
+      localStorage.setItem("currentUser", JSON.stringify({
+        username: username,
+        role: "manager",
+        fname: "Manager"
+      }));
+
+      // If "Remember me" is checked, store it
+      if (document.getElementById('rememberMe').checked) {
+        localStorage.setItem("rememberManager", "true");
+      } else {
+        localStorage.removeItem("rememberManager");
+      }
+
+      // Switch views: hide login, show dashboard
+      document.getElementById("loginView").classList.add("hidden");
+      document.getElementById("dashboardView").classList.add("active");
+
+      // Fresh QR session per login — old QR codes stop working
+      localStorage.removeItem("managerQrSession");
+
+      // Reset button
+      loginBtn.classList.remove('loading');
+      loginBtn.innerHTML = '<i class="fas fa-sign-in-alt" style="margin-right:8px;"></i> Sign In';
+
+      // Clear fields
+      document.getElementById('loginUsername').value = '';
+      document.getElementById('loginPassword').value = '';
+
+      dashboard();
+    } else {
+      loginBtn.classList.remove('loading');
+      loginBtn.innerHTML = '<i class="fas fa-sign-in-alt" style="margin-right:8px;"></i> Sign In';
+      document.getElementById('loginErrorText').textContent = 'Invalid credentials. Please try again.';
+      errorBox.style.display = 'block';
+    }
+  }, 800);
+}
+
+function ensureManagerLogin() {
+const managerLoggedIn = localStorage.getItem("managerLoggedIn") === "true";
+
+if (!managerLoggedIn) {
+  // Show login view, hide dashboard
+  document.getElementById("loginView").classList.remove("hidden");
+  document.getElementById("dashboardView").classList.remove("active");
+  // Auto-fill remembered username
+  if (localStorage.getItem("rememberManager") === "true") {
+    document.getElementById("rememberMe").checked = true;
+    document.getElementById("loginUsername").value = "manager";
+    document.getElementById("loginPassword").focus();
+  }
+} else {
+  // Show dashboard, hide login
+  document.getElementById("loginView").classList.add("hidden");
+  document.getElementById("dashboardView").classList.add("active");
+  dashboard();
+}
+}
 
 function openReportForm(){
 document.getElementById("reportPopup").style.display = "flex";
@@ -739,45 +1343,150 @@ function saveAttendance(data){
   localStorage.setItem("attendance", JSON.stringify(data));
 }
 
-function showCustomerAccounts(){
-  const users = JSON.parse(localStorage.getItem("users")) || [];
+let ridersList = [
+  { id: "rider", name: "Rider" },
+  { id: "r1", name: "Rider John" },
+  { id: "r2", name: "Rider Mike" }
+];
+
+function getSharedOrders(){
+  try { return JSON.parse(localStorage.getItem("history") || "[]"); }
+  catch(e){ return []; }
+}
+
+function saveSharedOrders(orders){
+  localStorage.setItem("history", JSON.stringify(orders));
+}
+
+function assignOrders(){
+  const orders = getSharedOrders();
+  const orderRows = orders.length === 0
+    ? `<tr><td colspan="6">No customer orders available.</td></tr>`
+    : orders.map((order, index) => `
+      <tr>
+        <td>${order.orderNumber || "#" + String(index + 1).padStart(3, "0")}</td>
+        <td>${order.recipient || order.customer || order.name || order.user || "Unknown"}</td>
+        <td>${order.address || "N/A"}</td>
+        <td><span class="status ${order.status === "Delivered" || order.status === "Accepted" ? "delivered" : order.status === "Rejected" ? "prepare" : "pending"}">${order.status || "Order Received"}</span></td>
+        <td><button class="btn blue" onclick="reviewOrder(${index})">🔎 Review</button></td>
+        <td>
+          <select onchange="assignOrder(${index}, this.value)" style="padding:8px;border:none;border-radius:10px;min-width:150px;">
+            <option value="">Unassigned</option>
+            ${ridersList.map(r => `<option value="${r.id}" ${order.assignedRiderId === r.id ? "selected" : ""}>${r.name}</option>`).join("")}
+          </select>
+        </td>
+      </tr>
+    `).join("");
+
   document.getElementById("content").innerHTML = `
     <div class="card">
-      <h2>👥 Registered Customer Accounts</h2>
-      <p>${users.length} account${users.length === 1 ? "" : "s"} found</p>
+      <h2>📋 Manage Orders</h2>
+      <p>Review pending customer orders, accept or reject them, then assign accepted orders to a rider.</p>
       <br>
-      ${users.length === 0 ? '<div class="notify">No registered customers found.</div>' : `
-        <table>
-          <tr>
-            <th>#</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Secondary Email</th>
-            <th>Role</th>
-          </tr>
-          ${users.map((user, index) => `
-            <tr>
-              <td>${index + 1}</td>
-              <td>${user.fname || "-"}</td>
-              <td>${user.lname || "-"}</td>
-              <td>${user.username || "-"}</td>
-              <td>${user.email || "-"}</td>
-              <td>${user.email2 || "-"}</td>
-              <td>${user.role || "customer"}</td>
-            </tr>
-          `).join("")}
-        </table>
-      `}
+      <table>
+        <tr><th>Order</th><th>Customer</th><th>Address</th><th>Status</th><th>Review</th><th>Rider</th></tr>
+        ${orderRows}
+      </table>
     </div>
   `;
 }
 
-let ridersList = [
-  { id: "r1", name: "Rider John" },
-  { id: "r2", name: "Rider Mike" }
-];
+function reviewOrder(index){
+  const order = getSharedOrders()[index];
+  if(!order) return;
+
+  const existing = document.getElementById("orderReviewModal");
+  if(existing) existing.remove();
+
+  const modal = document.createElement("div");
+  modal.id = "orderReviewModal";
+  modal.className = "popup-overlay";
+  modal.style.display = "flex";
+  modal.innerHTML = `
+    <div class="popup-card" style="text-align:left;">
+      <h2>🔎 Review Order #${order.orderNumber || "N/A"}</h2>
+      <br>
+      <p><b>Customer:</b> ${order.recipient || order.customer || order.name || order.user || "Unknown"}</p>
+      <p><b>Address:</b> ${order.address || "N/A"}</p>
+      <p><b>Contact:</b> ${order.contact || "N/A"}</p>
+      <p><b>Order:</b> ${order.gallon || "N/A"} ${order.gallonType || "Gallon"}</p>
+      <p><b>Payment:</b> ${order.payment || "N/A"} (${order.paymentStatus || "N/A"})</p>
+      <p><b>Total:</b> ₱${order.total || "0"}</p>
+      <p><b>Notes:</b> ${order.deliveryNotes || "None"}</p>
+      <p><b>Current status:</b> ${order.status || "Order Received"}</p>
+      <br>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+        <button class="btn green" onclick="updateOrderDecision(${index}, 'Accepted')">✅ Accept Order</button>
+        <button class="btn orange" onclick="updateOrderDecision(${index}, 'Rejected')">❌ Reject Order</button>
+        <button class="btn blue" onclick="document.getElementById('orderReviewModal').remove()">✖ Close</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+
+function updateOrderDecision(index, status){
+  const orders = getSharedOrders();
+  const order = orders[index];
+  if(!order) return;
+
+  order.status = status;
+  order.managerDecisionAt = new Date().toISOString();
+  saveSharedOrders(orders);
+
+  const notifications = JSON.parse(localStorage.getItem("notifications") || "[]");
+  notifications.push({
+    id: `order-${status.toLowerCase()}-${order.orderNumber || Date.now()}-${Date.now()}`,
+    type: "order-status",
+    orderNumber: order.orderNumber,
+    customerName: order.recipient || order.customer || order.name || order.user || "Customer",
+    status,
+    message: `Order #${order.orderNumber || "N/A"} was ${status.toLowerCase()} by the manager.`,
+    date: new Date().toLocaleDateString(),
+    time: new Date().toLocaleTimeString(),
+    timestamp: Date.now()
+  });
+  localStorage.setItem("notifications", JSON.stringify(notifications));
+
+  const modal = document.getElementById("orderReviewModal");
+  if(modal) modal.remove();
+  notify(status === "Accepted" ? "✅ Order accepted and customer notified" : "❌ Order rejected and customer notified");
+  assignOrders();
+}
+
+function assignOrder(index, riderId){
+  const orders = getSharedOrders();
+  const order = orders[index];
+  if(!order) return;
+
+  const rider = ridersList.find(item => item.id === riderId);
+  if(rider){
+    order.assignedRiderId = rider.id;
+    order.assignedRiderName = rider.name;
+
+    const notifications = JSON.parse(localStorage.getItem("notifications") || "[]");
+    notifications.push({
+      id: `order-assigned-${order.orderNumber || Date.now()}-${Date.now()}`,
+      type: "order-assigned",
+      orderNumber: order.orderNumber,
+      riderId: rider.id,
+      riderName: rider.name,
+      customerName: order.name || order.user || "Customer",
+      status: "New",
+      message: `Order #${order.orderNumber || "N/A"} was assigned to you.`,
+      date: new Date().toLocaleDateString(),
+      time: new Date().toLocaleTimeString(),
+      timestamp: Date.now()
+    });
+    localStorage.setItem("notifications", JSON.stringify(notifications));
+  } else {
+    delete order.assignedRiderId;
+    delete order.assignedRiderName;
+  }
+
+  saveSharedOrders(orders);
+  notify(rider ? `✅ Order assigned to ${rider.name}` : "✅ Order unassigned");
+}
 
 function riderPerformance(){
 
@@ -1068,6 +1777,7 @@ document.getElementById("attendanceTime").innerHTML = "🕒 Time In: " + now.toL
 }
 
 updateAttendancePopup();
+ensureManagerLogin();
 
 function managerPresent(){
 const now = new Date();
@@ -1412,13 +2122,17 @@ function showNotifications(){
           <b>👤 ${n.riderName || 'System'}</b><br><br>
           ${n.type === 'edit-request' || n.type === 'inventory-add'
             ? `<b>Inventory Approval Request</b><br>${n.message || 'Stock approval requested'}<br><br>`
+            : n.type === 'order-assigned'
+              ? `<b>Order Assigned</b><br>${n.message || `Order #${n.orderNumber || '--'} was assigned to ${n.riderName || 'a rider'}.`}<br><br>`
+            : n.type === 'order-update'
+              ? `<b>Order Update</b><br>${n.message || `Order #${n.orderNumber || '--'} is now ${n.status || '--'}.`}<br><br>`
             : n.type === 'leave-request'
               ? `<b>Leave Request</b><br>Leave Date: ${n.leaveDate || '--'}<br>Reason: ${n.reason || '--'}<br><br>`
               : `📅 ${n.date}<br>🕒 ${n.time}<br>🧾 Check-In: ${n.method || 'Manual'}<br><br>`}
           📝 Status: <b>${n.status}</b>
           <br><br>
           ${
-            n.status === "Pending"
+            n.status === "Pending" && n.type !== "leave-request"
             ? `
               <button class="btn green notify-action" data-action="approve" data-id="${n.id}">✅ Approve</button>
               <button class="btn orange notify-action" data-action="reject" data-id="${n.id}">❌ Reject</button>
@@ -1449,7 +2163,7 @@ function showNotifications(){
 function approveNotification(id){
   notifications = JSON.parse(localStorage.getItem("notifications")) || [];
   let notif = notifications.find(n => n.id == id);
-  if(!notif) return;
+  if(!notif || notif.type === "leave-request") return;
   notif.status = "Approved";
 
   if((notif.type === "edit-request" || notif.type === "inventory-add") && notif.logId != null){
@@ -1470,8 +2184,6 @@ function approveNotification(id){
       }
     }
     notify("Stock request approved ✅");
-  } else if (notif.type === "leave-request") {
-    notify("Leave request approved ✅");
   } else {
     notify("Attendance Approved ✅");
   }
@@ -1483,7 +2195,7 @@ function approveNotification(id){
 function rejectNotification(id){
   notifications = JSON.parse(localStorage.getItem("notifications")) || [];
   let notif = notifications.find(n => n.id == id);
-  if(!notif) return;
+  if(!notif || notif.type === "leave-request") return;
   notif.status = "Rejected";
 
   if((notif.type === "edit-request" || notif.type === "inventory-add") && notif.logId != null){
@@ -1495,8 +2207,6 @@ function rejectNotification(id){
       localStorage.setItem("inventoryLogs", JSON.stringify(inventoryLogs));
     }
     notify("Stock request rejected ❌");
-  } else if (notif.type === "leave-request") {
-    notify("Leave request rejected ❌");
   } else {
     notify("Attendance Rejected ❌");
   }
@@ -1544,11 +2254,32 @@ function confirmLogout(){
 const now = new Date();
 localStorage.setItem("managerLogoutDate", now.toDateString());
 localStorage.setItem("managerLogoutTime", now.toLocaleTimeString());
-alert("Logged Out Successfully ✅");
-window.location.href = "index.html";
+
+// Clear manager session data
+localStorage.removeItem("managerLoggedIn");
+localStorage.removeItem("managerUsername");
+localStorage.removeItem("currentUser");
+localStorage.removeItem("managerQrSession");
+
+// Show success notification
+notify('Logged Out Successfully ✅');
+
+// Close the logout popup
+const popup = document.getElementById('logoutPopup');
+if (popup) popup.style.display = 'none';
+
+// Switch back to login view within the same page
+setTimeout(() => {
+  document.getElementById("loginView").classList.remove("hidden");
+  document.getElementById("dashboardView").classList.remove("active");
+  // Clear login fields
+  document.getElementById("loginUsername").value = "";
+  document.getElementById("loginPassword").value = "";
+  document.getElementById("loginError").style.display = "none";
+}, 1200);
 }
 
-document.getElementById("attendancePopup").style.display = "flex";
+// Load saved data
 
 gallons = parseFloat(localStorage.getItem("gallons")) || 500;
 totalGallonsSold = parseFloat(localStorage.getItem("totalGallonsSold")) || 0;
@@ -1565,7 +2296,7 @@ if(savedLogs && savedLogs.length > 0){
   }));
 }
 
-let salesChart;
+var salesChart;
 
 function renderAnalytics(){
 
@@ -1641,7 +2372,7 @@ function renderAnalytics(){
 
 }
 
-dashboard();
+ensureManagerLogin();
 
 function toggleManagerFAQ(){
   const box = document.getElementById('managerFaqBox');
@@ -1673,7 +2404,7 @@ const managerKnowledgeBase = [
   {
     topic:'attendance',
     keywords:['attendance','present','check in','login','logout'],
-    response:'Use the Attendance QR generator to create staff check-ins and review attendance from Rider Performance.'
+    response:'Use the Rider Attendance QR for rider check-ins and review attendance from Rider Performance.'
   },
   {
     topic:'notifications',
@@ -1700,7 +2431,7 @@ function generateManagerRAGResponse(message){
   }
 
   if(msg.includes('attendance') || msg.includes('present') || msg.includes('login')){
-    return '🧾 Attendance Assistant\n\nUse the Attendance QR generator or Rider Performance to review staff attendance records.';
+    return '🧾 Attendance Assistant\n\nUse the Rider Attendance QR or Rider Performance to review staff attendance records.';
   }
 
   if(msg.includes('notification') || msg.includes('approve') || msg.includes('reject')){
@@ -1760,7 +2491,18 @@ function removeManagerTyping(){
   if(bubble) bubble.remove();
 }
 
+// Enter key support for login form
+document.getElementById('loginPassword').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') handleLogin();
+});
+document.getElementById('loginUsername').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
+    document.getElementById('loginPassword').focus();
+  }
+});
+
 </script>
 
 </body>
+
 </html>

@@ -7,6 +7,12 @@
 
 <title>Alka-Jozen Customer</title>
 
+<script>
+if(!localStorage.getItem("username") || !localStorage.getItem("currentUser")){
+    window.location.replace("index.html");
+}
+</script>
+
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
@@ -955,6 +961,8 @@ textarea{
     padding: 30px 28px;
     box-shadow: 0 28px 70px rgba(16,80,139,0.18);
     animation: popIn 0.28s cubic-bezier(0.34,1.56,0.64,1);
+    max-height: 88vh;
+    overflow-y: auto;
 }
 
 @keyframes popIn {
@@ -996,6 +1004,36 @@ textarea{
     text-align: right;
 }
 
+.modal-field{
+    margin-bottom: 14px;
+}
+
+.modal-field label{
+    display:block;
+    font-weight:700;
+    font-size:13px;
+    color: rgba(15,76,117,0.75);
+    margin-bottom:6px;
+}
+
+.modal-field input{
+    margin-top:0;
+    background: white;
+    border: 1px solid rgba(15,76,117,0.15);
+}
+
+.field-error{
+    color:#dc2626;
+    font-size:12px;
+    font-weight:600;
+    margin-top:4px;
+    display:none;
+}
+
+.field-error.show{
+    display:block;
+}
+
 .modal-actions {
     display: flex;
     justify-content: space-between;
@@ -1031,6 +1069,29 @@ textarea{
     color: #0f172a;
     border: 1px solid rgba(15,76,117,0.12);
     box-shadow: inset 0 0 0 1px rgba(255,255,255,0.6);
+}
+
+/* PROFILE EDIT BUTTON */
+
+.edit-profile-btn{
+    background: rgba(255,255,255,0.9);
+    color:#0ea5e9;
+    border: 1px solid rgba(14,165,233,0.3);
+    border-radius:999px;
+    padding:10px 20px;
+    font-weight:700;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    transition:.2s;
+}
+
+.edit-profile-btn:hover{
+    background:#0ea5e9;
+    color:white;
+    transform:translateY(-1px);
+    box-shadow:0 8px 20px rgba(14,165,233,0.3);
 }
 
 /* =========================
@@ -1369,6 +1430,26 @@ function getUser(){
     ) || "Guest";
 }
 
+function getPermanentQrUser(){
+    let currentUser = JSON.parse(localStorage.getItem('currentUser')) || {};
+    let qrId = currentUser.qrId;
+
+    if(!qrId){
+        qrId = `AJ-${Date.now()}-${Math.random().toString(36).slice(2, 10).toUpperCase()}`;
+        currentUser.qrId = qrId;
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+        let users = JSON.parse(localStorage.getItem('users') || '[]');
+        const userIndex = users.findIndex(user => user.username === getUser());
+        if(userIndex !== -1){
+            users[userIndex].qrId = qrId;
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+    }
+
+    return { ...currentUser, username: currentUser.username || getUser(), qrId };
+}
+
 /* STEPS */
 
 const steps = [
@@ -1458,6 +1539,8 @@ function home(){
             ${o.status || "Pending"}
 
             </div>
+
+            <div class="sub">🏍️ Rider: ${o.assignedRiderName || o.rider || "Waiting for assignment"}</div>
 
         </div>
         `;
@@ -1868,17 +1951,17 @@ function saveOrder(){
 
     // Validation
     if (!document.getElementById("address").value.trim()) {
-        notify("âŒ Please enter a delivery address.");
+        notify("âŒ Please enter a delivery address.");
         return;
     }
 
     if (!document.getElementById("gallon").value.trim()) {
-        notify("âŒ Please enter the number of gallons.");
+        notify("âŒ Please enter the number of gallons.");
         return;
     }
 
     if (!document.getElementById("gallonType").value) {
-        notify("âŒ Please select gallon availability.");
+        notify("âŒ Please select gallon availability.");
         return;
     }
 
@@ -1886,12 +1969,12 @@ function saveOrder(){
     const contactValue = document.getElementById("contact").value.replace(/\D/g, '');
     if (!contactValue || !(contactValue.startsWith('09') && contactValue.length === 11) && 
         !(contactValue.startsWith('63') && contactValue.length === 12)) {
-        notify("âŒ Please enter a valid Philippine mobile number.");
+        notify("âŒ Please enter a valid Philippine mobile number.");
         return;
     }
 
     if (!document.getElementById("recipient").value) {
-        notify("âŒ Please specify who will receive the order.");
+        notify("âŒ Please specify who will receive the order.");
         return;
     }
 
@@ -1899,7 +1982,7 @@ function saveOrder(){
     const paymentMethod = document.getElementById("payment").value;
     const paymentReference = getPaymentReference();
     if (paymentMethod === "GCash" && !paymentReference.trim()) {
-        notify("âŒ Please enter the GCash reference number.");
+        notify("âŒ Please enter the GCash reference number.");
         return;
     }
 
@@ -1990,6 +2073,20 @@ function saveOrder(){
 
     saveOrders(orders);
 
+    const notifications = JSON.parse(localStorage.getItem("notifications") || "[]");
+    notifications.push({
+        id: `order-created-${order.orderNumber}-${Date.now()}`,
+        type: "order-created",
+        orderNumber: order.orderNumber,
+        customerName: getUser(),
+        status: order.status,
+        message: `New order #${order.orderNumber} from ${getUser()} is waiting for a rider.`,
+        date: new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString(),
+        timestamp: Date.now()
+    });
+    localStorage.setItem("notifications", JSON.stringify(notifications));
+
     notify(
     "✅ Order Placed"
     );
@@ -1999,7 +2096,55 @@ function saveOrder(){
 
 /* TRACK */
 
+let trackedOrderId = null;
+let trackingPollTimer = null;
+
+function startTrackingPoll(){
+    if(trackingPollTimer) return;
+    trackingPollTimer = setInterval(updateLiveTracking, 3000);
+}
+
+function updateLiveTracking(){
+    if(!trackedOrderId) return;
+
+    const order = getOrders().find(item => item.orderNumber == trackedOrderId);
+    const status = document.getElementById('liveTrackingStatus');
+    const map = document.getElementById('liveTrackingMap');
+    const route = document.getElementById('liveTrackingRoute');
+    if(!order || !status) return;
+
+    const location = order.liveLocation;
+    if(!location){
+        status.textContent = 'Waiting for the rider to scan your gallon and share live location.';
+        if(map) map.style.display = 'none';
+        if(route) route.style.display = 'none';
+        return;
+    }
+
+    const updatedAt = new Date(location.updatedAt);
+    const ageSeconds = Math.max(0, Math.round((Date.now() - updatedAt.getTime()) / 1000));
+    status.textContent = `Rider ${location.rider || 'is'} is sharing live location. Updated ${ageSeconds}s ago.`;
+
+    const lat = Number(location.latitude);
+    const lon = Number(location.longitude);
+    if(!Number.isFinite(lat) || !Number.isFinite(lon)) return;
+
+    if(map){
+        const delta = 0.004;
+        map.src = `https://www.openstreetmap.org/export/embed.html?bbox=${lon-delta},${lat-delta},${lon+delta},${lat+delta}&layer=mapnik&marker=${lat},${lon}`;
+        map.style.display = 'block';
+    }
+
+    if(route){
+        const destination = encodeURIComponent(order.address || 'Urduja, Caloocan City');
+        route.href = `https://www.google.com/maps/dir/?api=1&origin=${lat},${lon}&destination=${destination}&travelmode=driving`;
+        route.style.display = 'inline-flex';
+    }
+}
+
 function trackOrder(){
+
+    trackedOrderId = null;
 
     let user =
     getUser();
@@ -2036,6 +2181,9 @@ function trackOrder(){
             <br>
 
             ${o.status}
+
+            <br>
+            <small>🏍️ Rider: ${o.assignedRiderName || o.rider || "Waiting for assignment"}</small>
 
         </div>
         `;
@@ -2075,6 +2223,9 @@ function getETA(status){
 
 function viewTrack(id){
 
+    trackedOrderId = id;
+    startTrackingPoll();
+
     let orders =
     getOrders();
 
@@ -2104,7 +2255,7 @@ function viewTrack(id){
         Rider:
         <b>
 
-        ${o.rider || "Waiting Rider"}
+        ${o.assignedRiderName || o.rider || "Waiting Rider"}
 
         </b>
 
@@ -2125,6 +2276,13 @@ function viewTrack(id){
         🚚 ETA:
         ${getETA(o.status)}
 
+        </div>
+
+        <div class="card" style="margin-top:18px;padding:18px;background:rgba(255,255,255,0.72);">
+            <h3 style="color:#0f172a;margin-bottom:8px;"><i class="fa-solid fa-location-crosshairs" style="color:#0ea5e9;"></i> Live Rider Location</h3>
+            <p id="liveTrackingStatus" style="color:#475569;font-size:14px;">Checking for rider location...</p>
+            <iframe id="liveTrackingMap" title="Live rider location" style="display:none;width:100%;height:230px;border:0;border-radius:14px;margin-top:12px;" loading="lazy"></iframe>
+            <a id="liveTrackingRoute" class="primary-btn" href="#" target="_blank" rel="noopener" style="display:none;text-align:center;text-decoration:none;margin-top:12px;"><i class="fa-solid fa-route"></i> Open Route to Address</a>
         </div>
 
         <div class="track-wrapper">
@@ -2231,6 +2389,7 @@ function viewTrack(id){
     document.getElementById(
     "content"
     ).innerHTML = html;
+    updateLiveTracking();
 }
 
 /* RATE */
@@ -2352,7 +2511,7 @@ function paymentHistory(){
 
             <br>
 
-            🏍️ Rider: ${o.rider || 'Unassigned'}
+            🏍️ Rider: ${o.assignedRiderName || o.rider || 'Unassigned'}
 
             <br>
 
@@ -2483,9 +2642,12 @@ function profile(){
 
         </div>  
 
-        <div style="text-align:center;margin-bottom:18px;">
-            <button class="primary-btn" style="max-width:260px;margin:auto;" onclick="openProfileGallonGenerator()">
-                <i class="fa fa-qrcode" style="margin-right:8px"></i>Generate Gallon QR for Rider
+        <div style="text-align:center;margin-bottom:18px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+            <button class="edit-profile-btn" onclick="openEditProfileModal()">
+                <i class="fa fa-pen"></i> Edit Profile
+            </button>
+            <button class="primary-btn" style="max-width:260px;width:auto;margin:0;" onclick="openProfileGallonGenerator()">
+                <i class="fa fa-qrcode" style="margin-right:8px"></i>View Permanent Gallon QR
             </button>
         </div>
 
@@ -2834,6 +2996,190 @@ function profile(){
 
     </div>
     `;
+}
+
+/* =========================================
+   EDIT PROFILE
+========================================= */
+
+function openEditProfileModal(){
+
+    let username = getUser();
+    let currentUser = JSON.parse(localStorage.getItem('currentUser')) || {};
+    let orders = getOrders().filter(o => o.user === username);
+    let latest = orders[orders.length - 1] || {};
+
+    let fname = currentUser.fname || "";
+    let lname = currentUser.lname || "";
+    let email = currentUser.email || "";
+    let email2 = currentUser.email2 || "";
+    let address = currentUser.address || latest.address || "";
+    let phone = currentUser.phone || latest.contact || "";
+
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.id = 'editProfileModal';
+
+    modal.innerHTML = `
+    <div class="modal-box">
+        <div class="modal-title">
+            <i class="fa fa-pen" style="color:#0ea5e9;"></i>
+            Edit Profile
+        </div>
+
+        <div class="modal-field">
+            <label>First Name</label>
+            <input id="editFname" type="text" value="${fname.replace(/"/g,'&quot;')}" placeholder="First name">
+        </div>
+
+        <div class="modal-field">
+            <label>Last Name</label>
+            <input id="editLname" type="text" value="${lname.replace(/"/g,'&quot;')}" placeholder="Last name">
+        </div>
+
+        <div class="modal-field">
+            <label>Primary Email</label>
+            <input id="editEmail" type="email" value="${email.replace(/"/g,'&quot;')}" placeholder="you@example.com">
+            <div class="field-error" id="editEmailError">Please enter a valid email address.</div>
+        </div>
+
+        <div class="modal-field">
+            <label>Secondary Email (optional)</label>
+            <input id="editEmail2" type="email" value="${email2.replace(/"/g,'&quot;')}" placeholder="alternate@example.com">
+            <div class="field-error" id="editEmail2Error">Please enter a valid email address.</div>
+        </div>
+
+        <div class="modal-field">
+            <label>Address</label>
+            <input id="editAddress" type="text" value="${address.replace(/"/g,'&quot;')}" placeholder="Delivery address">
+        </div>
+
+        <div class="modal-field">
+            <label>Contact Number</label>
+            <input id="editPhone" type="text" value="${phone.replace(/"/g,'&quot;')}" placeholder="09XX-XXX-XXXX" inputmode="numeric" maxlength="17" oninput="formatEditPhone()">
+            <div class="field-error" id="editPhoneError">Please enter a valid Philippine mobile number.</div>
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeEditProfileModal()">Cancel</button>
+            <button class="btn btn-primary" onclick="saveProfileEdits()">Save Changes</button>
+        </div>
+    </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeEditProfileModal();
+        }
+    });
+}
+
+function closeEditProfileModal(){
+    const m = document.getElementById('editProfileModal');
+    if (m) m.remove();
+}
+
+function formatEditPhone(){
+    const input = document.getElementById("editPhone");
+    if(!input) return;
+
+    const cursorAtEnd = input.selectionStart === input.value.length;
+    const value = input.value.replace(/\D/g, '').slice(0, 13);
+
+    if(value.startsWith('09')){
+        let formatted = value.slice(0, 11);
+        if(formatted.length > 4) formatted = formatted.slice(0,4) + '-' + formatted.slice(4);
+        if(formatted.length > 8) formatted = formatted.slice(0,8) + '-' + formatted.slice(8);
+        input.value = formatted;
+    } else if(value.startsWith('63')){
+        let rest = value.slice(2, 12);
+        let formatted = '+63-' + rest;
+        if(rest.length > 3) formatted = '+63-' + rest.slice(0,3) + '-' + rest.slice(3);
+        if(rest.length > 6) formatted = '+63-' + rest.slice(0,3) + '-' + rest.slice(3,6) + '-' + rest.slice(6);
+        input.value = formatted;
+    } else {
+        input.value = value;
+    }
+
+    if(cursorAtEnd){
+        input.setSelectionRange(input.value.length, input.value.length);
+    }
+}
+
+function isValidEmailFormat(value){
+    if(!value) return true; // optional fields allowed empty
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function saveProfileEdits(){
+
+    const fname = document.getElementById("editFname").value.trim();
+    const lname = document.getElementById("editLname").value.trim();
+    const email = document.getElementById("editEmail").value.trim();
+    const email2 = document.getElementById("editEmail2").value.trim();
+    const address = document.getElementById("editAddress").value.trim();
+    const phoneRaw = document.getElementById("editPhone").value.trim();
+    const phoneDigits = phoneRaw.replace(/\D/g, '');
+
+    let hasError = false;
+
+    // Primary email required + valid
+    const emailErrorEl = document.getElementById("editEmailError");
+    if(!email || !isValidEmailFormat(email)){
+        emailErrorEl.classList.add("show");
+        hasError = true;
+    } else {
+        emailErrorEl.classList.remove("show");
+    }
+
+    // Secondary email optional but must be valid if provided
+    const email2ErrorEl = document.getElementById("editEmail2Error");
+    if(email2 && !isValidEmailFormat(email2)){
+        email2ErrorEl.classList.add("show");
+        hasError = true;
+    } else {
+        email2ErrorEl.classList.remove("show");
+    }
+
+    // Phone required + valid PH mobile format
+    const phoneErrorEl = document.getElementById("editPhoneError");
+    const phoneValid = (phoneDigits.startsWith('09') && phoneDigits.length === 11) ||
+                        (phoneDigits.startsWith('63') && phoneDigits.length === 12);
+    if(!phoneRaw || !phoneValid){
+        phoneErrorEl.classList.add("show");
+        hasError = true;
+    } else {
+        phoneErrorEl.classList.remove("show");
+    }
+
+    if(!fname){
+        notify("❌ Please enter your first name.");
+        hasError = true;
+    }
+
+    if(!address){
+        notify("❌ Please enter your address.");
+        hasError = true;
+    }
+
+    if(hasError) return;
+
+    let currentUser = JSON.parse(localStorage.getItem('currentUser')) || {};
+
+    currentUser.fname = fname;
+    currentUser.lname = lname;
+    currentUser.email = email;
+    currentUser.email2 = email2;
+    currentUser.address = address;
+    currentUser.phone = phoneRaw;
+
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+    closeEditProfileModal();
+    notify("✅ Profile updated");
+    profile();
 }
 
 
@@ -3493,11 +3839,7 @@ document.body.appendChild(genBtn);
 /* PROFILE: Gallon QR from profile */
 
 function openProfileGallonGenerator(){
-        // prefill from latest order if available
-        let user = getUser();
-        let orders = getOrders().filter(o=>o.user===user);
-        let latest = orders[orders.length-1] || {};
-        const defaultCount = latest.gallon || latest.gallons || 1;
+    const qrUser = getPermanentQrUser();
 
         const modal = document.createElement('div');
         modal.className = 'modal';
@@ -3505,56 +3847,62 @@ function openProfileGallonGenerator(){
 
         modal.innerHTML = `
         <div class="modal-box">
-            <div class="modal-title"><i class="fa-solid fa-qrcode" style="color:#0ea5e9"></i> Gallon QR for Rider</div>
-
-            <div style="margin-top:12px">
-                <label style="font-weight:700;color:#0f172a">Gallons</label>
-                <input id="profileGallonCount" type="number" value="${defaultCount}" style="margin-top:8px;padding:12px;border-radius:10px;width:100%;" />
+            <div class="modal-title"><i class="fa-solid fa-qrcode" style="color:#0ea5e9"></i> Permanent Gallon QR</div>
+            <p style="margin-top:10px;color:#475569;text-align:center;">Use this permanent code when tracking this customer's gallons.</p>
+            <div style="margin-top:12px;text-align:center;" id="profileGallonPreview">
+                <div style="color:#64748b;">Loading QR code...</div>
             </div>
-
-            <div style="margin-top:12px;text-align:center;" id="profileGallonPreview"></div>
 
             <div class="modal-actions">
                 <button class="btn btn-secondary" onclick="closeProfileGallonModal()">Close</button>
-                <button class="btn btn-primary" onclick="generateProfileGallonQR()">Generate QR</button>
+                <button class="btn btn-primary" onclick="downloadPermanentGallonQR()">Download QR</button>
             </div>
         </div>
         `;
 
         document.body.appendChild(modal);
+        generateProfileGallonQR(qrUser);
 }
 
 function closeProfileGallonModal(){
         const m = document.getElementById('profileGallonModal'); if(m) m.remove();
 }
 
-async function generateProfileGallonQR(){
-        const count = Number(document.getElementById('profileGallonCount').value) || 0;
-        if(count <= 0) return alert('Enter a valid gallon count');
-
+async function generateProfileGallonQR(qrUser = getPermanentQrUser()){
         const payload = JSON.stringify({
-                type: 'gallon',
-                user: getUser(),
-                gallons: count,
-                time: new Date().toISOString()
+        type: 'permanent-gallon-customer',
+        customerId: qrUser.qrId,
+        username: qrUser.username
         });
 
         try{
                 const dataUrl = await QRCode.toDataURL(payload, { width: 260 });
                 const holder = document.getElementById('profileGallonPreview');
-                holder.innerHTML = `<img src="${dataUrl}" alt="Gallon QR" style="width:260px;height:260px;"/><br><a href="${dataUrl}" download="gallon-${Date.now()}.png" class="primary-btn" style="display:inline-block;margin-top:8px;">Download QR</a>`;
-
-                const list = JSON.parse(localStorage.getItem('gallonQRs')||'[]');
-                list.push({ user:getUser(), gallons:count, time:new Date().toISOString(), dataUrl });
-                localStorage.setItem('gallonQRs', JSON.stringify(list));
+                holder.innerHTML = `<img src="${dataUrl}" alt="Permanent Gallon QR" style="width:260px;height:260px;"/><div style="margin-top:8px;color:#64748b;font-size:13px;">Customer ID: ${qrUser.qrId}</div>`;
+                window.permanentGallonQrDataUrl = dataUrl;
 
         }catch(e){ console.error(e); alert('Failed to generate QR'); }
+}
+
+function downloadPermanentGallonQR(){
+    if(!window.permanentGallonQrDataUrl) return;
+    const link = document.createElement('a');
+    link.href = window.permanentGallonQrDataUrl;
+    link.download = `alka-jozen-${getPermanentQrUser().qrId}.png`;
+    link.click();
 }
 
 </script>
 
 <!-- QR libraries -->
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
+<script>
+if(localStorage.getItem('showPermanentQrOnLoad') === 'true'){
+    localStorage.removeItem('showPermanentQrOnLoad');
+    openProfileGallonGenerator();
+}
+</script>
 
 </body>
 </html>

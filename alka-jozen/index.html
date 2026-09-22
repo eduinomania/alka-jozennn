@@ -675,6 +675,35 @@ function showConfirm(title, message, onConfirm) {
 updateClock();
 setInterval(updateClock, 1000);
 
+const loginVariants = [
+  {
+    title: 'Hello Customer!',
+    subtitle: 'Login to continue'
+  },
+  {
+    title: 'Welcome Back!',
+    subtitle: 'Sign in for your next delivery'
+  },
+  {
+    title: 'Fresh Water, Fast Login',
+    subtitle: 'Continue your refill request'
+  },
+  {
+    title: 'Your Delivery Starts Here',
+    subtitle: 'Login and plan your next order'
+  }
+];
+
+function setLoginVariant() {
+  const currentIndex = Number(localStorage.getItem('loginVariant') || 0);
+  const nextIndex = (currentIndex + 1) % loginVariants.length;
+  const variant = loginVariants[nextIndex];
+
+  localStorage.setItem('loginVariant', String(nextIndex));
+  document.querySelector('#loginForm .form-title').textContent = variant.title;
+  document.querySelector('#loginForm .form-sub').textContent = variant.subtitle;
+}
+
 /* INIT DATABASE */
 if (!localStorage.getItem("users")) {
   localStorage.setItem("users", JSON.stringify([]));
@@ -703,6 +732,7 @@ function showLogin() {
   forgotForm.classList.add("hidden");
   document.getElementById('pageTitle').textContent = 'Login';
   setActiveNav('nav-login');
+  setLoginVariant();
 }
 
 function showForgot() {
@@ -779,6 +809,7 @@ function register() {
     "Delivery Area Confirmation",
     "This water station delivers within Urduja only. Do you want to continue with registration?",
     () => {
+      const qrId = `AJ-${Date.now()}-${Math.random().toString(36).slice(2, 10).toUpperCase()}`;
       users.push({
         fname: fname.value,
         lname: lname.value,
@@ -788,7 +819,8 @@ function register() {
         phone: rphone.value,
         address: raddress.value,
         password: rpass.value,
-        role: "customer"
+        role: "customer",
+        qrId: qrId
       });
 
       localStorage.setItem("users", JSON.stringify(users));
@@ -802,8 +834,10 @@ function register() {
         phone: rphone.value,
         address: raddress.value,
         password: rpass.value,
-        role: "customer"
+        role: "customer",
+        qrId: qrId
       }));
+      localStorage.setItem("showPermanentQrOnLoad", "true");
       showMessage("Success", "Registered Successfully!", () => {
         fname.value = lname.value = rusername.value = remail.value = remail2.value = rphone.value = raddress.value = rpass.value = confirmPass.value = "";
         window.location.href = "customers.html";
