@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -1272,6 +1272,72 @@ textarea{
 }
 
 </style>
+<style id="simple-theme">
+/* ===== Simple theme (flat, light, minimal) ===== */
+:root{--s-bg:#f5f7fa;--s-card:#fff;--s-line:#e5e7eb;--s-text:#1f2937;--s-muted:#6b7280;--s-accent:#2563eb;--s-accent-d:#1d4ed8;--s-side:#1f2d3d;--s-ok:#16a34a;--s-warn:#d97706;--s-bad:#dc2626;}
+*{animation:none!important;transition:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;text-shadow:none!important}
+html,body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif!important;background:var(--s-bg)!important;color:var(--s-text)!important}
+.blob,.bg-dots,[class*="blob"],.water-icon{display:none!important}
+/* sidebar + brand + nav */
+.sidebar,.admin-login-sidebar,.login-sidebar{background:var(--s-side)!important;box-shadow:none!important;border:0!important;color:#fff!important}
+.brand,.brand-name,.brand-title{background:none!important;border:0!important;box-shadow:none!important;color:#fff!important;border-radius:0!important}
+.brand-tagline,.brand-subtitle{color:rgba(255,255,255,.6)!important}
+.menu-btn,.nav-btn,.nav-item,.nav-pill,.admin-login-nav-item{background:transparent!important;border:0!important;box-shadow:none!important;border-radius:8px!important;color:rgba(255,255,255,.75)!important;font-weight:600!important}
+.menu-btn.active,.nav-btn.active,.nav-item.active,.nav-pill.active,.menu-btn:hover,.nav-btn:hover,.nav-item:hover{background:rgba(255,255,255,.12)!important;color:#fff!important}
+.bottom-nav{background:#fff!important;border-top:1px solid var(--s-line)!important;box-shadow:none!important}
+/* top bar + clock */
+.topbar{background:#fff!important;border-bottom:1px solid var(--s-line)!important;box-shadow:none!important;color:var(--s-text)!important}
+.topbar *{color:inherit}
+.clock,.time-pill{background:var(--s-bg)!important;border:1px solid var(--s-line)!important;color:var(--s-muted)!important;border-radius:8px!important}
+/* cards */
+.card,.stat-card,.profile-card,.order-card,.track-card,.table-card,.rider-card,.chart-card,.modal-box,.popup-card,.chat-box,.login-card,.admin-login-card,.staff-qr-panel,.qr-auth-box{background:var(--s-card)!important;border:1px solid var(--s-line)!important;border-radius:10px!important;box-shadow:none!important;color:var(--s-text)!important}
+.card *,.stat-card *,.profile-card *,.order-card *,.track-card *,.table-card *,.rider-card *,.chart-card *,.modal-box *,.popup-card *,.login-card *,.admin-login-card *,.staff-qr-panel *{text-shadow:none!important}
+.card,.card p,.card h1,.card h2,.card h3,.card h4,.card td,.card th,.card span,.card label,.card div,.profile-card,.profile-card *,.order-card,.order-card *,.track-card,.track-card *,.table-card td,.table-card th,.rider-card,.rider-card *,.stat-card *,.chart-card *,.modal-box *,.popup-card *,.login-card *,.admin-login-card *{color:var(--s-text)}
+.muted,.card small,.stat-label,.stat-sub,.modal-label,.track-label,.card-title,.section-title,.page-title{color:var(--s-muted)}
+.page-title{color:var(--s-text)!important}
+/* sidebar content must stay light */
+.sidebar *{color:inherit}
+/* overlays */
+.login-overlay,.admin-login-overlay,.manager-login-overlay,.qr-auth-overlay,.login-view,.login-wrapper,.login-panel,.admin-login-shell,.admin-login-main{background:var(--s-bg)!important}
+.popup-overlay,.modal{background:rgba(17,24,39,.45)!important}
+.app-shell{background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important}
+/* buttons */
+.btn,.btn-primary,.primary-btn,.login-btn-main,.admin-login-submit,.login-btn,.step-btn,.validate-btn,.chat-btn{background:var(--s-accent)!important;color:#fff!important;border:0!important;border-radius:8px!important;box-shadow:none!important;font-weight:600!important}
+.btn:hover,.btn-primary:hover,.primary-btn:hover,.login-btn-main:hover,.admin-login-submit:hover{background:var(--s-accent-d)!important}
+.btn-secondary,.soft-btn,.secondary,.exit-btn,.logout-btn,.close-login-btn,.edit-profile-btn,.locate-btn,.filter-btn,.icon-btn,.calendar-btn,.nav-arrow{background:#fff!important;color:var(--s-text)!important;border:1px solid var(--s-line)!important;border-radius:8px!important;box-shadow:none!important}
+.btn-success{background:var(--s-ok)!important}
+.sidebar .logout-btn,.sidebar .exit-btn{background:transparent!important;color:#fff!important;border-color:rgba(255,255,255,.3)!important}
+/* forms */
+input,select,textarea,.chat-input,.modal-field{background:#fff!important;color:var(--s-text)!important;border:1px solid #d1d5db!important;border-radius:8px!important;box-shadow:none!important}
+input:focus,select:focus,textarea:focus{outline:2px solid rgba(37,99,235,.35)!important;outline-offset:0}
+::placeholder{color:#9ca3af!important}
+/* status badges: flat, colour only */
+.status,.status-badge,.order-badge,.rider-badge,.contact-badge,.location-badge,.stat-pill,.status-label{border-radius:6px!important;box-shadow:none!important;font-weight:600!important}
+.pending,.status.pending{background:#fef3c7!important;color:#92400e!important}
+.delivered,.done-status,.ontime,.attended,.green,.ok,.status.delivered{background:#dcfce7!important;color:#166534!important}
+.prepare,.blue,.live{background:#dbeafe!important;color:#1e40af!important}
+.orange,.late,.warn{background:#ffedd5!important;color:#9a3412!important}
+.cancelled,.red,.err,.out-of-stock{background:#fee2e2!important;color:#991b1b!important}
+/* tables */
+table{border-collapse:collapse;width:100%}
+th{background:#f9fafb!important;color:var(--s-muted)!important;font-weight:600!important;text-transform:none!important;letter-spacing:0!important}
+th,td{border-bottom:1px solid var(--s-line)!important;border-top:0!important}
+/* notifications */
+.notify{background:#f0f9ff!important;border:1px solid #bae6fd!important;border-radius:8px!important;box-shadow:none!important;color:#0c4a6e!important}
+/* chat */
+.chat-header{background:var(--s-side)!important;color:#fff!important}
+.chat-body{background:#fff!important}
+.user-msg{background:var(--s-accent)!important;color:#fff!important}
+.ai-msg{background:#f3f4f6!important;color:var(--s-text)!important}
+/* progress */
+.bar-container,.progress,.track-line{background:#e5e7eb!important}
+.bar-fill,.track-progress{background:var(--s-accent)!important}
+/* misc */
+a{color:var(--s-accent)}
+.sidebar a{color:#fff}
+.stat h2,.stat-value{color:var(--s-text)!important}
+.stat-icon{background:var(--s-bg)!important;box-shadow:none!important}
+</style>
 </head>
 
 <body>
@@ -1311,7 +1377,7 @@ Tracking
 <button class="menu-btn"
 onclick="paymentHistory()">
 <i class="fa fa-credit-card"></i>
-Payments
+Transaction History
 </button>
 
 <button class="menu-btn"
@@ -1388,7 +1454,7 @@ onkeypress="if(event.key==='Enter') sendFAQ()"
 
 <button onclick="paymentHistory()">
 <i class="fa fa-credit-card"></i>
-<span>Payments</span>
+<span>Transaction History</span>
 </button>
 
 <button onclick="profile()">
@@ -2458,7 +2524,7 @@ function paymentHistory(){
     <div class="card">
 
         <h2>
-        💳 Payment History
+        💳 Transaction History
         </h2>
 
     </div>

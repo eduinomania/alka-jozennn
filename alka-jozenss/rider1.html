@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -535,6 +535,72 @@ body {
 }
 
 </style>
+<style id="simple-theme">
+/* ===== Simple theme (flat, light, minimal) ===== */
+:root{--s-bg:#f5f7fa;--s-card:#fff;--s-line:#e5e7eb;--s-text:#1f2937;--s-muted:#6b7280;--s-accent:#2563eb;--s-accent-d:#1d4ed8;--s-side:#1f2d3d;--s-ok:#16a34a;--s-warn:#d97706;--s-bad:#dc2626;}
+*{animation:none!important;transition:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;text-shadow:none!important}
+html,body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif!important;background:var(--s-bg)!important;color:var(--s-text)!important}
+.blob,.bg-dots,[class*="blob"],.water-icon{display:none!important}
+/* sidebar + brand + nav */
+.sidebar,.admin-login-sidebar,.login-sidebar{background:var(--s-side)!important;box-shadow:none!important;border:0!important;color:#fff!important}
+.brand,.brand-name,.brand-title{background:none!important;border:0!important;box-shadow:none!important;color:#fff!important;border-radius:0!important}
+.brand-tagline,.brand-subtitle{color:rgba(255,255,255,.6)!important}
+.menu-btn,.nav-btn,.nav-item,.nav-pill,.admin-login-nav-item{background:transparent!important;border:0!important;box-shadow:none!important;border-radius:8px!important;color:rgba(255,255,255,.75)!important;font-weight:600!important}
+.menu-btn.active,.nav-btn.active,.nav-item.active,.nav-pill.active,.menu-btn:hover,.nav-btn:hover,.nav-item:hover{background:rgba(255,255,255,.12)!important;color:#fff!important}
+.bottom-nav{background:#fff!important;border-top:1px solid var(--s-line)!important;box-shadow:none!important}
+/* top bar + clock */
+.topbar{background:#fff!important;border-bottom:1px solid var(--s-line)!important;box-shadow:none!important;color:var(--s-text)!important}
+.topbar *{color:inherit}
+.clock,.time-pill{background:var(--s-bg)!important;border:1px solid var(--s-line)!important;color:var(--s-muted)!important;border-radius:8px!important}
+/* cards */
+.card,.stat-card,.profile-card,.order-card,.track-card,.table-card,.rider-card,.chart-card,.modal-box,.popup-card,.chat-box,.login-card,.admin-login-card,.staff-qr-panel,.qr-auth-box{background:var(--s-card)!important;border:1px solid var(--s-line)!important;border-radius:10px!important;box-shadow:none!important;color:var(--s-text)!important}
+.card *,.stat-card *,.profile-card *,.order-card *,.track-card *,.table-card *,.rider-card *,.chart-card *,.modal-box *,.popup-card *,.login-card *,.admin-login-card *,.staff-qr-panel *{text-shadow:none!important}
+.card,.card p,.card h1,.card h2,.card h3,.card h4,.card td,.card th,.card span,.card label,.card div,.profile-card,.profile-card *,.order-card,.order-card *,.track-card,.track-card *,.table-card td,.table-card th,.rider-card,.rider-card *,.stat-card *,.chart-card *,.modal-box *,.popup-card *,.login-card *,.admin-login-card *{color:var(--s-text)}
+.muted,.card small,.stat-label,.stat-sub,.modal-label,.track-label,.card-title,.section-title,.page-title{color:var(--s-muted)}
+.page-title{color:var(--s-text)!important}
+/* sidebar content must stay light */
+.sidebar *{color:inherit}
+/* overlays */
+.login-overlay,.admin-login-overlay,.manager-login-overlay,.qr-auth-overlay,.login-view,.login-wrapper,.login-panel,.admin-login-shell,.admin-login-main{background:var(--s-bg)!important}
+.popup-overlay,.modal{background:rgba(17,24,39,.45)!important}
+.app-shell{background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important}
+/* buttons */
+.btn,.btn-primary,.primary-btn,.login-btn-main,.admin-login-submit,.login-btn,.step-btn,.validate-btn,.chat-btn{background:var(--s-accent)!important;color:#fff!important;border:0!important;border-radius:8px!important;box-shadow:none!important;font-weight:600!important}
+.btn:hover,.btn-primary:hover,.primary-btn:hover,.login-btn-main:hover,.admin-login-submit:hover{background:var(--s-accent-d)!important}
+.btn-secondary,.soft-btn,.secondary,.exit-btn,.logout-btn,.close-login-btn,.edit-profile-btn,.locate-btn,.filter-btn,.icon-btn,.calendar-btn,.nav-arrow{background:#fff!important;color:var(--s-text)!important;border:1px solid var(--s-line)!important;border-radius:8px!important;box-shadow:none!important}
+.btn-success{background:var(--s-ok)!important}
+.sidebar .logout-btn,.sidebar .exit-btn{background:transparent!important;color:#fff!important;border-color:rgba(255,255,255,.3)!important}
+/* forms */
+input,select,textarea,.chat-input,.modal-field{background:#fff!important;color:var(--s-text)!important;border:1px solid #d1d5db!important;border-radius:8px!important;box-shadow:none!important}
+input:focus,select:focus,textarea:focus{outline:2px solid rgba(37,99,235,.35)!important;outline-offset:0}
+::placeholder{color:#9ca3af!important}
+/* status badges: flat, colour only */
+.status,.status-badge,.order-badge,.rider-badge,.contact-badge,.location-badge,.stat-pill,.status-label{border-radius:6px!important;box-shadow:none!important;font-weight:600!important}
+.pending,.status.pending{background:#fef3c7!important;color:#92400e!important}
+.delivered,.done-status,.ontime,.attended,.green,.ok,.status.delivered{background:#dcfce7!important;color:#166534!important}
+.prepare,.blue,.live{background:#dbeafe!important;color:#1e40af!important}
+.orange,.late,.warn{background:#ffedd5!important;color:#9a3412!important}
+.cancelled,.red,.err,.out-of-stock{background:#fee2e2!important;color:#991b1b!important}
+/* tables */
+table{border-collapse:collapse;width:100%}
+th{background:#f9fafb!important;color:var(--s-muted)!important;font-weight:600!important;text-transform:none!important;letter-spacing:0!important}
+th,td{border-bottom:1px solid var(--s-line)!important;border-top:0!important}
+/* notifications */
+.notify{background:#f0f9ff!important;border:1px solid #bae6fd!important;border-radius:8px!important;box-shadow:none!important;color:#0c4a6e!important}
+/* chat */
+.chat-header{background:var(--s-side)!important;color:#fff!important}
+.chat-body{background:#fff!important}
+.user-msg{background:var(--s-accent)!important;color:#fff!important}
+.ai-msg{background:#f3f4f6!important;color:var(--s-text)!important}
+/* progress */
+.bar-container,.progress,.track-line{background:#e5e7eb!important}
+.bar-fill,.track-progress{background:var(--s-accent)!important}
+/* misc */
+a{color:var(--s-accent)}
+.sidebar a{color:#fff}
+.stat h2,.stat-value{color:var(--s-text)!important}
+.stat-icon{background:var(--s-bg)!important;box-shadow:none!important}
+</style>
 </head>
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 
@@ -582,33 +648,6 @@ body {
 </div>
 
 
-<!-- MANAGER QR VERIFICATION OVERLAY -->
-<div class="qr-auth-overlay" id="managerQrOverlay" style="display:none;">
-  <div class="qr-auth-box">
-    <div class="qr-auth-step"><i class="fa-solid fa-shield-halved"></i> Manager Verification</div>
-    <div style="font-size:20px;font-weight:800;color:#0f172a;margin-bottom:6px;">
-      <i class="fa-solid fa-qrcode" style="color:#38bdf8;"></i> Scan Manager QR Code
-    </div>
-    <div class="qr-auth-subtitle">
-      To log in, scan the QR code provided by your manager.
-    </div>
-    <div class="qr-auth-camera" id="managerQrReader"></div>
-    <div class="qr-auth-result" id="managerQrResult"></div>
-    <div class="qr-auth-tip">
-      <i class="fa-solid fa-circle-info"></i> After scanning, you will be
-      signed in to your rider dashboard automatically.
-    </div>
-    <div class="action-row" style="margin-top:18px;justify-content:center;gap:12px;flex-wrap:wrap;">
-      <button class="btn btn-primary" id="managerStartScanBtn" onclick="startManagerQrScan()">
-        <i class="fa-solid fa-camera"></i> Start Scanning
-      </button>
-      <button class="btn btn-secondary" onclick="manualManagerKey()">
-        <i class="fa-solid fa-key"></i> Enter Key Manually
-      </button>
-    </div>
-  </div>
-</div>
-
 <!-- MAIN -->
 <div class="main" style="display:none;">
   <div class="topbar">
@@ -623,33 +662,15 @@ body {
 
 <script>
 
-  function riderLogin() {
-    // QR gate: login is locked until the manager's QR is scanned
-    if (localStorage.getItem("managerQrVerified") !== "true") {
-      alert("Please scan your manager's QR code first before signing in.");
-      const qrOverlay = document.getElementById("managerQrOverlay");
-      if (qrOverlay) qrOverlay.style.display = "flex";
-      document.querySelector('.main').style.display = 'none';
-      return;
-    }
-    // QR verified → sign the rider in directly
-    if (typeof completeRiderLogin === "function") completeRiderLogin();
-  }
-
 function ensureRiderLogin() {
   const riderLoggedIn = localStorage.getItem("riderLoggedIn") === "true";
-  const overlay = document.getElementById("riderLoginOverlay");
   const main = document.querySelector('.main');
 
   if (!riderLoggedIn) {
-    // No username/password overlay — the manager QR is the login
-    const qrOverlay = document.getElementById("managerQrOverlay");
-    if (qrOverlay) qrOverlay.style.display = 'flex';
-    if (main) main.style.display = 'none';
+    if (main) main.style.display = 'block';
     return false;
   }
 
-  if (overlay) overlay.style.display = 'none';
   if (main) main.style.display = 'block';
   return true;
 }
@@ -664,114 +685,6 @@ function getDateTimeNow() {
     minute: '2-digit',
     second: '2-digit'
   });
-}
-
-function showAttendanceModal() {
-  const modal = document.createElement('div');
-  modal.className = 'modal';
-  modal.id = 'attendanceModal';
-
-  const riderName = getRiderName();
-
-  modal.innerHTML = `
-    <div class="modal-box">
-      <div class="modal-title">
-        <i class="fa-solid fa-clock" style="color:#38bdf8;"></i>
-        Attendance Check-In
-      </div>
-
-      <div class="modal-row">
-        <span class="modal-label">Rider Name</span>
-        <span class="modal-value">${riderName}</span>
-      </div>
-
-      <div class="modal-row">
-        <span class="modal-label">Current Date & Time</span>
-        <span class="modal-value">${getDateTimeNow()}</span>
-      </div>
-
-      <div style="margin-top:18px;padding:14px;background:rgba(56,189,248,0.12);border-radius:16px;color:#0d3460;font-weight:700;line-height:1.5;">
-        To mark yourself present, please scan your manager-provided attendance QR code. If the scanner is unavailable, you can use manual check-in.
-      </div>
-
-      <div class="action-row" style="margin-top:18px;justify-content:center;gap:12px;flex-wrap:wrap;">
-        <button class="btn btn-primary" onclick="openAttendanceScannerModal(null)">
-          <i class="fa-solid fa-camera"></i> Scan Attendance QR
-        </button>
-        <button class="btn btn-secondary" onclick="requestManualAttendance()">
-          <i class="fa-solid fa-key"></i> Manual Check-In
-        </button>
-      </div>
-    </div>
-  `;
-
-  document.body.appendChild(modal);
-}
-
-function showWaitingApproval() {
-  const modal = document.createElement('div');
-  modal.className = 'modal';
-  modal.id = 'waitingModal';
-
-  const request = getCurrentAttendanceRequest() || {};
-
-  modal.innerHTML = `
-    <div class="modal-box">
-
-      <div class="modal-title">
-        <i class="fa-solid fa-clock" style="color:#f59e0b;"></i>
-        Waiting for Manager Approval
-      </div>
-
-      <div class="modal-row">
-        <span class="modal-label">Rider Name</span>
-        <span class="modal-value">${request.riderName || getRiderName()}</span>
-      </div>
-
-      <div class="modal-row">
-        <span class="modal-label">Check-In Type</span>
-        <span class="modal-value">${request.method || 'Manual'}</span>
-      </div>
-
-      <div class="modal-row">
-        <span class="modal-label">Submitted Time</span>
-        <span class="modal-value">${request.time || '--'}</span>
-      </div>
-
-      <div class="modal-row">
-        <span class="modal-label">Status</span>
-        <span class="modal-value" style="color:#f59e0b;font-weight:800;">
-          ${request.status || 'Pending'}
-        </span>
-      </div>
-
-      <div style="margin-top:18px;text-align:center;">
-        <div style="
-          font-size:55px;
-          animation: pulse 1.5s infinite;
-        ">⏳</div>
-
-        <p style="margin-top:10px;color:#1e4976;font-size:13px;font-weight:700;line-height:1.5;">
-          Please wait while the manager reviews your attendance.
-        </p>
-      </div>
-
-      <div class="action-row" style="justify-content:center;margin-top:18px;">
-        <button class="btn btn-secondary" onclick="checkAttendanceStatus()">Refresh Status</button>
-      </div>
-
-    </div>
-  `;
-
-  const existing = document.getElementById('waitingModal');
-  if (existing) existing.remove();
-  const existingResult = document.getElementById('approvalResultModal');
-  if (existingResult) existingResult.remove();
-
-  document.body.appendChild(modal);
-  clearAttendanceStatusInterval();
-  window.attendanceStatusInterval = setInterval(checkAttendanceStatus, 5000);
-  checkAttendanceStatus();
 }
 
 /* CLOCK */
@@ -868,22 +781,6 @@ function canReceiveIncomingOrder(order) {
   return isUnassigned || isAssignedToCurrentRider(order);
 }
 
-function notifyOrderUpdate(order, status) {
-  const notifications = JSON.parse(localStorage.getItem("notifications") || "[]");
-  notifications.push({
-    id: `order-update-${order.orderNumber || Date.now()}-${Date.now()}`,
-    type: "order-update",
-    orderNumber: order.orderNumber,
-    riderName: getRiderName(),
-    customerName: order.name || order.user || "Customer",
-    status,
-    message: `Order #${order.orderNumber || "N/A"} is now ${status}.`,
-    date: new Date().toLocaleDateString(),
-    time: new Date().toLocaleTimeString(),
-    timestamp: Date.now()
-  });
-  localStorage.setItem("notifications", JSON.stringify(notifications));
-}
 function showRiderToast(message) {
   const toast = document.createElement("div");
   toast.textContent = message;
@@ -891,50 +788,6 @@ function showRiderToast(message) {
   document.body.appendChild(toast);
   setTimeout(() => toast.remove(), 4000);
 }
-
-function checkAssignedOrderNotifications() {
-  const seen = JSON.parse(localStorage.getItem("seenOrderAssignmentNotifications") || "[]");
-  const notifications = JSON.parse(localStorage.getItem("notifications") || "[]");
-  const riderName = getRiderName();
-  const newAssignments = notifications.filter(notification =>
-    notification.type === "order-assigned" &&
-    (riderName === "rider" || notification.riderId === riderName || notification.riderName === riderName) &&
-    !seen.includes(notification.id)
-  );
-
-  newAssignments.forEach(notification => {
-    showRiderToast(`📦 ${notification.message}`);
-    seen.push(notification.id);
-  });
-
-  if(newAssignments.length > 0){
-    localStorage.setItem("seenOrderAssignmentNotifications", JSON.stringify(seen));
-    loadOrders();
-  }
-}
-
-function checkNewOrderNotifications() {
-  const seen = JSON.parse(localStorage.getItem("seenNewOrderNotifications") || "[]");
-  const notifications = JSON.parse(localStorage.getItem("notifications") || "[]");
-  const newOrders = notifications.filter(notification =>
-    notification.type === "order-created" && !seen.includes(notification.id)
-  );
-
-  newOrders.forEach(notification => {
-    showRiderToast(`🆕 ${notification.message}`);
-    seen.push(notification.id);
-  });
-
-  if(newOrders.length > 0){
-    localStorage.setItem("seenNewOrderNotifications", JSON.stringify(seen));
-    loadOrders();
-  }
-}
-
-checkAssignedOrderNotifications();
-checkNewOrderNotifications();
-setInterval(checkAssignedOrderNotifications, 2000);
-setInterval(checkNewOrderNotifications, 2000);
 
 /* NAV */
 function setNav(id) {
@@ -1006,7 +859,6 @@ function accept(i) {
   o[i].status = "Go to Pickup";
   o[i].rider = getRiderName();
   save(o);
-  notifyOrderUpdate(o[i], o[i].status);
   setNav('active'); active();
 }
 
@@ -1070,7 +922,6 @@ function buildActiveCard(idx, x, isSample) {
       <button class="btn btn-secondary" onclick="${detailFn}"><i class="fa-solid fa-eye"></i> View Details</button>
       <button class="btn btn-secondary" onclick="${ isSample ? "alert('Sample order only')" : `openCustomerRoute(${idx})` }"><i class="fa-solid fa-route"></i> Customer Route</button>
       <button class="btn btn-primary" onclick="${ isSample ? "alert('Sample order only')" : `openGallonScannerModal(${idx})` }"><i class="fa-solid fa-qrcode"></i> Scan Gallon</button>
-      <button class="btn btn-success" onclick="${ isSample ? "alert('Sample order only')" : `openAttendanceScannerModal(${idx})` }"><i class="fa-solid fa-camera"></i> Scan Attendance</button>
     </div>
   </div>`;
 }
@@ -1082,7 +933,6 @@ function setStatus(i, status) {
   if (status === "Delivered") o[i].deliveredAt = new Date().toLocaleString();
   if (status === "Delivered") stopRiderLocationTracking(i);
   save(o);
-  notifyOrderUpdate(o[i], status);
   active();
 }
 
@@ -1392,115 +1242,8 @@ window.onload = function () {
   if (!ensureRiderLogin()) {
     return;
   }
-
-  const attendanceState = localStorage.getItem("attendanceState") || "none";
-
-  if (attendanceState === "none") {
-    showAttendanceModal();
-  }
-
-  else if (attendanceState === "waiting") {
-    showWaitingApproval();
-  }
-
-  else if (attendanceState === "approved") {
-    loadOrders();
-  }
-
-  else if (attendanceState === "rejected") {
-    document.getElementById("content").innerHTML = `
-      <div class="card" style="text-align:center;padding:60px;">
-        <h1 style="font-size:60px;">❌</h1>
-        <h2>Attendance Rejected</h2>
-        <p>Please contact your manager.</p>
-      </div>
-    `;
-  }
-
+  loadOrders();
 };
-
-function getCurrentAttendanceRequest() {
-  const requestId = localStorage.getItem("currentAttendanceRequestId");
-  const notifications = JSON.parse(localStorage.getItem("notifications")) || [];
-  return notifications.find(n => n.id === requestId) || null;
-}
-
-function clearAttendanceStatusInterval() {
-  if (window.attendanceStatusInterval) {
-    clearInterval(window.attendanceStatusInterval);
-    window.attendanceStatusInterval = null;
-  }
-}
-
-function checkAttendanceStatus() {
-  const request = getCurrentAttendanceRequest();
-  if (!request) return;
-
-  if (request.status === "Approved") {
-    clearAttendanceStatusInterval();
-    localStorage.setItem("attendanceState", "approved");
-    closeApproval();
-    showApprovalResult("approved");
-    return;
-  }
-
-  if (request.status === "Rejected") {
-    clearAttendanceStatusInterval();
-    localStorage.setItem("attendanceState", "rejected");
-    closeApproval();
-    showApprovalResult("rejected");
-    return;
-  }
-}
-
-function updateCurrentAttendanceRequestStatus(status) {
-  const request = getCurrentAttendanceRequest();
-  if (!request) return null;
-
-  const notifications = JSON.parse(localStorage.getItem("notifications")) || [];
-  const item = notifications.find(n => n.id === request.id);
-  if (!item) return null;
-
-  item.status = status;
-  localStorage.setItem("notifications", JSON.stringify(notifications));
-  localStorage.setItem("attendanceState", status.toLowerCase());
-  return item;
-}
-
-function markAttendance(riderId, method = "QR") {
-  const now = new Date();
-  const requestId = `att-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-
-  const request = {
-    id: requestId,
-    riderId,
-    riderName: getRiderName(),
-    date: now.toLocaleDateString(),
-    time: now.toLocaleTimeString(),
-    method,
-    status: "Pending",
-    timestamp: now.getTime()
-  };
-
-  const notifications = JSON.parse(localStorage.getItem("notifications")) || [];
-  notifications.push(request);
-  localStorage.setItem("notifications", JSON.stringify(notifications));
-  localStorage.setItem("currentAttendanceRequestId", requestId);
-  localStorage.setItem("attendanceState", "waiting");
-  localStorage.setItem("attendanceRequest", JSON.stringify(request));
-
-  alert("Attendance request submitted and waiting for manager approval ✅");
-}
-
-function requestManualAttendance() {
-  const riderId = getRiderName();
-  const confirmation = confirm("Scanner unavailable? Submit manual attendance anyway?");
-  if (!confirmation) return;
-  markAttendance(riderId, "Manual");
-  const modal = document.getElementById('attendanceModal');
-  if (modal) modal.remove();
-  showWaitingApproval();
-}
 
 function showLogoutModal() {
   const modal = document.createElement('div');
@@ -1544,186 +1287,16 @@ function closeLogout() {
 }
 
 function logoutNow() {
-  localStorage.removeItem("attendanceState");
-  localStorage.removeItem("currentAttendanceRequestId");
-  localStorage.removeItem("attendanceRequest");
   localStorage.removeItem("loginTime");
   localStorage.removeItem("riderLoggedIn");
   localStorage.removeItem("currentUser");
   window.location.href = "rider1.html";
 }
 
-function simulateManagerApprove() {
-  localStorage.setItem("attendanceState", "approved");
-  showApprovalResult("approved");
-}
-
-function simulateManagerReject() {
-  localStorage.setItem("attendanceState", "rejected");
-  showApprovalResult("rejected");
-}
-
-function showApprovalResult(status) {
-
-  const modal = document.createElement("div");
-  modal.className = "modal";
-  modal.id = "approvalResultModal";
-
-  let icon = status === "approved" ? "✅" : "❌";
-  let title = status === "approved" ? "Approved!" : "Rejected";
-  let color = status === "approved" ? "#22c55e" : "#ef4444";
-
-  modal.innerHTML = `
-    <div class="modal-box" style="text-align:center;">
-      
-      <div style="font-size:60px;margin-bottom:10px;">
-        ${icon}
-      </div>
-
-      <div class="modal-title" style="justify-content:center;color:${color}">
-        ${title}
-      </div>
-
-      <p style="color:#1e4976;margin-bottom:20px;">
-        ${status === "approved" 
-          ? "You can now start accepting orders." 
-          : "Please contact admin/manager for review."}
-      </p>
-
-      <button class="btn btn-primary" onclick="closeApproval(); location.reload();">
-        OK
-      </button>
-
-    </div>
-  `;
-
-  document.body.appendChild(modal);
-}
-
-function closeApproval(){
-  clearAttendanceStatusInterval();
-  const waiting = document.getElementById('waitingModal');
-  if (waiting) waiting.remove();
-  const approval = document.getElementById('approvalResultModal');
-  if (approval) approval.remove();
-}
-
-function showApprovalPopup(status){
-
-  const modal = document.createElement("div");
-  modal.className = "modal";
-
-  let icon = status === "approved" ? "✅" : "❌";
-  let title = status === "approved" ? "Approved!" : "Rejected";
-  let color = status === "approved" ? "#22c55e" : "#ef4444";
-  let msg = status === "approved"
-    ? "You can now accept orders."
-    : "Your attendance was rejected.";
-
-  modal.innerHTML = `
-    <div class="modal-box" style="text-align:center;">
-
-      <div style="font-size:60px;margin-bottom:10px;">
-        ${icon}
-      </div>
-
-      <div class="modal-title" style="justify-content:center;color:${color}">
-        ${title}
-      </div>
-
-      <p style="color:#1e4976;margin:15px 0;">
-        ${msg}
-      </p>
-
-      <div style="display:flex;justify-content:center;margin-top:20px;">
-  <button class="btn btn-primary" onclick="closePopup(); location.reload();"
-  style="min-width:120px;">
-    OK
-  </button>
-</div>
-
-    </div>
-  `;
-
-  document.body.appendChild(modal);
-}
-
-function closePopup(){
-  const m = document.querySelector(".modal");
-  if(m) m.remove();
-}
-
 </script>
 <!-- HTML5 QR Code library -->
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <script>
-const scanBtn = document.createElement('button');
-scanBtn.className = 'chat-btn';
-scanBtn.style.right = '20px';
-scanBtn.style.bottom = '160px';
-scanBtn.title = 'Scan Attendance QR';
-scanBtn.innerHTML = '<i class="fa fa-camera"></i>';
-scanBtn.onclick = openScannerModal;
-document.body.appendChild(scanBtn);
-
-function openScannerModal(){
-  const modal = document.createElement('div');
-  modal.className = 'modal';
-  modal.id = 'scannerModal';
-
-  modal.innerHTML = `
-    <div class="modal-box">
-      <div class="modal-title"><i class="fa-solid fa-camera" style="color:#38bdf8"></i> Scan Attendance QR</div>
-      <div style="margin-top:12px;text-align:center">
-        <div id="qrreader" style="width:320px;height:260px;margin:auto;"></div>
-        <div id="qrresult" style="margin-top:12px;font-weight:800;color:#0d3460"></div>
-      </div>
-      <div class="action-row" style="margin-top:18px">
-        <button class="btn btn-secondary" onclick="closeScanner()">Close</button>
-      </div>
-    </div>
-  `;
-
-  document.body.appendChild(modal);
-
-  const html5QrCode = new Html5Qrcode("qrreader");
-
-  Html5Qrcode.getCameras().then(cameras => {
-    const cameraId = cameras && cameras.length ? cameras[0].id : null;
-    html5QrCode.start(
-      cameraId,
-      { fps: 10, qrbox: 250 },
-      qrCodeMessage => {
-        document.getElementById('qrresult').textContent = 'Scanned: ' + qrCodeMessage;
-        try{
-          if(qrCodeMessage.startsWith('attendance|')){
-            const parts = qrCodeMessage.split('|');
-            const riderId = parts[1];
-            markAttendance(riderId || getRiderName());
-            alert('Attendance recorded for: ' + (riderId || getRiderName()));
-          } else {
-            alert('Scanned data: ' + qrCodeMessage);
-          }
-        }catch(e){ console.error(e); }
-        html5QrCode.stop();
-        closeScanner();
-      },
-      errorMessage => {
-      }
-    ).catch(err => {
-      console.error(err);
-      alert('Unable to start camera for scanning');
-    });
-  }).catch(err => {
-    console.error(err);
-    alert('No camera found');
-  });
-}
-
-function closeScanner(){
-  const m = document.getElementById('scannerModal'); if(m) m.remove();
-}
-
 function openGallonScannerModal(idx){
   const modal = document.createElement('div');
   modal.className = 'modal';
@@ -1797,275 +1370,6 @@ function openGallonScannerModal(idx){
 }
 
 function closeGallonScanner(){ const m = document.getElementById('gallonScannerModal'); if(m) m.remove(); }
-
-function openAttendanceScannerModal(idx){
-  const modal = document.createElement('div');
-  modal.className = 'modal';
-  modal.id = 'attendanceScannerModal';
-
-  modal.innerHTML = `
-    <div class="modal-box">
-      <div class="modal-title"><i class="fa-solid fa-camera" style="color:#38bdf8"></i> Scan Attendance QR</div>
-      <div style="margin-top:12px;text-align:center">
-        <div id="attendanceQrReader" style="width:320px;height:260px;margin:auto;"></div>
-        <div id="attendanceQrResult" style="margin-top:12px;font-weight:800;color:#0d3460"></div>
-      </div>
-      <div class="action-row" style="margin-top:18px">
-        <button class="btn btn-secondary" onclick="closeAttendanceScanner()">Close</button>
-      </div>
-    </div>
-  `;
-
-  document.body.appendChild(modal);
-
-  const html5QrCode = new Html5Qrcode("attendanceQrReader");
-
-  Html5Qrcode.getCameras().then(cameras => {
-    const cameraId = cameras && cameras.length ? cameras[0].id : null;
-    html5QrCode.start(
-      cameraId,
-      { fps: 10, qrbox: 250 },
-      qrCodeMessage => {
-        document.getElementById('attendanceQrResult').textContent = 'Scanned: ' + qrCodeMessage;
-        try{
-          if(qrCodeMessage.startsWith('attendance|')){
-            const parts = qrCodeMessage.split('|');
-            const riderId = parts[1] || getRiderName();
-            markAttendance(riderId, 'QR');
-            alert('Attendance request submitted for: ' + riderId);
-            showWaitingApproval();
-          } else {
-            alert('Scanned data: ' + qrCodeMessage);
-          }
-        }catch(e){ console.error(e); }
-        html5QrCode.stop();
-        closeAttendanceScanner();
-      },
-      errorMessage => {
-      }
-    ).catch(err => { console.error(err); alert('Unable to start camera for scanning'); });
-  }).catch(err => { console.error(err); alert('No camera found'); });
-}
-
-function closeAttendanceScanner(){ const m = document.getElementById('attendanceScannerModal'); if(m) m.remove(); }
-
-</script>
-<script>
-
-/* =========================================================
-   MANAGER QR VERIFICATION — required before login
-   QR payload format: manager_auth|<managerUsername>|<code>
-   The code is generated live by the Manager Dashboard while
-   the manager is logged in, so this QR is tied to the
-   manager's actual login session (shared via localStorage).
-   ========================================================= */
-let managerQrScanner = null;
-
-function getManagerQrSession() {
-  try { return JSON.parse(localStorage.getItem("managerQrSession") || "null"); }
-  catch (e) { return null; }
-}
-
-function isManagerLoggedIn() {
-  return localStorage.getItem("managerLoggedIn") === "true";
-}
-
-function verifyManagerQrCode(scannedUsername, scannedCode) {
-  const session = getManagerQrSession();
-  if (!session) return false;
-  if (!isManagerLoggedIn()) return false;               // manager must be signed in
-  if (Date.now() > (session.expiresAt || 0)) return false; // QR expired
-  return scannedUsername === session.username &&
-         scannedCode === session.code;                  // code must match session
-}
-
-/* QR provided by the manager = rider login.
-   Scanning a valid manager QR signs the rider in directly —
-   no separate username/password step. */
-function completeRiderLogin() {
-  localStorage.setItem("riderLoggedIn", "true");
-  localStorage.setItem("username", "rider");
-  localStorage.setItem("currentUser", JSON.stringify({
-    username: "rider",
-    role: "rider",
-    fname: "Rider"
-  }));
-  const overlay = document.getElementById("managerQrOverlay");
-  if (overlay) overlay.style.display = "none";
-  document.querySelector('.main').style.display = 'block';
-  loadOrders();
-}
-
-function showManagerQrOverlay() {
-  const overlay = document.getElementById("managerQrOverlay");
-  overlay.style.display = "flex";
-  document.querySelector('.main').style.display = 'none';
-}
-
-function startManagerQrScan() {
-  const btn = document.getElementById("managerStartScanBtn");
-  if (btn) btn.disabled = true;
-  const resultEl = document.getElementById("managerQrResult");
-  if (resultEl) resultEl.textContent = "Starting camera…";
-
-  managerQrScanner = new Html5Qrcode("managerQrReader");
-
-  Html5Qrcode.getCameras().then(cameras => {
-    const cameraId = cameras && cameras.length ? cameras[0].id : null;
-    managerQrScanner.start(
-      cameraId,
-      { fps: 10, qrbox: 250 },
-      qrCodeMessage => {
-        verifyManagerQr(qrCodeMessage);
-      },
-      errorMessage => { }
-    ).catch(err => {
-      console.error(err);
-      if (resultEl) {
-        resultEl.textContent = "Unable to start camera. Use 'Enter Key Manually' or make sure camera permission is allowed.";
-        resultEl.className = "qr-auth-result qr-auth-fail";
-      }
-      if (btn) btn.disabled = false;
-    });
-  }).catch(err => {
-    console.error(err);
-    if (resultEl) {
-      resultEl.textContent = "No camera found on this device. Use 'Enter Key Manually' instead.";
-      resultEl.className = "qr-auth-result qr-auth-fail";
-    }
-    if (btn) btn.disabled = false;
-  });
-}
-
-function verifyManagerQr(qrCodeMessage) {
-  const resultEl = document.getElementById("managerQrResult");
-  try {
-    if (qrCodeMessage && qrCodeMessage.startsWith("manager_auth|")) {
-      const parts = qrCodeMessage.split("|");
-      const scannedUsername = parts[1];
-      const scannedCode = parts[2];
-      if (verifyManagerQrCode(scannedUsername, scannedCode)) {
-        if (managerQrScanner) { managerQrScanner.stop().catch(e => console.error(e)); }
-        localStorage.setItem("managerQrVerified", "true");
-        localStorage.setItem("managerQrVerifiedAt", new Date().toISOString());
-        if (resultEl) {
-          resultEl.textContent = "Manager verified! Signing you in…";
-          resultEl.className = "qr-auth-result qr-auth-pass";
-        }
-        setTimeout(() => {
-          completeRiderLogin();
-        }, 900);
-        return;
-      }
-    }
-    if (resultEl) {
-      resultEl.textContent = "QR not recognized. Make sure the manager is signed in and this QR was just generated.";
-      resultEl.className = "qr-auth-result qr-auth-fail";
-    }
-  } catch (e) {
-    console.error(e);
-    if (resultEl) {
-      resultEl.textContent = "QR not recognized. Make sure the manager is signed in and this QR was just generated.";
-      resultEl.className = "qr-auth-result qr-auth-fail";
-    }
-  }
-}
-
-function manualManagerKey() {
-  const existing = document.getElementById("manualManagerKeyModal");
-  if (existing) existing.remove();
-
-  const modal = document.createElement("div");
-  modal.className = "modal";
-  modal.id = "manualManagerKeyModal";
-  modal.style.zIndex = "100000";
-  modal.innerHTML = `
-    <div class="modal-box">
-      <div class="modal-title">
-        <i class="fa-solid fa-key" style="color:#38bdf8;"></i>
-        Enter Rider Attendance QR Code
-      </div>
-      <p style="color:#1e4976;font-size:13px;font-weight:700;line-height:1.5;">
-        Enter the authorization code shown on the manager's Rider Attendance QR screen.
-      </p>
-      <input id="manualManagerKeyInput" type="text" maxlength="6" autocomplete="off"
-        placeholder="Enter 6-character code"
-        style="width:100%;margin-top:16px;padding:12px;border-radius:12px;border:1px solid rgba(13,52,96,0.2);font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;letter-spacing:2px;text-transform:uppercase;">
-      <div id="manualManagerKeyMessage" style="min-height:20px;margin-top:10px;font-size:12px;font-weight:800;"></div>
-      <div class="action-row" style="margin-top:16px;">
-        <button class="btn btn-primary" onclick="submitManualManagerKey()">
-          <i class="fa-solid fa-check"></i> Verify Code
-        </button>
-        <button class="btn btn-secondary" onclick="document.getElementById('manualManagerKeyModal').remove()">
-          Cancel
-        </button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(modal);
-
-  const input = document.getElementById("manualManagerKeyInput");
-  input.focus();
-  input.addEventListener("keydown", event => {
-    if (event.key === "Enter") submitManualManagerKey();
-  });
-}
-
-function submitManualManagerKey() {
-  const input = document.getElementById("manualManagerKeyInput");
-  const message = document.getElementById("manualManagerKeyMessage");
-  if (!input || !message) return;
-
-  const trimmed = input.value.trim().toUpperCase();
-  const session = getManagerQrSession();
-  if (session && isManagerLoggedIn() &&
-      Date.now() <= (session.expiresAt || 0) &&
-      trimmed === session.code) {
-    localStorage.setItem("managerQrVerified", "true");
-    localStorage.setItem("managerQrVerifiedAt", new Date().toISOString());
-    const resultEl = document.getElementById("managerQrResult");
-    const modal = document.getElementById("manualManagerKeyModal");
-    if (modal) modal.remove();
-    if (resultEl) {
-      resultEl.textContent = "Code accepted! Signing you in…";
-      resultEl.className = "qr-auth-result qr-auth-pass";
-    }
-    setTimeout(() => {
-      completeRiderLogin();
-    }, 800);
-  } else {
-    message.textContent = "Incorrect or expired code. Ask your manager for a fresh code.";
-    message.style.color = "#ef4444";
-    input.select();
-  }
-}
-
-/* ---- Rider login: the manager-provided QR IS the login ---- */
-function riderLogin() {
-  // QR gate: login is locked until the manager's QR is scanned
-  if (localStorage.getItem("managerQrVerified") !== "true") {
-    alert("Please scan your manager's QR code first before signing in.");
-    const overlay = document.getElementById("managerQrOverlay");
-    if (overlay) overlay.style.display = "flex";
-    document.querySelector('.main').style.display = 'none';
-    return;
-  }
-
-  // QR verified → sign the rider in directly
-  completeRiderLogin();
-}
-
-function showRiderLoginOverlay() {
-  // No username/password overlay — the manager QR is the login.
-  completeRiderLogin();
-}
-
-/* On startup: enforce manager QR scan BEFORE login */
-window.addEventListener("DOMContentLoaded", function () {
-  const main = document.querySelector('.main');
-  if (main) main.style.display = 'none';
-  showManagerQrOverlay();
-});
 
 </script>
 </body>

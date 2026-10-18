@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -884,6 +884,72 @@ button, input, select, textarea{ font-size:16px; }
 }
 
 </style>
+<style id="simple-theme">
+/* ===== Simple theme (flat, light, minimal) ===== */
+:root{--s-bg:#f5f7fa;--s-card:#fff;--s-line:#e5e7eb;--s-text:#1f2937;--s-muted:#6b7280;--s-accent:#2563eb;--s-accent-d:#1d4ed8;--s-side:#1f2d3d;--s-ok:#16a34a;--s-warn:#d97706;--s-bad:#dc2626;}
+*{animation:none!important;transition:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;text-shadow:none!important}
+html,body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif!important;background:var(--s-bg)!important;color:var(--s-text)!important}
+.blob,.bg-dots,[class*="blob"],.water-icon{display:none!important}
+/* sidebar + brand + nav */
+.sidebar,.admin-login-sidebar,.login-sidebar{background:var(--s-side)!important;box-shadow:none!important;border:0!important;color:#fff!important}
+.brand,.brand-name,.brand-title{background:none!important;border:0!important;box-shadow:none!important;color:#fff!important;border-radius:0!important}
+.brand-tagline,.brand-subtitle{color:rgba(255,255,255,.6)!important}
+.menu-btn,.nav-btn,.nav-item,.nav-pill,.admin-login-nav-item{background:transparent!important;border:0!important;box-shadow:none!important;border-radius:8px!important;color:rgba(255,255,255,.75)!important;font-weight:600!important}
+.menu-btn.active,.nav-btn.active,.nav-item.active,.nav-pill.active,.menu-btn:hover,.nav-btn:hover,.nav-item:hover{background:rgba(255,255,255,.12)!important;color:#fff!important}
+.bottom-nav{background:#fff!important;border-top:1px solid var(--s-line)!important;box-shadow:none!important}
+/* top bar + clock */
+.topbar{background:#fff!important;border-bottom:1px solid var(--s-line)!important;box-shadow:none!important;color:var(--s-text)!important}
+.topbar *{color:inherit}
+.clock,.time-pill{background:var(--s-bg)!important;border:1px solid var(--s-line)!important;color:var(--s-muted)!important;border-radius:8px!important}
+/* cards */
+.card,.stat-card,.profile-card,.order-card,.track-card,.table-card,.rider-card,.chart-card,.modal-box,.popup-card,.chat-box,.login-card,.admin-login-card,.staff-qr-panel,.qr-auth-box{background:var(--s-card)!important;border:1px solid var(--s-line)!important;border-radius:10px!important;box-shadow:none!important;color:var(--s-text)!important}
+.card *,.stat-card *,.profile-card *,.order-card *,.track-card *,.table-card *,.rider-card *,.chart-card *,.modal-box *,.popup-card *,.login-card *,.admin-login-card *,.staff-qr-panel *{text-shadow:none!important}
+.card,.card p,.card h1,.card h2,.card h3,.card h4,.card td,.card th,.card span,.card label,.card div,.profile-card,.profile-card *,.order-card,.order-card *,.track-card,.track-card *,.table-card td,.table-card th,.rider-card,.rider-card *,.stat-card *,.chart-card *,.modal-box *,.popup-card *,.login-card *,.admin-login-card *{color:var(--s-text)}
+.muted,.card small,.stat-label,.stat-sub,.modal-label,.track-label,.card-title,.section-title,.page-title{color:var(--s-muted)}
+.page-title{color:var(--s-text)!important}
+/* sidebar content must stay light */
+.sidebar *{color:inherit}
+/* overlays */
+.login-overlay,.admin-login-overlay,.manager-login-overlay,.qr-auth-overlay,.login-view,.login-wrapper,.login-panel,.admin-login-shell,.admin-login-main{background:var(--s-bg)!important}
+.popup-overlay,.modal{background:rgba(17,24,39,.45)!important}
+.app-shell{background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important}
+/* buttons */
+.btn,.btn-primary,.primary-btn,.login-btn-main,.admin-login-submit,.login-btn,.step-btn,.validate-btn,.chat-btn{background:var(--s-accent)!important;color:#fff!important;border:0!important;border-radius:8px!important;box-shadow:none!important;font-weight:600!important}
+.btn:hover,.btn-primary:hover,.primary-btn:hover,.login-btn-main:hover,.admin-login-submit:hover{background:var(--s-accent-d)!important}
+.btn-secondary,.soft-btn,.secondary,.exit-btn,.logout-btn,.close-login-btn,.edit-profile-btn,.locate-btn,.filter-btn,.icon-btn,.calendar-btn,.nav-arrow{background:#fff!important;color:var(--s-text)!important;border:1px solid var(--s-line)!important;border-radius:8px!important;box-shadow:none!important}
+.btn-success{background:var(--s-ok)!important}
+.sidebar .logout-btn,.sidebar .exit-btn{background:transparent!important;color:#fff!important;border-color:rgba(255,255,255,.3)!important}
+/* forms */
+input,select,textarea,.chat-input,.modal-field{background:#fff!important;color:var(--s-text)!important;border:1px solid #d1d5db!important;border-radius:8px!important;box-shadow:none!important}
+input:focus,select:focus,textarea:focus{outline:2px solid rgba(37,99,235,.35)!important;outline-offset:0}
+::placeholder{color:#9ca3af!important}
+/* status badges: flat, colour only */
+.status,.status-badge,.order-badge,.rider-badge,.contact-badge,.location-badge,.stat-pill,.status-label{border-radius:6px!important;box-shadow:none!important;font-weight:600!important}
+.pending,.status.pending{background:#fef3c7!important;color:#92400e!important}
+.delivered,.done-status,.ontime,.attended,.green,.ok,.status.delivered{background:#dcfce7!important;color:#166534!important}
+.prepare,.blue,.live{background:#dbeafe!important;color:#1e40af!important}
+.orange,.late,.warn{background:#ffedd5!important;color:#9a3412!important}
+.cancelled,.red,.err,.out-of-stock{background:#fee2e2!important;color:#991b1b!important}
+/* tables */
+table{border-collapse:collapse;width:100%}
+th{background:#f9fafb!important;color:var(--s-muted)!important;font-weight:600!important;text-transform:none!important;letter-spacing:0!important}
+th,td{border-bottom:1px solid var(--s-line)!important;border-top:0!important}
+/* notifications */
+.notify{background:#f0f9ff!important;border:1px solid #bae6fd!important;border-radius:8px!important;box-shadow:none!important;color:#0c4a6e!important}
+/* chat */
+.chat-header{background:var(--s-side)!important;color:#fff!important}
+.chat-body{background:#fff!important}
+.user-msg{background:var(--s-accent)!important;color:#fff!important}
+.ai-msg{background:#f3f4f6!important;color:var(--s-text)!important}
+/* progress */
+.bar-container,.progress,.track-line{background:#e5e7eb!important}
+.bar-fill,.track-progress{background:var(--s-accent)!important}
+/* misc */
+a{color:var(--s-accent)}
+.sidebar a{color:#fff}
+.stat h2,.stat-value{color:var(--s-text)!important}
+.stat-icon{background:var(--s-bg)!important;box-shadow:none!important}
+</style>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
@@ -901,154 +967,6 @@ function notify(text){
   setTimeout(()=>{ d.remove(); },3000);
 }
 
-function showAttendanceLogs(){
-  const attendance = JSON.parse(localStorage.getItem('attendance')||'{}');
-  let html = `<div class="card"><h2>📋 Attendance Logs</h2>`;
-  for(const riderId in attendance){
-    html += `<h3>${riderId}</h3><table>`;
-    html += `<tr><th>Date</th><th>Time</th><th>Status</th></tr>`;
-    const entries = attendance[riderId];
-    for(const d in entries){
-      html += `<tr><td>${d}</td><td>${entries[d].loginTime}</td><td>${entries[d].status}</td></tr>`;
-    }
-    html += `</table>`;
-  }
-  html += `</div>`;
-  document.getElementById('content').innerHTML = html;
-}
-
-/* =========================================================
-  RIDER ATTENDANCE QR — tied to the manager's login
-   The QR payload is: manager_auth|<managerUsername>|<code>
-   rider1.html checks the code AND that the manager is
-   currently logged in (session shared via localStorage),
-   so a QR is only valid while this manager is signed in.
-   ========================================================= */
-const MANAGER_QR_TTL_MS = 10 * 60 * 1000; // QR valid for 10 minutes
-
-function getManagerQrSession(){
-  try { return JSON.parse(localStorage.getItem("managerQrSession") || "null"); }
-  catch(e){ return null; }
-}
-
-function buildManagerQrSession(){
-  if(localStorage.getItem("managerLoggedIn") !== "true") return null;
-
-  const username = localStorage.getItem("managerUsername") || "manager";
-
-  const code = Math.random().toString(36).slice(2, 8).toUpperCase();
-  const session = {
-    username: username,
-    code: code,
-    createdAt: Date.now(),
-    expiresAt: Date.now() + MANAGER_QR_TTL_MS
-  };
-  localStorage.setItem("managerQrSession", JSON.stringify(session));
-  return session;
-}
-
-function openManagerQr(){
-  const existing = document.getElementById('managerQrModal');
-  if(existing) existing.remove();
-
-  // QR is linked to the manager's login session — sign in required first
-  if(localStorage.getItem("managerLoggedIn") !== "true"){
-    alert("Please sign in as manager first — the QR is linked to your manager login.");
-    return;
-  }
-
-  const session = buildManagerQrSession();
-  if(!session) return;
-
-  const modal = document.createElement('div');
-  modal.className = 'popup-overlay';
-  modal.id = 'managerQrModal';
-  modal.style.display = 'flex';
-
-  modal.innerHTML = `
-    <div class="popup-card">
-      <h2>🔐 Rider Attendance QR</h2>
-      <p style="color:#475569;margin:10px 0;">Linked to <b>${session.username}</b> — valid only while you are signed in as manager.</p>
-      <div id="managerQrHolder" style="margin-top:12px;text-align:center;"></div>
-      <div class="notify" style="margin-top:14px;">
-        <b>Manual code</b> (if the rider cannot scan): <code id="managerManualCode">${session.code}</code><br>
-        <span style="opacity:0.75;">Expires 10 minutes after generation — press 🔄 Regenerate to refresh.</span>
-      </div>
-      <br>
-      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-        <button class="btn green" onclick="regenerateManagerQr()">🔄 Regenerate</button>
-        <button class="btn blue" onclick="showManagerQrFullscreen()">📱 Full Screen</button>
-        <button class="btn orange" onclick="closeManagerQr()">✖ Close</button>
-      </div>
-    </div>
-  `;
-
-  document.body.appendChild(modal);
-  generateManagerQr();
-}
-
-function closeManagerQr(){
-  const m = document.getElementById('managerQrModal');
-  if(m) m.remove();
-}
-
-function getManagerQrPayload(){
-  const session = getManagerQrSession();
-  if(!session) return null;
-  return "manager_auth|" + session.username + "|" + session.code;
-}
-
-async function generateManagerQr(){
-  const holder = document.getElementById('managerQrHolder');
-  if(!holder) return;
-
-  const payload = getManagerQrPayload() || (buildManagerQrSession() && getManagerQrPayload());
-  if(!payload) return;
-
-  try{
-    const dataUrl = await QRCode.toDataURL(payload, { width: 280 });
-    holder.innerHTML = `
-      <img src="${dataUrl}" style="width:280px;height:280px;border-radius:14px;background:#fff;padding:10px;"/>
-      <br><br>
-      <a class="btn blue" href="${dataUrl}" download="rider-attendance-qr-${Date.now()}.png">⬇ Download QR</a>
-    `;
-    notify('✅ Rider Attendance QR ready — riders can scan it now');
-  }catch(e){
-    console.error(e);
-    alert('Failed to generate QR');
-  }
-}
-
-function regenerateManagerQr(){
-  const session = buildManagerQrSession();
-  if(!session) return;
-  const codeEl = document.getElementById('managerManualCode');
-  if(codeEl) codeEl.textContent = session.code;
-  generateManagerQr();
-}
-
-function showManagerQrFullscreen(){
-  const payload = getManagerQrPayload() || (buildManagerQrSession() && getManagerQrPayload());
-  if(!payload) return;
-
-  QRCode.toDataURL(payload, { width: 420 }).then(dataUrl => {
-    const fs = document.createElement('div');
-    fs.id = 'managerQrFullscreen';
-    fs.style.cssText = 'position:fixed;inset:0;background:linear-gradient(135deg,#0f4c75,#3282b8);z-index:999999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;';
-    fs.innerHTML = `
-      <div style="font-size:22px;font-weight:800;color:#fff;text-align:center;">
-        <i class="fas fa-shield-halved" style="margin-right:8px;"></i>Alka-Jozen Rider Attendance
-      </div>
-      <img src="${dataUrl}" style="width:min(70vw,420px);height:auto;background:#fff;padding:18px;border-radius:24px;box-shadow:0 20px 60px rgba(0,0,0,0.3);"/>
-      <div style="color:rgba(255,255,255,0.85);font-weight:600;">Scan this QR with the Rider Portal to verify attendance</div>
-      <button class="btn orange" onclick="this.parentElement.remove()">✖ Close</button>
-    `;
-    document.body.appendChild(fs);
-  }).catch(e => {
-    console.error(e);
-    alert('Failed to generate QR');
-  });
-}
 </script>
 
 </head>
@@ -1096,10 +1014,6 @@ function showManagerQrFullscreen(){
       </button>
     </form>
 
-    <button type="button" class="btn blue" style="width:100%;margin-top:16px;" onclick="openManagerQr()">
-      <i class="fas fa-qrcode" style="margin-right:8px;"></i> Rider Attendance QR (sign in first)
-    </button>
-
     <div class="login-divider">
       <span>Manager Access Only</span>
     </div>
@@ -1119,19 +1033,6 @@ function showManagerQrFullscreen(){
 ☰
 </button>
 
-<div id="attendancePopup" class="popup-overlay">
-<div class="popup-card">
-<h2>🗓️ Attendance Confirmation</h2>
-<br>
-<p id="attendanceDate"></p>
-<p id="attendanceTime"></p>
-<br>
-<button class="btn green" onclick="managerPresent()">
-✅ I Am Present
-</button>
-</div>
-</div>
-
 <div id="logoutPopup" class="popup-overlay">
 <div class="popup-card">
 <h2>🚪 Logout Confirmation</h2>
@@ -1149,12 +1050,10 @@ function showManagerQrFullscreen(){
 <div class="brand">
 🏢 MANAGER
 </div>
-6<button onclick="dashboard()">🏠 Dashboard</button>
-<button onclick="inventory()">📦 Inventory</button>
+<button onclick="dashboard()">🏠 Dashboard</button>
 <button onclick="riderPerformance()">🏍️ Rider Performance</button>
-<button onclick="showNotifications()">🔔 Notifications</button>
 <button onclick="assignOrders()">📋 Manage Orders</button>
-<button onclick="openManagerQr()">🔐 Rider Attendance QR</button>
+<button onclick="employeeAccountsPage()">👥 Manage User Accounts</button>
 <button onclick="reports()">📄 Reports</button>
 <button onclick="showLogoutPopup()">🚪 Log Out</button>
 </div>
@@ -1189,7 +1088,7 @@ function showManagerQrFullscreen(){
 <div class="chat-box" id="managerFaqBox">
   <div class="chat-header">Manager AI Assistant</div>
   <div class="chat-body" id="managerFaqBody">
-    <p><b>AI:</b> Ask me about inventory, attendance, notifications, reports, or rider performance.</p>
+    <p><b>AI:</b> Ask me about reports or rider performance.</p>
   </div>
   <div class="chat-input">
     <input id="managerFaqInput" placeholder="Ask AI anything..." onkeypress="if(event.key==='Enter') sendManagerFAQ()">
@@ -1302,6 +1201,131 @@ if (!managerLoggedIn) {
 }
 }
 
+/* ================= USER ACCOUNTS ================= */
+
+let employeeAccounts = JSON.parse(localStorage.getItem("employeeAccounts")) || [
+  { id: 1, name: "Maria Santos", username: "maria", role: "Manager", status: "Active", email: "maria@alka.com" },
+  { id: 2, name: "Rico Dela Cruz", username: "rico", role: "Staff", status: "Active", email: "rico@alka.com" },
+  { id: 3, name: "Ana Reyes", username: "ana", role: "Rider", status: "Deactivated", email: "ana@alka.com" }
+];
+
+function saveEmployeeAccounts(){
+  localStorage.setItem("employeeAccounts", JSON.stringify(employeeAccounts));
+}
+
+function employeeAccountsPage(){
+  document.getElementById("content").innerHTML = `
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:20px;">
+        <div>
+          <h2>👥 Manage User Accounts</h2>
+          <p>View and update manager, staff, and rider accounts.</p>
+        </div>
+        <button class="btn blue" onclick="openEmployeeForm('add')">➕ Add Account</button>
+      </div>
+
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Username</th>
+          <th>Role</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+        ${employeeAccounts.map(emp => `
+          <tr>
+            <td>${emp.name}</td>
+            <td>${emp.username}</td>
+            <td>${emp.role}</td>
+            <td>${emp.email}</td>
+            <td><span class="status ${emp.status === "Active" ? "delivered" : "pending"}">${emp.status}</span></td>
+            <td>
+              <button class="btn blue" style="padding:8px 12px; margin-right:6px;" onclick="openEmployeeForm('edit', ${emp.id})">Edit</button>
+              <button class="btn ${emp.status === "Active" ? "orange" : "green"}" style="padding:8px 12px;" onclick="toggleEmployeeStatus(${emp.id})">
+                ${emp.status === "Active" ? "Deactivate" : "Activate"}
+              </button>
+            </td>
+          </tr>
+        `).join("")}
+      </table>
+    </div>
+  `;
+}
+
+function openEmployeeForm(mode, id = null){
+  const existing = document.getElementById("employeeFormModal");
+  if (existing) existing.remove();
+
+  const employee = employeeAccounts.find(emp => emp.id === id) || { id: Date.now(), name: "", username: "", role: "Staff", status: "Active", email: "" };
+  const modal = document.createElement("div");
+  modal.id = "employeeFormModal";
+  modal.className = "popup-overlay";
+  modal.style.display = "flex";
+  modal.innerHTML = `
+    <div class="popup-card" style="max-width:520px;">
+      <h2>${mode === "add" ? "➕ Add Account" : "✏️ Edit Account"}</h2>
+      <br>
+      <input id="empName" value="${employee.name || ""}" placeholder="Full name">
+      <input id="empUsername" value="${employee.username || ""}" placeholder="Username">
+      <input id="empEmail" value="${employee.email || ""}" placeholder="Email">
+      <select id="empRole" style="margin-top:10px;">
+        <option value="Manager" ${employee.role === "Manager" ? "selected" : ""}>Manager</option>
+        <option value="Staff" ${employee.role === "Staff" ? "selected" : ""}>Staff</option>
+        <option value="Rider" ${employee.role === "Rider" ? "selected" : ""}>Rider</option>
+      </select>
+      <select id="empStatus" style="margin-top:10px;">
+        <option value="Active" ${employee.status === "Active" ? "selected" : ""}>Active</option>
+        <option value="Deactivated" ${employee.status === "Deactivated" ? "selected" : ""}>Deactivated</option>
+      </select>
+      <br><br>
+      <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+        <button class="btn green" onclick="saveEmployeeAccount(${employee.id})">💾 Save</button>
+        <button class="btn orange" onclick="closeEmployeeForm()">✖ Close</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+
+function closeEmployeeForm(){
+  const modal = document.getElementById("employeeFormModal");
+  if (modal) modal.remove();
+}
+
+function saveEmployeeAccount(id){
+  const name = document.getElementById("empName").value.trim();
+  const username = document.getElementById("empUsername").value.trim();
+  const email = document.getElementById("empEmail").value.trim();
+  const role = document.getElementById("empRole").value;
+  const status = document.getElementById("empStatus").value;
+
+  if (!name || !username || !email) {
+    alert("Please complete all account fields.");
+    return;
+  }
+
+  const index = employeeAccounts.findIndex(emp => emp.id === id);
+  if (index >= 0) {
+    employeeAccounts[index] = { ...employeeAccounts[index], name, username, email, role, status };
+  } else {
+    employeeAccounts.push({ id: Date.now(), name, username, email, role, status });
+  }
+
+  saveEmployeeAccounts();
+  closeEmployeeForm();
+  employeeAccountsPage();
+}
+
+function toggleEmployeeStatus(id){
+  const employee = employeeAccounts.find(item => item.id === id);
+  if (!employee) return;
+
+  employee.status = employee.status === "Active" ? "Deactivated" : "Active";
+  saveEmployeeAccounts();
+  employeeAccountsPage();
+}
+
 function openReportForm(){
 document.getElementById("reportPopup").style.display = "flex";
 }
@@ -1333,14 +1357,6 @@ reportsList.push(report);
 localStorage.setItem("reportsList", JSON.stringify(reportsList));
 closeReportForm();
 reports();
-}
-
-function getAttendance(){
-  return JSON.parse(localStorage.getItem("attendance")) || {};
-}
-
-function saveAttendance(data){
-  localStorage.setItem("attendance", JSON.stringify(data));
 }
 
 let ridersList = [
@@ -1398,6 +1414,8 @@ function reviewOrder(index){
   const existing = document.getElementById("orderReviewModal");
   if(existing) existing.remove();
 
+  const hasPendingPayment = order.payment === "GCash" && (order.paymentStatus === "Pending Verification" || order.paymentStatus === "Verified");
+
   const modal = document.createElement("div");
   modal.id = "orderReviewModal";
   modal.className = "popup-overlay";
@@ -1411,10 +1429,17 @@ function reviewOrder(index){
       <p><b>Contact:</b> ${order.contact || "N/A"}</p>
       <p><b>Order:</b> ${order.gallon || "N/A"} ${order.gallonType || "Gallon"}</p>
       <p><b>Payment:</b> ${order.payment || "N/A"} (${order.paymentStatus || "N/A"})</p>
+      <p><b>Payment Detail:</b> ${order.paymentStatusDetail || "No additional detail"}</p>
       <p><b>Total:</b> ₱${order.total || "0"}</p>
       <p><b>Notes:</b> ${order.deliveryNotes || "None"}</p>
       <p><b>Current status:</b> ${order.status || "Order Received"}</p>
       <br>
+      ${hasPendingPayment ? `
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:10px;">
+          <button class="btn green" onclick="verifyPaymentDecision(${index}, 'Verified')">✅ Verify Payment</button>
+          <button class="btn orange" onclick="verifyPaymentDecision(${index}, 'Rejected')">❌ Reject Payment</button>
+        </div>
+      ` : ""}
       <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
         <button class="btn green" onclick="updateOrderDecision(${index}, 'Accepted')">✅ Accept Order</button>
         <button class="btn orange" onclick="updateOrderDecision(${index}, 'Rejected')">❌ Reject Order</button>
@@ -1425,28 +1450,40 @@ function reviewOrder(index){
   document.body.appendChild(modal);
 }
 
+function verifyPaymentDecision(index, decision){
+  const orders = getSharedOrders();
+  const order = orders[index];
+  if(!order) return;
+
+  const isVerified = decision === "Verified";
+  order.paymentStatus = isVerified ? "Verified" : "Rejected";
+  order.paymentStatusDetail = isVerified
+    ? "Payment verified by manager."
+    : "Payment rejected by manager.";
+  order.managerDecisionAt = new Date().toISOString();
+  saveSharedOrders(orders);
+
+  const modal = document.getElementById("orderReviewModal");
+  if(modal) modal.remove();
+  notify(isVerified ? "✅ Payment verified successfully" : "❌ Payment rejected by manager");
+  assignOrders();
+}
+
 function updateOrderDecision(index, status){
   const orders = getSharedOrders();
   const order = orders[index];
   if(!order) return;
 
+  if (order.payment === "GCash" && order.paymentStatus === "Pending Verification") {
+    order.paymentStatus = status === "Accepted" ? "Verified" : "Rejected";
+    order.paymentStatusDetail = status === "Accepted"
+      ? "Payment verified by manager before order approval."
+      : "Payment rejected by manager before order approval.";
+  }
+
   order.status = status;
   order.managerDecisionAt = new Date().toISOString();
   saveSharedOrders(orders);
-
-  const notifications = JSON.parse(localStorage.getItem("notifications") || "[]");
-  notifications.push({
-    id: `order-${status.toLowerCase()}-${order.orderNumber || Date.now()}-${Date.now()}`,
-    type: "order-status",
-    orderNumber: order.orderNumber,
-    customerName: order.recipient || order.customer || order.name || order.user || "Customer",
-    status,
-    message: `Order #${order.orderNumber || "N/A"} was ${status.toLowerCase()} by the manager.`,
-    date: new Date().toLocaleDateString(),
-    time: new Date().toLocaleTimeString(),
-    timestamp: Date.now()
-  });
-  localStorage.setItem("notifications", JSON.stringify(notifications));
 
   const modal = document.getElementById("orderReviewModal");
   if(modal) modal.remove();
@@ -1463,22 +1500,6 @@ function assignOrder(index, riderId){
   if(rider){
     order.assignedRiderId = rider.id;
     order.assignedRiderName = rider.name;
-
-    const notifications = JSON.parse(localStorage.getItem("notifications") || "[]");
-    notifications.push({
-      id: `order-assigned-${order.orderNumber || Date.now()}-${Date.now()}`,
-      type: "order-assigned",
-      orderNumber: order.orderNumber,
-      riderId: rider.id,
-      riderName: rider.name,
-      customerName: order.name || order.user || "Customer",
-      status: "New",
-      message: `Order #${order.orderNumber || "N/A"} was assigned to you.`,
-      date: new Date().toLocaleDateString(),
-      time: new Date().toLocaleTimeString(),
-      timestamp: Date.now()
-    });
-    localStorage.setItem("notifications", JSON.stringify(notifications));
   } else {
     delete order.assignedRiderId;
     delete order.assignedRiderName;
@@ -1585,119 +1606,7 @@ function openRider(rider){
         `).join("")}
       </table>
     </div>
-
-    ${renderAttendanceCalendar(rider)}
-
   `;
-}
-
-let currentMonth = 4;
-let currentYear = 2026;
-
-function renderAttendanceCalendar(rider){
-
-  const attendanceData = {
-    "2026-05-01":{ timeIn:"7:58 AM", timeOut:"5:02 PM", status:"present" },
-    "2026-05-02":{ timeIn:"8:10 AM", timeOut:"5:00 PM", status:"late" },
-    "2026-05-03":{ timeIn:"7:55 AM", timeOut:"5:15 PM", status:"present" },
-    "2026-05-05":{ timeIn:"8:00 AM", timeOut:"5:12 PM", status:"present" },
-    "2026-05-06":{ timeIn:"7:49 AM", timeOut:"5:20 PM", status:"present" },
-    "2026-05-08":{ timeIn:"8:20 AM", timeOut:"5:00 PM", status:"late" },
-    "2026-05-09":{ timeIn:"7:50 AM", timeOut:"5:05 PM", status:"present" },
-    "2026-05-10":{ timeIn:"7:59 AM", timeOut:"5:18 PM", status:"present" },
-    "2026-05-12":{ timeIn:"8:01 AM", timeOut:"5:10 PM", status:"present" },
-    "2026-05-13":{ timeIn:"7:45 AM", timeOut:"5:30 PM", status:"present" },
-    "2026-05-15":{ timeIn:"8:25 AM", timeOut:"5:00 PM", status:"late" },
-    "2026-05-16":{ timeIn:"7:52 AM", timeOut:"5:08 PM", status:"present" },
-    "2026-05-18":{ timeIn:"7:48 AM", timeOut:"5:22 PM", status:"present" },
-    "2026-05-19":{ timeIn:"8:00 AM", timeOut:"5:05 PM", status:"present" },
-    "2026-05-20":{ timeIn:"8:01 AM", timeOut:"5:10 PM", status:"present" },
-    "2026-05-21":{ timeIn:"8:35 AM", timeOut:"5:00 PM", status:"late" },
-    "2026-05-22":{ timeIn:"7:56 AM", timeOut:"5:11 PM", status:"present" },
-    "2026-05-24":{ timeIn:"7:50 AM", timeOut:"5:15 PM", status:"present" },
-    "2026-05-25":{ timeIn:"8:03 AM", timeOut:"5:07 PM", status:"present" },
-    "2026-05-26":{ timeIn:"7:55 AM", timeOut:"5:20 PM", status:"present" },
-    "2026-05-27":{ timeIn:"8:00 AM", timeOut:"5:00 PM", status:"present" },
-    "2026-05-29":{ timeIn:"7:46 AM", timeOut:"5:18 PM", status:"present" }
-  };
-
-  const monthNames = [
-    "January","February","March","April",
-    "May","June","July","August",
-    "September","October","November","December"
-  ];
-
-  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-  const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-
-  let html = `
-
-  <div class="card">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-      <button class="btn blue" onclick="changeMonth(-1, '${rider.name}')">◀</button>
-      <h2>📅 ${monthNames[currentMonth]} ${currentYear}</h2>
-      <button class="btn blue" onclick="changeMonth(1, '${rider.name}')">▶</button>
-    </div>
-
-    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;text-align:center;margin-bottom:10px;font-weight:bold;">
-      <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
-    </div>
-
-    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;">
-  `;
-
-  for(let i=0; i<firstDay; i++){
-    html += `<div></div>`;
-  }
-
-  for(let day=1; day<=daysInMonth; day++){
-
-    let dateKey = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-    let record = attendanceData[dateKey];
-
-    let bg = "#ef4444";
-    let tooltip = "❌ Absent";
-
-    if(record){
-      if(record.status === "present"){ bg = "#22c55e"; }
-      if(record.status === "late"){ bg = "#f59e0b"; }
-      tooltip = `Status: ${record.status}\n\nTime In: ${record.timeIn}\n\nTime Out: ${record.timeOut}`;
-    }
-
-    html += `
-      <div title="${tooltip}" style="background:${bg};padding:15px 10px;border-radius:14px;min-height:75px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.3s;font-weight:bold;color:white;"
-        onmouseover="this.style.transform='scale(1.07)';this.style.boxShadow='0 0 15px rgba(255,255,255,0.4)';"
-        onmouseout="this.style.transform='scale(1)';this.style.boxShadow='none';">
-        ${day}
-      </div>
-    `;
-  }
-
-  html += `
-    </div>
-    <br>
-    <div class="notify">🟢 Present &nbsp;&nbsp; 🟡 Late &nbsp;&nbsp; 🔴 Absent</div>
-  </div>
-  `;
-
-  return html;
-}
-
-function changeMonth(step, riderName){
-
-  currentMonth += step;
-
-  if(currentMonth > 11){
-    currentMonth = 0;
-    currentYear++;
-  }
-
-  if(currentMonth < 0){
-    currentMonth = 11;
-    currentYear--;
-  }
-
-  openRider({ name:riderName });
 }
 
 function getFilterPercent(){
@@ -1712,54 +1621,6 @@ function toggleSidebar(){
 document.querySelector(".sidebar").classList.toggle("active");
 }
 
-let gallons = 500;
-let totalGallonsSold = 0;
-let filterLife = 80;
-
-let notifications = JSON.parse(localStorage.getItem("notifications")) || [];
-
-if (notifications.length === 0) {
-  notifications.push({
-    id: 1,
-    riderName: "Rider John",
-    message: "I am present",
-    date: "5/22/2026",
-    time: "8:00 AM",
-    status: "Pending"
-  });
-  localStorage.setItem("notifications", JSON.stringify(notifications));
-}
-
-let inventoryLogs = [
-  { date:new Date().toLocaleDateString(), time:"8:00 AM", refill:120, sold:90 },
-  { date:new Date().toLocaleDateString(), time:"9:00 AM", refill:150, sold:130 },
-  { date:new Date().toLocaleDateString(), time:"10:00 AM", refill:180, sold:160 },
-  { date:new Date().toLocaleDateString(), time:"11:00 AM", refill:220, sold:200 },
-  { date:new Date().toLocaleDateString(), time:"12:00 PM", refill:260, sold:230 },
-  { date:new Date().toLocaleDateString(), time:"1:00 PM", refill:300, sold:280 },
-  { date:new Date().toLocaleDateString(), time:"2:00 PM", refill:350, sold:320 },
-  { date:new Date().toLocaleDateString(), time:"3:00 PM", refill:400, sold:370 },
-  { date:new Date().toLocaleDateString(), time:"4:00 PM", refill:430, sold:390 },
-  { date:new Date().toLocaleDateString(), time:"5:00 PM", refill:470, sold:430 },
-  { date:"5/16/2026", refill:200, sold:180 },
-  { date:"5/17/2026", refill:240, sold:210 },
-  { date:"5/18/2026", refill:280, sold:250 },
-  { date:"5/19/2026", refill:320, sold:290 },
-  { date:"5/20/2026", refill:360, sold:330 },
-  { date:"5/21/2026", refill:390, sold:350 },
-  { date:"5/22/2026", refill:420, sold:390 },
-  { date:"1/10/2026", refill:1000, sold:900 },
-  { date:"2/10/2026", refill:1300, sold:1200 },
-  { date:"3/10/2026", refill:1600, sold:1450 },
-  { date:"4/10/2026", refill:1900, sold:1700 },
-  { date:"5/10/2026", refill:2200, sold:2000 }
-];
-
-inventoryLogs = inventoryLogs.map((log, index) => ({
-  id: log.id || Date.now() + index,
-  ...log
-}));
-
 let reportsList = JSON.parse(localStorage.getItem("reportsList")) || [];
 
 let customerOrders = [
@@ -1770,27 +1631,7 @@ let customerOrders = [
   { customer: "Carlo Ramos", address: "Manila City", status: "Delivered", total: 175 }
 ];
 
-function updateAttendancePopup(){
-const now = new Date();
-document.getElementById("attendanceDate").innerHTML = "📅 Date: " + now.toDateString();
-document.getElementById("attendanceTime").innerHTML = "🕒 Time In: " + now.toLocaleTimeString();
-}
-
-updateAttendancePopup();
 ensureManagerLogin();
-
-function managerPresent(){
-const now = new Date();
-let status = now.getHours() >= 22 ? "Late" : "On Time";
-
-localStorage.setItem("managerLoginDate", now.toDateString());
-localStorage.setItem("managerLoginTime", now.toLocaleTimeString());
-localStorage.setItem("managerAttendanceStatus", status);
-
-document.getElementById("attendancePopup").style.display = "none";
-
-dashboard();
-}
 
 function dashboard(){
 
@@ -1798,12 +1639,12 @@ document.getElementById("content").innerHTML = `
 
 <div class="grid">
 <div class="card stat">
-<h2>${gallons}</h2>
-<p>Total Gallons</p>
+<h2>24</h2>
+<p>Active Riders</p>
 </div>
 <div class="card stat">
-<h2>${filterLife.toFixed(2)}%</h2>
-<p>Filter Lifespan</p>
+<h2>98%</h2>
+<p>Service Level</p>
 </div>
 </div>
 
@@ -1818,265 +1659,9 @@ document.getElementById("content").innerHTML = `
 <canvas id="salesChart" height="120"></canvas>
 </div>
 
-${renderManagerAttendanceCalendar()}
-
 `;
 
 renderAnalytics();
-
-}
-
-function renderManagerAttendanceCalendar(){
-
- const managerAttendance = {
-  "2026-05-01":{ status:"present", timeIn:"7:58 AM", timeOut:"5:02 PM" },
-  "2026-05-02":{ status:"present", timeIn:"7:55 AM", timeOut:"5:10 PM" },
-  "2026-05-03":{ status:"present", timeIn:"7:50 AM", timeOut:"5:15 PM" },
-  "2026-05-04":{ status:"present", timeIn:"7:45 AM", timeOut:"5:20 PM" },
-  "2026-05-05":{ status:"present", timeIn:"7:52 AM", timeOut:"5:08 PM" },
-  "2026-05-06":{ status:"present", timeIn:"7:48 AM", timeOut:"5:18 PM" },
-  "2026-05-07":{ status:"present", timeIn:"7:56 AM", timeOut:"5:05 PM" },
-  "2026-05-08":{ status:"late", timeIn:"8:20 AM", timeOut:"5:00 PM" },
-  "2026-05-09":{ status:"present", timeIn:"7:54 AM", timeOut:"5:12 PM" },
-  "2026-05-10":{ status:"present", timeIn:"7:49 AM", timeOut:"5:25 PM" },
-  "2026-05-11":{ status:"present", timeIn:"7:58 AM", timeOut:"5:07 PM" },
-  "2026-05-12":{ status:"present", timeIn:"7:53 AM", timeOut:"5:16 PM" },
-  "2026-05-13":{ status:"present", timeIn:"7:47 AM", timeOut:"5:22 PM" },
-  "2026-05-14":{ status:"present", timeIn:"7:51 AM", timeOut:"5:11 PM" },
-  "2026-05-15":{ status:"late", timeIn:"8:30 AM", timeOut:"5:00 PM" },
-  "2026-05-16":{ status:"present", timeIn:"7:50 AM", timeOut:"5:19 PM" },
-  "2026-05-17":{ status:"present", timeIn:"7:57 AM", timeOut:"5:06 PM" },
-  "2026-05-18":{ status:"present", timeIn:"7:46 AM", timeOut:"5:24 PM" },
-  "2026-05-19":{ status:"present", timeIn:"7:55 AM", timeOut:"5:09 PM" },
-  "2026-05-20":{ status:"present", timeIn:"7:52 AM", timeOut:"5:14 PM" },
-  "2026-05-21":{ status:"late", timeIn:"8:15 AM", timeOut:"5:00 PM" },
-  "2026-05-22":{ status:"present", timeIn:"7:48 AM", timeOut:"5:20 PM" },
-  "2026-05-23":{ status:"present", timeIn:"7:59 AM", timeOut:"5:03 PM" },
-  "2026-05-24":{ status:"present", timeIn:"7:51 AM", timeOut:"5:17 PM" },
-  "2026-05-25":{ status:"present", timeIn:"7:54 AM", timeOut:"5:13 PM" },
-  "2026-05-26":{ status:"present", timeIn:"7:49 AM", timeOut:"5:21 PM" },
-  "2026-05-27":{ status:"present", timeIn:"7:56 AM", timeOut:"5:10 PM" },
-  "2026-05-28":{ status:"present", timeIn:"7:53 AM", timeOut:"5:15 PM" },
-  "2026-05-29":{ status:"present", timeIn:"7:47 AM", timeOut:"5:23 PM" },
-  "2026-05-30":{ status:"present", timeIn:"7:58 AM", timeOut:"5:05 PM" },
-  "2026-05-31":{ status:"present", timeIn:"7:55 AM", timeOut:"5:12 PM" }
-};
-
-  const monthNames = [
-    "January","February","March","April",
-    "May","June","July","August",
-    "September","October","November","December"
-  ];
-
-  let year = 2026;
-  let month = 4;
-
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const firstDay = new Date(year, month, 1).getDay();
-
-  let html = `
-
-  <div class="card">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-      <button class="btn blue">◀</button>
-      <h2>📅 Manager Attendance - ${monthNames[month]} ${year}</h2>
-      <button class="btn blue">▶</button>
-    </div>
-
-    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;text-align:center;margin-bottom:10px;font-weight:bold;">
-      <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
-    </div>
-
-    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;">
-  `;
-
-  for(let i=0; i<firstDay; i++){
-    html += `<div></div>`;
-  }
-
-  for(let day=1; day<=daysInMonth; day++){
-
-    let dateKey = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-    let record = managerAttendance[dateKey];
-
-    let bg = "#ef4444";
-    let tooltip = `❌ Absent\n\nTime In: -\n\nTime Out: -`;
-
-    if(record){
-      if(record.status === "present"){ bg = "#22c55e"; }
-      if(record.status === "late"){ bg = "#f59e0b"; }
-      if(record.status === "absent"){ bg = "#ef4444"; }
-      tooltip = `${record.status.toUpperCase()}\n\n🕒 Time In: ${record.timeIn}\n\n⏱️ Time Out: ${record.timeOut}`;
-    }
-
-    html += `
-      <div title="${tooltip}" style="background:${bg};padding:18px 10px;border-radius:14px;min-height:75px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.3s;font-weight:bold;color:white;"
-        onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 0 15px rgba(255,255,255,0.3)';"
-        onmouseout="this.style.transform='scale(1)';this.style.boxShadow='none';">
-        ${day}
-      </div>
-    `;
-  }
-
-  html += `
-    </div>
-    <br>
-    <div class="notify">🟢 Present &nbsp;&nbsp;&nbsp; 🟡 Late &nbsp;&nbsp;&nbsp; 🔴 Absent</div>
-  </div>
-  `;
-
-  return html;
-}
-
-function inventory(){
-
-document.getElementById("content").innerHTML = `
-
-<div class="grid">
-<div class="card stat">
-<h2>${gallons}</h2>
-<p>Total Gallons Refilled</p>
-</div>
-
-<div class="card stat">
-<h3>Filter Health</h3>
-<div class="bar-container">
-  <div class="bar-fill" style="width:${getFilterPercent()}%"></div>
-</div>
-<div class="bar-text">${filterLife.toFixed(2)}% remaining</div>
-</div>
-
-<div class="card stat">
-<h2>${totalGallonsSold}</h2>
-<p>Total Gallons Sold</p>
-</div>
-</div>
-
-<div class="card">
-<h2>📦 Daily Sales Input</h2>
-<br>
-<p>Enter gallons refilled today:</p>
-<input type="number" id="gallonInput" placeholder="e.g. 100">
-<br><br>
-<button class="btn blue" onclick="addSoldGallons()">➤ Submit</button>
-<br><br>
-<div class="notify">🧪 Every gallon reduces filter life by 0.005%</div>
-<br>
-${
-filterLife <= 10
-? `<div class="notify" style="background:rgba(255,0,0,0.2);">⚠ CRITICAL: Replace filter immediately</div>`
-: filterLife <= 30
-? `<div class="notify" style="background:rgba(255,165,0,0.2);">⚠ WARNING: Filter is degrading</div>`
-: `<div class="notify">✅ Filter condition is good</div>`
-}
-</div>
-
-<div class="card">
-<h2>📊 History of Daily Sales Input</h2>
-<br>
-<table>
-<tr>
-<th>Date</th>
-<th>Total Input</th>
-<th>Impact</th>
-<th>Status</th>
-<th>Action</th>
-</tr>
-${
-inventoryLogs.length === 0
-? `<tr><td colspan="5">No records yet</td></tr>`
-: inventoryLogs.map(log => `
-<tr>
-<td>${log.date || "5/20/2026, 12:00 PM"}</td>
-<td>${log.totalInput ?? "50"} gal</td>
-<td>${log.impact ?? "-0.25"}%</td>
-<td>
-<span class="status ${log.status === "Edited" ? "prepare" : log.status === "Pending" ? "pending" : "delivered"}">
-${log.status || "Unedited"}
-</span>
-</td>
-<td>
-${
-  log.status === "Rejected"
-  ? `<span class="status rejected">Rejected</span>`
-  : log.status === "Approved"
-  ? `<span class="status delivered">Approved</span>`
-  : `<span class="status ${log.status === "Edited" ? "prepare" : log.status === "Pending" ? "pending" : "delivered"}">${log.status || "Unedited"}</span>`
-}
-</td>
-<td>
-  <button class="btn orange" onclick="editInventoryLog(${log.id})">Edit</button>
-</td>
-</tr>
-`).join("")
-}
-</table>
-</div>
-
-`;
-}
-
-function editInventoryLog(id){
-  let log = inventoryLogs.find(l => l.id === id);
-  if(!log) return;
-
-  const currentValue = log.totalInput ?? log.sold ?? 0;
-  const userInput = prompt("Enter new total gallons for this record:", currentValue);
-  if(userInput === null) return;
-
-  const sold = parseFloat(userInput);
-  if(isNaN(sold) || sold <= 0){
-    alert("Invalid input");
-    return;
-  }
-
-  log.totalInput = sold;
-  if(log.sold !== undefined) log.sold = sold;
-  log.impact = Number((-(sold * 0.005)).toFixed(2));
-  log.status = "Edited";
-  log.editRequested = false;
-  log.approved = true;
-
-  localStorage.setItem("inventoryLogs", JSON.stringify(inventoryLogs));
-  inventory();
-}
-
-function addSoldGallons(){
-
-let input = document.getElementById("gallonInput").value;
-let sold = parseFloat(input);
-
-if(isNaN(sold) || sold <= 0){
-  alert("Invalid input");
-  return;
-}
-
-const logId = Date.now();
-
-inventoryLogs.push({
-  id: logId,
-  date: new Date().toLocaleDateString(),
-  fullDate: new Date().toLocaleString(),
-  totalInput: sold,
-  impact: Number((-(sold * 0.005)).toFixed(2)),
-  status: "Approved",
-  editRequested: false,
-  approved: true,
-  type: "inventory"
-});
-
-gallons += sold;
-totalGallonsSold += sold;
-filterLife = Math.max(0, filterLife - sold * 0.005);
-
-localStorage.setItem("inventoryLogs", JSON.stringify(inventoryLogs));
-localStorage.setItem("gallons", gallons);
-localStorage.setItem("totalGallonsSold", totalGallonsSold);
-localStorage.setItem("filterLife", filterLife);
-
-document.getElementById("gallonInput").value = "";
-
-inventory();
 
 }
 
@@ -2103,116 +1688,6 @@ ${ridersList.map(r=>`
 
 `;
 
-}
-
-function showNotifications(){
-
-  notifications = JSON.parse(localStorage.getItem("notifications")) || [];
-
-  document.getElementById("content").innerHTML = `
-
-  <div class="card">
-    <h2>🔔 Notifications</h2>
-    <br>
-    ${
-      notifications.length === 0
-      ? `<div class="notify">No notifications yet</div>`
-      : notifications.map(n => `
-        <div class="notify">
-          <b>👤 ${n.riderName || 'System'}</b><br><br>
-          ${n.type === 'edit-request' || n.type === 'inventory-add'
-            ? `<b>Inventory Approval Request</b><br>${n.message || 'Stock approval requested'}<br><br>`
-            : n.type === 'order-assigned'
-              ? `<b>Order Assigned</b><br>${n.message || `Order #${n.orderNumber || '--'} was assigned to ${n.riderName || 'a rider'}.`}<br><br>`
-            : n.type === 'order-update'
-              ? `<b>Order Update</b><br>${n.message || `Order #${n.orderNumber || '--'} is now ${n.status || '--'}.`}<br><br>`
-            : n.type === 'leave-request'
-              ? `<b>Leave Request</b><br>Leave Date: ${n.leaveDate || '--'}<br>Reason: ${n.reason || '--'}<br><br>`
-              : `📅 ${n.date}<br>🕒 ${n.time}<br>🧾 Check-In: ${n.method || 'Manual'}<br><br>`}
-          📝 Status: <b>${n.status}</b>
-          <br><br>
-          ${
-            n.status === "Pending" && n.type !== "leave-request"
-            ? `
-              <button class="btn green notify-action" data-action="approve" data-id="${n.id}">✅ Approve</button>
-              <button class="btn orange notify-action" data-action="reject" data-id="${n.id}">❌ Reject</button>
-            `
-            : `
-              <span class="status ${n.status === "Approved" ? "delivered" : n.status === "Rejected" ? "rejected" : "pending"}">
-                ${n.status}
-              </span>
-            `
-          }
-        </div>
-      `).join("")
-    }
-  </div>
-
-  `;
-
-  document.querySelectorAll('#content .notify-action').forEach(btn => {
-    btn.addEventListener('click', (event) => {
-      const action = event.currentTarget.dataset.action;
-      const id = event.currentTarget.dataset.id;
-      if (action === 'approve') approveNotification(id);
-      if (action === 'reject') rejectNotification(id);
-    });
-  });
-}
-
-function approveNotification(id){
-  notifications = JSON.parse(localStorage.getItem("notifications")) || [];
-  let notif = notifications.find(n => n.id == id);
-  if(!notif || notif.type === "leave-request") return;
-  notif.status = "Approved";
-
-  if((notif.type === "edit-request" || notif.type === "inventory-add") && notif.logId != null){
-    let log = inventoryLogs.find(l => l.id == notif.logId);
-    if(log){
-      log.editRequested = false;
-      log.status = "Approved";
-      log.approved = true;
-      localStorage.setItem("inventoryLogs", JSON.stringify(inventoryLogs));
-
-      if(notif.type === "inventory-add"){
-        gallons += log.totalInput;
-        totalGallonsSold += log.totalInput;
-        filterLife = Math.max(0, filterLife - log.totalInput * 0.005);
-        localStorage.setItem("gallons", gallons);
-        localStorage.setItem("totalGallonsSold", totalGallonsSold);
-        localStorage.setItem("filterLife", filterLife);
-      }
-    }
-    notify("Stock request approved ✅");
-  } else {
-    notify("Attendance Approved ✅");
-  }
-
-  localStorage.setItem("notifications", JSON.stringify(notifications));
-  showNotifications();
-}
-
-function rejectNotification(id){
-  notifications = JSON.parse(localStorage.getItem("notifications")) || [];
-  let notif = notifications.find(n => n.id == id);
-  if(!notif || notif.type === "leave-request") return;
-  notif.status = "Rejected";
-
-  if((notif.type === "edit-request" || notif.type === "inventory-add") && notif.logId != null){
-    let log = inventoryLogs.find(l => l.id == notif.logId);
-    if(log){
-      log.editRequested = false;
-      log.status = "Rejected";
-      log.approved = false;
-      localStorage.setItem("inventoryLogs", JSON.stringify(inventoryLogs));
-    }
-    notify("Stock request rejected ❌");
-  } else {
-    notify("Attendance Rejected ❌");
-  }
-
-  localStorage.setItem("notifications", JSON.stringify(notifications));
-  showNotifications();
 }
 
 function reports(){
@@ -2280,21 +1755,6 @@ setTimeout(() => {
 }
 
 // Load saved data
-
-gallons = parseFloat(localStorage.getItem("gallons")) || 500;
-totalGallonsSold = parseFloat(localStorage.getItem("totalGallonsSold")) || 0;
-filterLife = parseFloat(localStorage.getItem("filterLife")) || 80;
-
-const savedLogs = JSON.parse(localStorage.getItem("inventoryLogs"));
-
-if(savedLogs && savedLogs.length > 0){
-  inventoryLogs = savedLogs.map((log, index) => ({
-    id: log.id || Date.now() + index,
-    ...log,
-    refill: Number(log.refill || log.totalInput || Math.floor(Math.random()*5000)+1000),
-    sold: Number(log.sold || log.totalInput || Math.floor(Math.random()*4000)+800)
-  }));
-}
 
 var salesChart;
 
@@ -2397,21 +1857,6 @@ function sendManagerFAQ(){
 
 const managerKnowledgeBase = [
   {
-    topic:'inventory',
-    keywords:['inventory','stock','gallons','refill','filter','supply'],
-    response:'Inventory is being tracked in real time. Open the Inventory section to review gallons, filter life, and pending stock requests.'
-  },
-  {
-    topic:'attendance',
-    keywords:['attendance','present','check in','login','logout'],
-    response:'Use the Rider Attendance QR for rider check-ins and review attendance from Rider Performance.'
-  },
-  {
-    topic:'notifications',
-    keywords:['notification','notifications','approve','reject','status'],
-    response:'Notifications show pending inventory and attendance approvals. Approve or reject requests from the manager view.'
-  },
-  {
     topic:'reports',
     keywords:['report','reports','sales','unsold','refilled'],
     response:'Create daily reports in the Reports section for gallons refilled, sold, unsold, and the reason.'
@@ -2426,18 +1871,6 @@ const managerKnowledgeBase = [
 function generateManagerRAGResponse(message){
   const msg = message.toLowerCase();
 
-  if(msg.includes('inventory') || msg.includes('stock') || msg.includes('gallon')){
-    return `📦 Inventory Assistant\n\nCurrent stock: ${gallons} gallons available. Filter life is at ${filterLife.toFixed(2)}%. Use Inventory for new stock entries and reports.`;
-  }
-
-  if(msg.includes('attendance') || msg.includes('present') || msg.includes('login')){
-    return '🧾 Attendance Assistant\n\nUse the Rider Attendance QR or Rider Performance to review staff attendance records.';
-  }
-
-  if(msg.includes('notification') || msg.includes('approve') || msg.includes('reject')){
-    return '🔔 Notification Assistant\n\nOpen Notifications to review approval requests and manage inventory/attendance actions.';
-  }
-
   if(msg.includes('report') || msg.includes('reports')){
     return '📄 Reports Assistant\n\nUse the Create Report button to log refilled, sold, and unsold gallons along with a reason.';
   }
@@ -2447,7 +1880,7 @@ function generateManagerRAGResponse(message){
   }
 
   if(msg.includes('help') || msg.includes('hi') || msg.includes('hello')){
-    return '🤖 Manager AI\n\nAsk me about inventory, attendance, notifications, reports, or rider performance.';
+    return '🤖 Manager AI\n\nAsk me about reports or rider performance.';
   }
 
   let bestMatch = null;
@@ -2469,7 +1902,7 @@ function generateManagerRAGResponse(message){
     return `🤖 Manager AI\n\n${bestMatch.response}`;
   }
 
-  return '🤖 Manager AI\n\nI didn\'t quite catch that. Try asking about inventory, attendance, notifications, reports, or rider performance.';
+  return '🤖 Manager AI\n\nI didn\'t quite catch that. Try asking about reports or rider performance.';
 }
 
 function appendManagerMessage(sender, text){
